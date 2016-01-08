@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Devices Manager</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- HiepTHb Navigation bar Tiles-->
+    <string name="nav_devices">Devices Info</string>
+    <string name="nav_system">System Info</string>
+    <string name="nav_cpu">CPU Info</string>
+    <string name="nav_gov">Governor</string>
+    <string name="nav_rom">ROM</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quản lý thiết bị</string>
+    <string name="nav_cpu">Thông tin CPU</string>
+    <string name="nav_devices">Thông tin thiết bị</string>
+    <string name="nav_gov">Governor</string>
+    <string name="nav_rom">Thông tin ROM</string>
+    <string name="nav_system">Thông tin hệ thống</string>
+    <string name="navigation_drawer_close"></string>
+</resources>
