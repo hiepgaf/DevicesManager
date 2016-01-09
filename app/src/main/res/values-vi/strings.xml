@@ -2,9 +2,17 @@
 <resources>
     <string name="app_name">Quản lý thiết bị</string>
     <string name="nav_cpu">Thông tin CPU</string>
+    <string name="nav_system">Thông tin hệ thống</string>
     <string name="nav_devices">Thông tin thiết bị</string>
     <string name="nav_gov">Governor</string>
     <string name="nav_rom">Thông tin ROM</string>
-    <string name="nav_system">Thông tin hệ thống</string>
     <string name="navigation_drawer_close"></string>
+    <string name="nav_share">Chia sẻ ứng dụng</string>
+    <string name="nav_bug_report">Báo lỗi</string>
+    <string name="hiepth_email"></string>
+    <string name="default_view_text">Chưa xử lý</string>
+    <string name="dialog_cancel">Hủy</string>
+    <string name="dialog_ok">Đồng ý</string>
+    <string name="more">Nhiều hơn</string>
+    <string name="press_back_again">Bấm phím Back một lần nữa để thoát</string>
 </resources>

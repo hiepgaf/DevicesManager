@@ -12,4 +12,12 @@
     <string name="nav_cpu">CPU Info</string>
     <string name="nav_gov">Governor</string>
     <string name="nav_rom">ROM</string>
+    <string name="nav_share">Share</string>
+    <string name="nav_bug_report">Bugs Report</string>
+    <string name="hiepth_email">hieptran.bka@gmail.com</string>
+    <string name="default_view_text">Updating..</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="press_back_again">Press back again to leave</string>
+    <string name="more">More</string>
 </resources>
