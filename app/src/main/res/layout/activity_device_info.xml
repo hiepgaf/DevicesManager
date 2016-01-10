@@ -2,25 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context="com.hieptran.devices.info.CpuInfoActivity">
 	<TableLayout  android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:stretchColumns="0,1"
-        android:padding="3dp">
+        android:padding="3dp"
+        android:stretchColumns="0,1">
         <TableRow
             android:padding="3dp">
 	         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Model"
-                 android:textStyle="bold"
-                 android:textSize="25sp"/>
+                 android:textSize="25sp"
+                 android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_model"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
         <TableRow
             android:padding="3dp">
@@ -28,14 +29,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Manufacturer"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_manu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
         <TableRow
             android:padding="3dp">
@@ -43,29 +44,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Board"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_board"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
         <TableRow
             android:padding="3dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Brand"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/device_brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#473604"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow android:padding="3dp">
 	            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Hardware"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_hardware"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
         <TableRow
             android:padding="3dp">
@@ -73,14 +91,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Screen Size"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_scr_sz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
         <TableRow
             android:padding="3dp">
@@ -88,14 +106,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Screen Density"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_scr_dst"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
         <TableRow
             android:padding="3dp">
@@ -103,14 +121,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Total RAM"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_total_ram"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
         <TableRow
             android:padding="3dp">
@@ -118,14 +136,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Available RAM"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_avai_ram"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
         <TableRow
             android:padding="3dp">
@@ -133,14 +151,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Total Storage"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_total_storage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
 	    <TableRow
             android:padding="3dp">
@@ -148,14 +166,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="Available Storage"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 	           <TextView
             android:id="@+id/device_avai_storage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                   android:textSize="20sp"
-                   android:textColor="#473604"/>
+                   android:textColor="#473604"
+                   android:textSize="20sp" />
 	    </TableRow>
 	</TableLayout>
 

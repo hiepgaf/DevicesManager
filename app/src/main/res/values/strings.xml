@@ -20,4 +20,30 @@
     <string name="dialog_ok">Ok</string>
     <string name="press_back_again">Press back again to leave</string>
     <string name="more">More</string>
+    <!-- PhoneInfo Pager Titles -->
+    <string name="pif_devices">Device </string>
+    <string name="pif_system">System </string>
+    <string name="pif_tel">Telephony </string>
+    <string name="pif_wifi">Wifi </string>
+    <string name="pif_bat">Battery </string>
+    <string name="pif_cpu">CPU </string>
+
+    <!-- Device Fragment -->
+    <string name="dv_model">Model</string>
+    <string name="dv_manufacturer">Manufacturer</string>
+    <string name="dv_board">Board</string>
+    <string name="dv_hardware">Hardware</string>
+    <string name="dv_scrsize">Screen Size</string>
+    <string name="dv_scrdst">Screen Density</string>
+    <string name="dv_avairam">Available RAM</string>
+    <string name="dv_totalram">Total RAM</string>
+    <string name="dv_totalstorage">Total Storage</string>
+    <string name="dv_avaistor">Available Storage</string>
+
+    <!-- System Fragment -->
+    <string name="os_ver">OS Version</string>
+    <string name="os_release">Release</string>
+    <string name="os_sdk">SDK</string>
+    <!-- Temp String -->
+    <string name="tmp_str">Test</string>
 </resources>

@@ -15,4 +15,24 @@
     <string name="dialog_ok">Đồng ý</string>
     <string name="more">Nhiều hơn</string>
     <string name="press_back_again">Bấm phím Back một lần nữa để thoát</string>
+    <string name="dv_avairam">Ram trống</string>
+    <string name="dv_avaistor">Bộ nhớ tróng</string>
+    <string name="dv_board">Bo mạch</string>
+    <string name="dv_hardware">Phần cứng</string>
+    <string name="dv_manufacturer">NSX</string>
+    <string name="dv_model">Model</string>
+    <string name="dv_scrdst">Mật độ màn hình</string>
+    <string name="dv_scrsize">Kích thước màn hình</string>
+    <string name="dv_totalram">Tổng RAM</string>
+    <string name="dv_totalstorage">Dung lượng tổng</string>
+    <string name="os_release">Phát hành</string>
+    <string name="os_sdk">SDK</string>
+    <string name="os_ver">Phiên bản</string>
+    <string name="pif_bat">Pin</string>
+    <string name="pif_cpu">CPU</string>
+    <string name="pif_devices">Thiết bị</string>
+    <string name="pif_system">Hệ thống</string>
+    <string name="pif_tel">Telephony</string>
+    <string name="pif_wifi">Wifi</string>
+    <string name="tmp_str">Chưa xử lý</string>
 </resources>

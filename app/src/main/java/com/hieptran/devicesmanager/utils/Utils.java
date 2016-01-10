@@ -2,16 +2,11 @@ package com.hieptran.devicesmanager.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.hieptran.devicesmanager.R;
-import com.hieptran.devicesmanager.common.root.RootFile;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 /**
  * Created by hieptran on 09/01/2016.
@@ -33,5 +28,15 @@ public class Utils implements Const {
         }).setPositiveButton(context.getString(R.string.dialog_ok), onClickListener).show();
     }
 
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    public static int getScreenOrientation(Context context) {
+        return context.getResources().getDisplayMetrics().widthPixels <
+                context.getResources().getDisplayMetrics().heightPixels ?
+                Configuration.ORIENTATION_PORTRAIT : Configuration.ORIENTATION_LANDSCAPE;
+    }
 
 }

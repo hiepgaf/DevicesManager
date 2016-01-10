@@ -6,34 +6,38 @@
             android:id="@+id/nav_devices_menu"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/nav_devices" />
-        <item
-            android:id="@+id/nav_system_menu"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/nav_system" />
-        <item
-            android:id="@+id/nav_cpu_menu"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/nav_cpu" />
-        <item
-            android:id="@+id/nav_gov_menu"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/nav_gov" />
+
         <item
             android:id="@+id/nav_rom_menu"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/nav_rom" />
     </group>
-
+    <item android:title="Tweak">
+        <menu>
+            <item
+                android:id="@+id/nav_cpu_tw"
+                android:icon="@android:drawable/ic_menu_zoom"
+                android:title="@string/tmp_str" />
+            <item
+                android:id="@+id/nav_governor_tw"
+                android:icon="@android:drawable/ic_menu_zoom"
+                android:title="@string/tmp_str" />
+            <item
+                android:id="@+id/nav_rom_tw"
+                android:icon="@android:drawable/ic_menu_zoom"
+                android:title="@string/tmp_str" />
+        </menu>
+    </item>
     <item android:title="Communicate">
         <menu>
             <item
                 android:id="@+id/nav_share_menu"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/nav_share" />
+                android:icon="@android:drawable/ic_menu_zoom"
+                android:title="@string/tmp_str" />
             <item
                 android:id="@+id/nav_bug_report_menu"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/nav_bug_report" />
+                android:icon="@android:drawable/ic_menu_zoom"
+                android:title="@string/tmp_str" />
         </menu>
     </item>
 

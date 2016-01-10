@@ -1,4 +1,4 @@
-package com.hieptran.devicesmanager.fragment.device;
+package com.hieptran.devicesmanager.fragment.phoneinfo;
 
 import android.app.ActivityManager;
 import android.os.AsyncTask;
@@ -8,16 +8,13 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hieptran.devicesmanager.R;
-import com.hieptran.devicesmanager.cardview.CardViewItem;
-import com.hieptran.devicesmanager.fragment.RecyclerViewFragment;
-import com.hieptran.devicesmanager.fragment.ViewPagerFragment;
-import com.hieptran.devicesmanager.utils.Const;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,9 +27,12 @@ import java.util.regex.Pattern;
  * Created by hieptran on 09/01/2016.
  */
 public class DeviceFragment extends Fragment {
+    public static final String ERROR = "Error while get infomations";
+    public DecimalFormat twoDecimalForm = new DecimalFormat("#.##");
     private TextView mModel;
     private TextView mManufacturer;
     private TextView mBoard;
+    private TextView mBrand;
     private TextView mHardWare;
     private TextView mScreenSz;
     private TextView mScreenDst;
@@ -40,11 +40,14 @@ public class DeviceFragment extends Fragment {
     private TextView mAvaiRAM;
     private TextView mAvaiStorage;
     private TextView mTotalStorage;
-    public DecimalFormat twoDecimalForm = new DecimalFormat("#.##");
-    public static final String ERROR = "Error while get infomations";
 
     public DeviceFragment() {
 
+    }
+
+    public static boolean externalMemoryAvailable() {
+        return android.os.Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED);
     }
 
     @Override
@@ -54,6 +57,7 @@ public class DeviceFragment extends Fragment {
         mModel = (TextView) rootView.findViewById(R.id.device_model);
         mManufacturer = (TextView) rootView.findViewById(R.id.device_manu);
         mBoard = (TextView) rootView.findViewById(R.id.device_board);
+        mBrand = (TextView) rootView.findViewById(R.id.device_brand);
         mHardWare = (TextView) rootView.findViewById(R.id.device_hardware);
         mScreenSz = (TextView) rootView.findViewById(R.id.device_scr_sz);
         mScreenDst = (TextView) rootView.findViewById(R.id.device_scr_dst);
@@ -72,6 +76,8 @@ public class DeviceFragment extends Fragment {
         mBoard.setText(Build.BOARD);
         mHardWare.setText(Build.HARDWARE);
         mScreenSz.setText(readScreenInfo());
+        mBrand.setText(Build.BRAND);
+        Log.d("HiepTHb", "Device: " + android.os.Build.DEVICE + " Product: " + android.os.Build.PRODUCT + " TAGS: " + android.os.Build.TAGS);
         mScreenDst.setText(twoDecimalForm.format(getActivity().getResources().getDisplayMetrics().densityDpi) + " dpi");
         mTotalStorage.setText(getTotalInternalMemorySize());
         mAvaiStorage.setText(getAvailableInternalMemorySize());
@@ -145,28 +151,6 @@ public class DeviceFragment extends Fragment {
         return lastValue;
     }
 
-    class setAvaiRAM extends AsyncTask<Void, String, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            ActivityManager actManager = (ActivityManager) getActivity().getSystemService(getContext().ACTIVITY_SERVICE);
-            final ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
-            actManager.getMemoryInfo(memInfo);
-            publishProgress(String.valueOf(twoDecimalForm.format(memInfo.availMem / 1048576)));
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-            mAvaiRAM.setText(values[0] + " MB");
-        }
-    }
-
-    public static boolean externalMemoryAvailable() {
-        return android.os.Environment.getExternalStorageState().equals(
-                android.os.Environment.MEDIA_MOUNTED);
-    }
-
     public String getAvailableInternalMemorySize() {
         File path = Environment.getDataDirectory();
         StatFs stat = new StatFs(path.getPath());
@@ -233,5 +217,22 @@ public class DeviceFragment extends Fragment {
 
         if (suffix != null) resultBuffer.append(suffix);
         return resultBuffer.toString();
+    }
+
+    class setAvaiRAM extends AsyncTask<Void, String, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            ActivityManager actManager = (ActivityManager) getActivity().getSystemService(getContext().ACTIVITY_SERVICE);
+            final ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
+            actManager.getMemoryInfo(memInfo);
+            publishProgress(String.valueOf(twoDecimalForm.format(memInfo.availMem / 1048576)));
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            mAvaiRAM.setText(values[0] + " MB");
+        }
     }
 }

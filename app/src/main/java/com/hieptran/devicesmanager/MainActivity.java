@@ -1,5 +1,7 @@
 package com.hieptran.devicesmanager;
 
+import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -9,32 +11,43 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.hieptran.devicesmanager.fragment.device.DeviceFragment;
+import com.hieptran.devicesmanager.common.root.RootUtils;
+import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
+import com.hieptran.devicesmanager.utils.ScrimInsetsFrameLayout;
+import com.hieptran.devicesmanager.utils.SplashView;
+import com.hieptran.devicesmanager.utils.Utils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     boolean pressAgain = true;
+    ActionBarDrawerToggle toggle;
+    DrawerLayout drawer;
+    Toolbar toolbar;
+    SplashView mSplashView;
+    private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mSplashView = (SplashView) findViewById(R.id.splash_view);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        // toggle = new ActionBarDrawerToggle(
+        //       this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //drawer.setDrawerListener(toggle);
+        //toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        new Task().execute();
     }
 
     @Override
@@ -61,57 +74,92 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (mScrimInsetsFrameLayout != null)
+            mScrimInsetsFrameLayout.setLayoutParams(getDrawerParams());
+        if (toggle != null) toggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    private DrawerLayout.LayoutParams getDrawerParams() {
+        DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) mScrimInsetsFrameLayout.getLayoutParams();
+        int width = getResources().getDisplayMetrics().widthPixels;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        boolean tablet = Utils.isTablet(this);
+        int actionBarSize = getSupportActionBar().getHeight();
+        if (Utils.getScreenOrientation(this) == Configuration.ORIENTATION_LANDSCAPE) {
+            params.width = width / 2;
+            if (tablet)
+                params.width -= actionBarSize + (35 * getResources().getDisplayMetrics().density);
+        } else params.width = tablet ? width / 2 : width - actionBarSize;
 
-        return super.onOptionsItemSelected(item);
+        return params;
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        if (mScrimInsetsFrameLayout != null) drawer.closeDrawer(mScrimInsetsFrameLayout);
         if (id == R.id.nav_devices_menu) {
-            Fragment device_info_fragment = new DeviceFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, device_info_fragment).commit();
-        } else if (id == R.id.nav_system_menu) {
-
-        } else if (id == R.id.nav_cpu_menu) {
-
-        } else if (id == R.id.nav_gov_menu) {
-
-        } else if (id == R.id.nav_rom_menu) {
-
-        } else if (id == R.id.nav_share_menu) {
-
-        } else if (id == R.id.nav_bug_report_menu) {
-
+            Fragment phone_info_fragment = new PhoneInfoFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, phone_info_fragment).commit();
+            setTitle("Phone Info");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void setInterface() {
+        if (mScrimInsetsFrameLayout != null) {
+            mScrimInsetsFrameLayout.setLayoutParams(getDrawerParams());
+            mScrimInsetsFrameLayout.setBackgroundColor(getResources().getColor(R.color.navigationdrawer_background_dark));
+        }
+
+        //setItems(null);
+        if (drawer != null) {
+            toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0);
+            drawer.setDrawerListener(toggle);
+
+            drawer.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (toggle != null) toggle.syncState();
+                }
+            });
+        }
+    }
     public interface OnBackButtonListener {
         boolean onBackPressed();
+    }
+
+    private class Task extends AsyncTask<Void, Void, Void> {
+
+        private boolean hasRoot;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // Check root access and busybox installation
+            if (RootUtils.rooted()) hasRoot = RootUtils.rootAccess();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            if (hasRoot) {
+                mSplashView.finish();
+
+                setInterface();
+                return;
+            }
+
+
+        }
     }
 }
