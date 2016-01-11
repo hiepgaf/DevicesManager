@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-import com.hieptran.devicesmanager.R;
 
 /**
  * Created by hieptran on 09/01/2016.
