@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group android:checkableBehavior="single">
+    <item android:title="Thong tin chung">
         <item
             android:id="@+id/nav_devices_menu"
-            android:icon="@drawable/ic_menu_gallery"
+            android:checkable="true"
+            android:icon="@drawable/ic_perm_device_information_2x"
             android:title="@string/nav_devices" />
+    </item>
 
-        <item
-            android:id="@+id/nav_rom_menu"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/nav_rom" />
-    </group>
-    <item android:title="Tweak">
+    <item android:title="Thong tin chung">
         <menu>
             <item
                 android:id="@+id/nav_cpu_tw"
-                android:icon="@android:drawable/ic_menu_zoom"
-                android:title="@string/tmp_str" />
+                android:checkable="true"
+                android:icon="@drawable/ic_perm_device_information_2x"
+                android:title="@string/nav_cpu" />
             <item
                 android:id="@+id/nav_governor_tw"
-                android:icon="@android:drawable/ic_menu_zoom"
+                android:checkable="true"
+                android:icon="@drawable/ic_perm_device_information_2x"
                 android:title="@string/tmp_str" />
             <item
                 android:id="@+id/nav_rom_tw"
-                android:icon="@android:drawable/ic_menu_zoom"
+                android:checkable="true"
+                android:icon="@drawable/ic_perm_device_information_2x"
                 android:title="@string/tmp_str" />
         </menu>
     </item>
-    <item android:title="Communicate">
+    <item android:title="@string/tmp_str">
+
         <menu>
             <item
                 android:id="@+id/nav_share_menu"
-                android:icon="@android:drawable/ic_menu_zoom"
+                android:checkable="true"
+                android:icon="@drawable/ic_perm_device_information_2x"
                 android:title="@string/tmp_str" />
             <item
                 android:id="@+id/nav_bug_report_menu"
-                android:icon="@android:drawable/ic_menu_zoom"
+                android:checkable="true"
+                android:icon="@drawable/ic_perm_device_information_2x"
                 android:title="@string/tmp_str" />
         </menu>
     </item>

@@ -23,13 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by willi on 08.02.15.
+ * Created by HiepTHb on 08.01.16.
  */
 
-/**
- * This class is kinda similar to {@link java.io.File}.
- * Only difference is that this class runs as Root.
- */
 public class RootFile {
 
     private final String file;

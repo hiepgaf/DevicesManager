@@ -12,19 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.hieptran.devicesmanager.utils.SplashView
+    <com.hieptran.devicesmanager.common.SplashView
         android:id="@+id/splash_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.hieptran.devicesmanager.utils.ScrimInsetsFrameLayout
-        android:id="@+id/scrimInsetsFrameLayout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/navigationdrawer_background_light"
-        android:fitsSystemWindows="true"
-        app:insetFg="#4000">
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -33,7 +26,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/main_drawer" />
-    </com.hieptran.devicesmanager.utils.ScrimInsetsFrameLayout>
 
 
 </android.support.v4.widget.DrawerLayout>

@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.hieptran.devicesmanager.R;
+
 
 /**
  * Created by hieptran on 09/01/2016.
@@ -38,4 +40,23 @@ public class Utils implements Const {
                 Configuration.ORIENTATION_PORTRAIT : Configuration.ORIENTATION_LANDSCAPE;
     }
 
+    public static boolean existFile(String file) {
+        return Tools.existFile(file, true);
+    }
+
+    public static void writeFile(String path, String text, boolean append) {
+        Tools.writeFile(path, text, append, true);
+    }
+
+    public static String readFile(String file) {
+        return Tools.readFile(file, true);
+    }
+
+    public static int stringToInt(String string) {
+        try {
+            return Math.round(Float.parseFloat(string));
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
 }

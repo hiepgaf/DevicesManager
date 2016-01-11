@@ -1,7 +1,6 @@
 package com.hieptran.devicesmanager.fragment.phoneinfo;
 
 import android.app.ActivityManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,19 +28,50 @@ import java.util.regex.Pattern;
 public class DeviceFragment extends Fragment {
     public static final String ERROR = "Error while get infomations";
     public DecimalFormat twoDecimalForm = new DecimalFormat("#.##");
+    android.os.Handler hand;
     private TextView mModel;
     private TextView mManufacturer;
     private TextView mBoard;
-    private TextView mBrand;
     private TextView mHardWare;
     private TextView mScreenSz;
     private TextView mScreenDst;
     private TextView mTotalRAM;
     private TextView mAvaiRAM;
+    private final Runnable avaiRAM = new Runnable() {
+        @Override
+        public void run() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ActivityManager actManager = (ActivityManager) getActivity().getSystemService(getContext().ACTIVITY_SERVICE);
+                            final ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
+                            actManager.getMemoryInfo(memInfo);
+                            //publishProgress(String.valueOf(twoDecimalForm.format(memInfo.availMem / 1048576)));
+                            double tmp = memInfo.availMem / 1048576;
+                            String tmp_str;
+                            if (tmp > 1024) {
+                                tmp = tmp / 1024;
+                                tmp_str = String.valueOf(twoDecimalForm.format(tmp)) + " GB";
+                            } else
+                                tmp_str = String.valueOf((twoDecimalForm.format(tmp))) + " MB";
+
+                            mAvaiRAM.setText(tmp_str);
+                        }
+                    });
+                }
+            }).start();
+            hand.postDelayed(avaiRAM, 1000);
+
+        }
+    };
     private TextView mAvaiStorage;
     private TextView mTotalStorage;
 
     public DeviceFragment() {
+
 
     }
 
@@ -54,10 +84,10 @@ public class DeviceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_device_info, container, false);
+        hand = new android.os.Handler();
         mModel = (TextView) rootView.findViewById(R.id.device_model);
         mManufacturer = (TextView) rootView.findViewById(R.id.device_manu);
         mBoard = (TextView) rootView.findViewById(R.id.device_board);
-        mBrand = (TextView) rootView.findViewById(R.id.device_brand);
         mHardWare = (TextView) rootView.findViewById(R.id.device_hardware);
         mScreenSz = (TextView) rootView.findViewById(R.id.device_scr_sz);
         mScreenDst = (TextView) rootView.findViewById(R.id.device_scr_dst);
@@ -65,7 +95,7 @@ public class DeviceFragment extends Fragment {
         mAvaiRAM = (TextView) rootView.findViewById(R.id.device_avai_ram);
         mTotalStorage = (TextView) rootView.findViewById(R.id.device_total_storage);
         mAvaiStorage = (TextView) rootView.findViewById(R.id.device_avai_storage);
-        new setAvaiRAM().execute();
+        //new setAvaiRAM().execute();
         _setStaticVar();
         return rootView;
     }
@@ -76,7 +106,6 @@ public class DeviceFragment extends Fragment {
         mBoard.setText(Build.BOARD);
         mHardWare.setText(Build.HARDWARE);
         mScreenSz.setText(readScreenInfo());
-        mBrand.setText(Build.BRAND);
         Log.d("HiepTHb", "Device: " + android.os.Build.DEVICE + " Product: " + android.os.Build.PRODUCT + " TAGS: " + android.os.Build.TAGS);
         mScreenDst.setText(twoDecimalForm.format(getActivity().getResources().getDisplayMetrics().densityDpi) + " dpi");
         mTotalStorage.setText(getTotalInternalMemorySize());
@@ -219,20 +248,41 @@ public class DeviceFragment extends Fragment {
         return resultBuffer.toString();
     }
 
-    class setAvaiRAM extends AsyncTask<Void, String, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            ActivityManager actManager = (ActivityManager) getActivity().getSystemService(getContext().ACTIVITY_SERVICE);
-            final ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
-            actManager.getMemoryInfo(memInfo);
-            publishProgress(String.valueOf(twoDecimalForm.format(memInfo.availMem / 1048576)));
-            return null;
-        }
+    /* class setAvaiRAM extends AsyncTask<Void, String, Void> {
+         @Override
+         protected Void doInBackground(Void... params) {
+             ActivityManager actManager = (ActivityManager) getActivity().getSystemService(getContext().ACTIVITY_SERVICE);
+             final ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
+             actManager.getMemoryInfo(memInfo);
+             publishProgress(String.valueOf(twoDecimalForm.format(memInfo.availMem / 1048576)));
+             return null;
+         }
 
+         @Override
+         protected void onProgressUpdate(String... values) {
+             super.onProgressUpdate(values);
+             mAvaiRAM.setText(values[0] + " MB");
+         }
+     }*/
+ /*   private final Runnable run = new Runnable() {
         @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-            mAvaiRAM.setText(values[0] + " MB");
-        }
+        public void run() {
+            if (hand != null)
+
+                    hand.postDelayed(avaiRAM, 1000);
+                }
+
+    };*/
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (hand != null) hand.post(avaiRAM);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (hand != null) hand.removeCallbacks(avaiRAM);
+    }
+
 }

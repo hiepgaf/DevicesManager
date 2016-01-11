@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#C90000</color>
+    <color name="colorPrimaryDark">#C90000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="semi_transparent">#26000000</color>
 
@@ -40,6 +40,6 @@
     <color name="card_background_light">#FAFAFA</color>
     <color name="card_background_dark">#202020</color>
 
-    <color name="textcolor_light">#737373</color>
+    <color name="textcolor_light">#FFFFFF</color>
     <color name="textcolor_dark">#BDBDBD</color>
 </resources>

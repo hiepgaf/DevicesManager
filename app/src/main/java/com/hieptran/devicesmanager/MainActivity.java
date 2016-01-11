@@ -3,6 +3,7 @@ package com.hieptran.devicesmanager;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -14,10 +15,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.hieptran.devicesmanager.common.SplashView;
 import com.hieptran.devicesmanager.common.root.RootUtils;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
-import com.hieptran.devicesmanager.utils.SplashView;
-import com.hieptran.devicesmanager.utils.Utils;
+import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer;
     Toolbar toolbar;
     SplashView mSplashView;
+    Handler hand;
     //private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
 
     @Override
@@ -81,34 +84,23 @@ public class MainActivity extends AppCompatActivity
         if (toggle != null) toggle.onConfigurationChanged(newConfig);
     }
 
-    private DrawerLayout.LayoutParams getDrawerParams() {
-/*
-        DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) mScrimInsetsFrameLayout.getLayoutParams();
-*/
-        int width = getResources().getDisplayMetrics().widthPixels;
 
-        boolean tablet = Utils.isTablet(this);
-        int actionBarSize = getSupportActionBar().getHeight();
-        if (Utils.getScreenOrientation(this) == Configuration.ORIENTATION_LANDSCAPE) {
-            params.width = width / 2;
-            if (tablet)
-                params.width -= actionBarSize + (35 * getResources().getDisplayMetrics().density);
-        } else params.width = tablet ? width / 2 : width - actionBarSize;
-
-        return params;
-    }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        setTitle("Phone Info");
 /*
         if (mScrimInsetsFrameLayout != null) drawer.closeDrawer(mScrimInsetsFrameLayout);
 */
         if (id == R.id.nav_devices_menu) {
             Fragment phone_info_fragment = new PhoneInfoFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, phone_info_fragment).commit();
-            setTitle("Phone Info");
+        } else if (id == R.id.nav_cpu_tw) {
+            Fragment cpu_tw = new CPUTweakFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, cpu_tw).commit();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -145,10 +137,21 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... params) {
+            //init handler
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hand = new android.os.Handler();
+                }
+            });
             // Check root access and busybox installation
             if (RootUtils.rooted()) hasRoot = RootUtils.rootAccess();
 
             return null;
+        }
+
+        public final Handler getHandler() {
+            return hand;
         }
 
         @Override
@@ -161,7 +164,6 @@ public class MainActivity extends AppCompatActivity
                 setInterface();
                 return;
             }
-
 
         }
     }
