@@ -35,4 +35,9 @@
     <string name="pif_tel">Telephony</string>
     <string name="pif_wifi">Wifi</string>
     <string name="tmp_str">Chưa xử lý</string>
+    <string name="core">Nhân %d</string>
+    <string name="cpu_load">CPU tải</string>
+    <string name="offline">Đã tắt</string>
+    <string name="waiting_for_init">Chờ để thiết lập...</string>
+    <string name="action_settings">Thiết lập</string>
 </resources>

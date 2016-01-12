@@ -46,4 +46,13 @@
     <string name="os_sdk">SDK</string>
     <!-- Temp String -->
     <string name="tmp_str">Test</string>
+
+
+    <!--CPU -->
+    <string name="cpu_load">CPU Load</string>
+    <string name="mhz">MHz</string>
+    <string name="offline">Offline</string>
+    <string name="waiting_for_init">Waiting for init ...</string>
+    <string name="nav_setting">Setting</string>
+
 </resources>

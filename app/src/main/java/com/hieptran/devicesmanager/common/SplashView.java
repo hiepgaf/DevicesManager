@@ -18,12 +18,10 @@ package com.hieptran.devicesmanager.common;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
@@ -39,16 +37,14 @@ import com.hieptran.devicesmanager.R;
  */
 public class SplashView extends View {
 
-    private final Paint mPaintCircle;
-    private final float density;
-    private final Bitmap icon;
-    private final Matrix matrix;
-    private final int textColor;
-    private final int textSize;
+
+    private static final int START_ANGLE_POINT = 0;
+    private final Paint paint;
+    private final RectF rect;
     private int radius = 0;
     private int rotate = 0;
     private boolean finished = false;
-
+    private float angle;
     public SplashView(Context context) {
         this(context, null);
     }
@@ -58,46 +54,30 @@ public class SplashView extends View {
     }
 
     public SplashView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+        super(context, attrs);
 
-        setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        density = getResources().getDisplayMetrics().density;
-        textColor = getResources().getColor(R.color.white);
-        textSize = getResources().getDimensionPixelSize(R.dimen.splashview_textsize);
+        final int strokeWidth = 40;
 
-        mPaintCircle = new Paint();
-        mPaintCircle.setAntiAlias(true);
-        mPaintCircle.setStyle(Paint.Style.FILL);
-        mPaintCircle.setStrokeCap(Paint.Cap.ROUND);
-        mPaintCircle.setColor(Color.WHITE);
+        paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(strokeWidth);
+        //Circle color
+        paint.setColor(Color.RED);
 
-        matrix = new Matrix();
-        icon = BitmapFactory.decodeResource(getResources(), R.drawable.gear_setting_set_setup_edit48);
+        //size 200x200 example
+        rect = new RectF(strokeWidth, strokeWidth, 200 + strokeWidth, 200 + strokeWidth);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(17);
-                        rotate++;
-                        ((Activity) getContext()).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                invalidate();
-                            }
-                        });
-                        if (finished) break;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+        //Initial Angle (optional, it can be zero)
+        angle = 0;
+        setBackgroundColor(getResources().getColor(R.color.black));
+
+
+
     }
 
     public void finish() {
-        mPaintCircle.setColor(getResources().getColor(R.color.colorPrimary));
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -110,7 +90,7 @@ public class SplashView extends View {
                                 invalidate();
                             }
                         });
-                        Thread.sleep(17);
+                        Thread.sleep(35);
                     }
                     ((Activity) getContext()).runOnUiThread(new Runnable() {
                         @Override
@@ -127,29 +107,26 @@ public class SplashView extends View {
         }).start();
     }
 
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
-
-        draw(canvas, getWidth(), getHeight(), (int) (radius * density));
-    }
-
-    private void draw(Canvas canvas, int x, int y, int radius) {
-        if (radius > 0) canvas.drawCircle(x / 2, y / 2, radius, mPaintCircle);
-        matrix.postRotate(rotate);
-        Bitmap iconRotate = Bitmap.createBitmap(icon, 0, 0, icon.getWidth(), icon.getHeight(), matrix, false);
-        canvas.drawBitmap(iconRotate, x / 2 - iconRotate.getWidth() / 2, y / 2 - iconRotate.getHeight() / 2, mPaintCircle);
-
         TextPaint textPaint = new TextPaint();
         textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        textPaint.setColor(textColor);
+        textPaint.setColor(Color.LTGRAY);
         textPaint.setAntiAlias(true);
         textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTextSize(textSize);
-        float textHeight = textPaint.descent() - textPaint.ascent();
-        float textOffset = (textHeight / 2) - textPaint.descent();
+        textPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.splashview_textsize));
+        canvas.drawText(getResources().getString(R.string.waiting_for_init), getWidth() / 2, getHeight() / 2, textPaint);
+        // canvas.drawArc(rect, START_ANGLE_POINT, angle, false, paint);
 
-        canvas.drawText(getResources().getString(R.string.tmp_str), x / 2, y - textOffset - y / 4, textPaint);
+
     }
 
 }

@@ -13,12 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.hieptran.devicesmanager.common.SplashView;
 import com.hieptran.devicesmanager.common.root.RootUtils;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 
 public class MainActivity extends AppCompatActivity
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity
     SplashView mSplashView;
     Handler hand;
     //private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
-
+    MaterialDialog mSflashDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,16 +44,30 @@ public class MainActivity extends AppCompatActivity
         //mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mSplashView = (SplashView) findViewById(R.id.splash_view);
+        mSflashDialog = new MaterialDialog(this)
+                .setTitle("MaterialDialog")
+                .setMessage("Hello world!")
+                .setPositiveButton("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mSflashDialog.dismiss();
 
-        // toggle = new ActionBarDrawerToggle(
-        //       this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawer.setDrawerListener(toggle);
-        //toggle.syncState();
+                        new Task().execute();
 
+                    }
+                })
+                .setNegativeButton("CANCEL", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+        mSflashDialog.show();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        new Task().execute();
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -109,12 +126,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setInterface() {
-        /*if (mScrimInsetsFrameLayout != null) {
-            mScrimInsetsFrameLayout.setLayoutParams(getDrawerParams());
-            mScrimInsetsFrameLayout.setBackgroundColor(getResources().getColor(R.color.navigationdrawer_background_dark));
-        }*/
-
-        //setItems(null);
         if (drawer != null) {
             toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0);
             drawer.setDrawerListener(toggle);
@@ -159,6 +170,8 @@ public class MainActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
 
             if (hasRoot) {
+                mSflashDialog.dismiss();
+
                 mSplashView.finish();
 
                 setInterface();

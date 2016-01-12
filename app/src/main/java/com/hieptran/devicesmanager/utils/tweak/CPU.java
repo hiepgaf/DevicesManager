@@ -385,7 +385,8 @@ public class CPU implements Const {
         if (forceRead && core > 0) while (!Utils.existFile(String.format(CPU_MIN_FREQ, core)))
             activateCore(core, true, null);
         if (Utils.existFile(String.format(CPU_MIN_FREQ, core))) {
-            String value = Utils.readFile(String.format(CPU_MIN_FREQ, core));
+            String value = Utils.readFile(String.format(CPU_MIN_FREQ, 0));
+            Log.d("HiepTHb", "getMinFreq" + String.format(CPU_MIN_FREQ, 0));
             if (value != null) return Utils.stringToInt(value);
         }
         return 0;
@@ -532,7 +533,9 @@ public class CPU implements Const {
                     long up1 = usage1[i].getUptime();
 
                     long idle2 = usage2[i].getIdle();
+
                     long up2 = usage2[i].getUptime();
+
 
                     float cpu = -1f;
                     if (idle1 >= 0 && up1 >= 0 && idle2 >= 0 && up2 >= 0) {
@@ -557,13 +560,17 @@ public class CPU implements Const {
         try {
             RandomAccessFile reader = new RandomAccessFile("/proc/stat", "r");
             Usage[] usage = new Usage[getCoreCount() + 1];
-            for (int i = 0; i < usage.length; i++)
+            for (int i = 0; i < usage.length; i++) {
+
                 usage[i] = new Usage(reader.readLine());
+            }
             reader.close();
             return usage;
         } catch (FileNotFoundException e) {
-            Log.i(TAG, "/proc/stat does not exist");
+            Log.i("HiepTHb", "/proc/stat does not exist");
         } catch (IOException e) {
+            Log.i("HiepTHb", "/proc/stat does not exist");
+
             e.printStackTrace();
         }
         return null;
@@ -578,15 +585,18 @@ public class CPU implements Const {
 
             String[] values = stats.replace("  ", " ").split(" ");
             this.stats = new long[values.length - 1];
-            //  for (int i = 0; i < this.stats.length; i++)
-            // this.stats[i] = Utils.stringToLong(values[i + 1]);
+
+            for (int i = 0; i < this.stats.length; i++)
+                this.stats[i] = Utils.stringToLong(values[i + 1]);
         }
 
         public long getUptime() {
             if (stats == null) return -1L;
             long l = 0L;
-            for (int i = 0; i < stats.length; i++)
+            for (int i = 0; i < stats.length; i++) {
                 if (i != 3) l += stats[i];
+
+            }
             return l;
         }
 

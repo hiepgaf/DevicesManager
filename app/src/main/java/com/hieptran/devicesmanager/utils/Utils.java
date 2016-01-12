@@ -59,4 +59,14 @@ public class Utils implements Const {
             return 0;
         }
     }
+
+    public static long stringToLong(String string) {
+        try {
+            return Long.parseLong(string);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+
 }
