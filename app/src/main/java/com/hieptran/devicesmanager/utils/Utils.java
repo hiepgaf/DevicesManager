@@ -28,7 +28,13 @@ public class Utils implements Const {
             }
         }).setPositiveButton(context.getString(R.string.dialog_ok), onClickListener).show();
     }
+    public static String getString(String name, String defaults, Context context) {
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getString(name, defaults);
+    }
 
+    public static void saveString(String name, String value, Context context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit().putString(name, value).apply();
+    }
     public static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
