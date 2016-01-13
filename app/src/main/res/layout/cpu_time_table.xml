@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/infoHeader"
+                android:text="Time In State" />
+
+            <LinearLayout
+                android:id="@+id/ui_states_view"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="10dp" />
+
+            <TextView
+                android:id="@+id/ui_states_warning"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#551111"
+                android:padding="15dp"
+                android:text="No states file found. Are you sure your phone is compatible?\n\nIf you are running a custom ROM or kernel, try contacting its developer to inform him that the states file is not readable."
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/ui_header_additional_states"
+                style="@style/infoHeader"
+                android:text="Unused CPU states"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/ui_additional_states"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/ui_header_total_state_time"
+                style="@style/infoHeader"
+                android:text="Total State Time" />
+
+            <TextView
+                android:id="@+id/ui_total_state_time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="7dp"
+                android:textColor="#dddddd"
+                android:textSize="25dp" />
+
+            <TextView
+                style="@style/infoHeader"
+                android:text="Kernel Info" />
+
+
+            <TextView
+                android:id="@+id/ui_kernel_string"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Kernel"
+                android:textColor="#dddddd"
+                android:textSize="19dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

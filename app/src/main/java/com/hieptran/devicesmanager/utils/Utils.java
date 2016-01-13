@@ -14,8 +14,8 @@ import com.hieptran.devicesmanager.R;
  */
 public class Utils implements Const {
     //Show log
-    public static void showLog(String Tag,String msg) {
-        Log.d(Const.TAG+Tag,msg);
+    public static void showLog(String msg) {
+        Log.d(Const.TAG, msg);
     }
     public static void confirmDialog(String title, String message, DialogInterface.OnClickListener onClickListener,
                                      Context context) {

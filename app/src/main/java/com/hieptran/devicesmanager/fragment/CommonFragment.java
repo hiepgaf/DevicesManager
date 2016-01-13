@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.hieptran.devicesmanager.MainActivity;
-import com.hieptran.devicesmanager.utils.Const;
-import com.hieptran.devicesmanager.utils.Utils;
 
 /**
  * Created by hieptran on 09/01/2016.
@@ -19,7 +17,7 @@ public abstract class CommonFragment extends Fragment implements MainActivity.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.showLog(TAG,"onCreate");
+
     }
     public ActionBar getActionBar() {
         return ((AppCompatActivity) getActivity()).getSupportActionBar();

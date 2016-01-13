@@ -20,10 +20,7 @@
         app:mlv_shapeType="circle"
         app:mlv_titleCenterSize="30sp"
         app:mlv_waveAmplitude="80" />
-    <!--  <com.hieptran.devicesmanager.common.CircleChart
-          android:id="@+id/circle_chart"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" />-->
+
 
     <TextView
         android:id="@+id/text"

@@ -30,8 +30,8 @@ import java.util.List;
  * Created by willi on 30.11.14.
  */
 public interface Const {
-
-    String TAG = "Device Manager - ";
+    boolean DEBUG = true;
+    String TAG = "Device Manager - HiepTHb";
     String VERSION_NAME = BuildConfig.VERSION_NAME;
     int VERSION_CODE = BuildConfig.VERSION_CODE;
     String PREF_NAME = "prefs";

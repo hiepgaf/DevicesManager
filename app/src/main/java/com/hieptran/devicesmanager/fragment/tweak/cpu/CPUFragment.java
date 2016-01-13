@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.common.CircleChart;
+import com.hieptran.devicesmanager.common.root.CommandControl;
+import com.hieptran.devicesmanager.utils.Const;
 import com.hieptran.devicesmanager.utils.Utils;
 import com.hieptran.devicesmanager.utils.tweak.CPU;
 
@@ -37,17 +39,31 @@ import me.itangqi.waveloadingview.WaveLoadingView;
 /**
  * Created by hieptran on 11/01/2016.
  */
-public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
+public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeListener, Const {
     TextView tvmax, tvmin;
     ComboSeekBar mSliderFreqs_max;
     ComboSeekBar mSliderFreqs_min;
     List<String> ls_freqs = new ArrayList<>();
+    TextView tvmax_big, tvmin_big;
+    ComboSeekBar mSliderFreqs_max_big;
+    ComboSeekBar mSliderFreqs_min_big;
+    List<String> ls_freqs_big = new ArrayList<>();
+
+    //For big cpu (cores > 4)
     private SwitchCompat[] mCoreCheckBox;
     private CircleChart[] mCoreUsageText;
     private AppCompatTextView[] mCoreFreqText;
     private TextView[] mCoreLable;
+    private SwitchCompat[] mCoreCheckBox_big;
+    private CircleChart[] mCoreUsageText_big;
+    private AppCompatTextView[] mCoreFreqText_big;
+    private TextView[] mCoreLable_big;
+
+
     private Handler handler;
     private WaveLoadingView mUsageCircle;
+    private boolean isHaveBigCluster = CPU.isBigCluster();
+
     private final Runnable cpuUsage = new Runnable() {
         @Override
         public void run() {
@@ -55,13 +71,12 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
                 @Override
                 public void run() {
                     final float[] usage = CPU.getCpuUsage();
-                    for (int i = 0; i < usage.length; i++) {
-
-                    }
                     try {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                //Mac dinh thiet lap cho ca CPU
+
                                 if (usage != null) {
                                     if (usage[0] > 75) {
                                         mUsageCircle.setWaveColor(getResources().getColor(R.color.colorPrimary));
@@ -75,10 +90,14 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
 
                                     mUsageCircle.setProgressValue(Math.round(100 - usage[0]));
                                     mUsageCircle.setCenterTitle(String.valueOf(Math.round(usage[0])));
+
+
+                                    //Mac dinh voi core 0-3
+
                                     if (mCoreCheckBox != null && mCoreFreqText != null) {
-                                        // List<Integer> range = CPU.getBigCoreRange();
+                                        List<Integer> range = CPU.getDefaultCoreRange();
                                         for (int i = 0; i < mCoreCheckBox.length; i++) {
-                                            int cur = CPU.getCurFreq(i);
+                                            int cur = CPU.getCurFreq(range.get(i));
                                             if (mCoreCheckBox[i] != null)
                                                 mCoreCheckBox[i].setChecked(cur != 0);
                                             if (mCoreFreqText[i] != null)
@@ -86,20 +105,44 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
                                                         getString(R.string.mhz));
                                         }
                                     }
-                                    if (mCoreUsageText != null) {
-                                        //List<Integer> cores = CPU.getCoreCount();
-                                        for (int i = 0; i < mCoreUsageText.length; i++) {
 
-                                            String message = Math.round(usage[i + 1]) + "%";
+
+                                    if (mCoreUsageText != null) {
+                                        List<Integer> cores = CPU.getDefaultCoreRange();
+                                        for (int i = 0; i < mCoreUsageText.length; i++) {
                                             if (mCoreUsageText[i] != null)
                                                 mCoreUsageText[i].setMax(100);
-                                            mCoreUsageText[i].setProgress(Math.round(usage[i + 1]));
-                                            //mCoreUsageText[i].setWaveColor(Color.LTGRAY);
-                                            // mCoreUsageText[i].setBorderColor(Color.LTGRAY);
-                                            // mCoreUsageText[i].setCenterTitleColor(R.color.textcolor_dark);
+                                            mCoreUsageText[i].setProgress(Math.round(usage[cores.get(i) + 1]));
+
                                         }
                                     }
 
+                                    //Neu co bigcluster, thi thuc hien add view kia vao
+
+                                    if (isHaveBigCluster) {
+                                        if (mCoreCheckBox_big != null && mCoreFreqText_big != null) {
+                                            List<Integer> range = CPU.getBigCoreRange();
+                                            for (int i = 0; i < mCoreCheckBox_big.length; i++) {
+                                                int cur = CPU.getCurFreq(range.get(i));
+                                                if (mCoreCheckBox_big[i] != null)
+                                                    mCoreCheckBox_big[i].setChecked(cur != 0);
+                                                if (mCoreFreqText_big[i] != null)
+                                                    mCoreFreqText_big[i].setText(cur == 0 ? getString(R.string.offline) : cur / 1000 +
+                                                            getString(R.string.mhz));
+                                            }
+                                        }
+
+
+                                        if (mCoreUsageText_big != null) {
+                                            List<Integer> cores = CPU.getBigCoreRange();
+                                            for (int i = 0; i < mCoreUsageText_big.length; i++) {
+                                                if (mCoreUsageText_big[i] != null)
+                                                    mCoreUsageText_big[i].setMax(100);
+                                                mCoreUsageText_big[i].setProgress(Math.round(usage[cores.get(i) + 1]));
+
+                                            }
+                                        }
+                                    }
 
                                 }
                             }
@@ -119,7 +162,7 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
         setHasOptionsMenu(true);
     }
 
-    private LinearLayout coreInit(LayoutInflater inflater, ViewGroup container) {
+    private LinearLayout defaultCoreInit(LayoutInflater inflater, ViewGroup container) {
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setPadding(16, 16, 16, 16);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -128,9 +171,10 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
         v1.setBackgroundColor(Color.LTGRAY);
         layout.addView(v1);
         mUsageCircle = (WaveLoadingView) v1.findViewById(R.id.waveLoadingView);
-
-
-        mCoreCheckBox = new SwitchCompat[CPU.getCoreCount()];
+        View v2 = inflater.inflate(R.layout.div_view, container, false);
+        layout.addView(v2);
+        //
+        mCoreCheckBox = new SwitchCompat[CPU.getDefaultCoreRange().size()];
         mCoreUsageText = new CircleChart[mCoreCheckBox.length];
         mCoreLable = new TextView[mCoreCheckBox.length];
         mCoreFreqText = new AppCompatTextView[mCoreCheckBox.length];
@@ -151,19 +195,54 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
         return layout;
     }
 
+    private LinearLayout bigClusterCoreInit(LayoutInflater inflater, ViewGroup container) {
+        LinearLayout layout = new LinearLayout(getActivity());
+        layout.setPadding(16, 16, 16, 16);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        View v2 = inflater.inflate(R.layout.div_view, container, false);
+        layout.addView(v2);
+        //
+        mCoreCheckBox_big = new SwitchCompat[CPU.getBigCoreRange().size()];
+        mCoreUsageText_big = new CircleChart[mCoreCheckBox_big.length];
+        mCoreLable_big = new TextView[mCoreCheckBox_big.length];
+        mCoreFreqText_big = new AppCompatTextView[mCoreCheckBox_big.length];
+        for (int i = 0; i < mCoreCheckBox_big.length; i++) {
+            View view = inflater.inflate(R.layout.core_view_item, container, false);
+            view.setBackgroundColor(Color.LTGRAY);
+            mCoreCheckBox_big[i] = (SwitchCompat) view.findViewById(R.id.core_checkbox);
+            mCoreCheckBox_big[i].setOnCheckedChangeListener(new mOnCheckedChanged(CPU.getBigCoreRange().get(i)));
+            mCoreLable_big[i] = (TextView) view.findViewById(R.id.core_lable);
+            mCoreLable_big[i].setText(getString(R.string.core, i + 1));
+
+            mCoreUsageText_big[i] = (CircleChart) view.findViewById(R.id.circle_itemcore);
+
+            mCoreFreqText_big[i] = (AppCompatTextView) view.findViewById(R.id.freq);
+
+            layout.addView(view);
+        }
+        return layout;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         handler = new Handler();
-        getFreqLs();
+        default_getFreqLs();
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setPadding(16, 16, 16, 16);
         layout.setOrientation(LinearLayout.VERTICAL);
         View v = inflater.inflate(R.layout.cpu_tw, container, false);
         ScrollView scrollView = (ScrollView) v.findViewById(R.id.cpu_scrollView);
-        layout.addView(coreInit(inflater, container));
-        layout.addView(sliderBarinit(inflater, container));
+        layout.addView(defaultCoreInit(inflater, container));
+        layout.addView(default_sliderBarInit(inflater, container));
+
+        if (isHaveBigCluster) {
+            big_getFreqLs();
+            layout.addView(bigClusterCoreInit(inflater, container));
+            layout.addView(big_sliderBarInit(inflater, container));
+
+        }
         scrollView.addView(layout);
         //return super.onCreateView(inflater, container, savedInstanceState);
         return v;
@@ -181,48 +260,102 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
         if (handler != null) handler.removeCallbacks(cpuUsage);
     }
 
-    private LinearLayout sliderBarinit(LayoutInflater inflater, ViewGroup container) {
+    private LinearLayout default_sliderBarInit(LayoutInflater inflater, ViewGroup container) {
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setPadding(16, 16, 16, 16);
         layout.setOrientation(LinearLayout.VERTICAL);
 
         View view_max = inflater.inflate(R.layout.slider_bar_item, container, false);
-        // view_max.setPadding(10,10,10,10);
         View view_min = inflater.inflate(R.layout.slider_bar_item, container, false);
-        // view_min.setPadding(10,10,10,10);
         view_max.setBackgroundColor(Color.LTGRAY);
         view_min.setBackgroundColor(Color.LTGRAY);
         tvmax = (TextView) view_max.findViewById(R.id.slider_bar_text);
         mSliderFreqs_max = (ComboSeekBar) view_max.findViewById(R.id.freqs_slider_bar);
         mSliderFreqs_min = (ComboSeekBar) view_min.findViewById(R.id.freqs_slider_bar);
         tvmin = (TextView) view_min.findViewById(R.id.slider_bar_text);
-        setFreqsView();
+        default_setFreqView();
         layout.addView(view_max);
         layout.addView(inflater.inflate(R.layout.div_view, container, false));
         layout.addView(view_min);
         return layout;
     }
 
-    private void getFreqLs() {
+    private void default_getFreqLs() {
 
-        for (int freq : CPU.getFreqs()) {
+        for (int freq : CPU.getFreqs(CPU.getDefaultcore())) {
             ls_freqs.add(freq / 1000 + "");
         }
 
     }
 
-    private void setFreqsView() {
-        tvmin.setText("Minimum CPU frequency: " + CPU.getMinFreq(true));
-        tvmax.setText("Maximum CPU frequency: " + CPU.getMaxFreq(true));
+    private void default_setFreqView() {
+        tvmin.setText("Minimum CPU frequency: " + CPU.getMinFreq(CPU.getDefaultcore(), true) / 1000 + " MHz");
+        tvmax.setText("Maximum CPU frequency: " + CPU.getMaxFreq(CPU.getDefaultcore(), true) / 1000 + " MHz");
+        if (DEBUG) {
+            Utils.showLog("min freq - default : " + CPU.getMinFreq(CPU.getDefaultcore(), true));
+            Utils.showLog("max freq - default : " + CPU.getMaxFreq(CPU.getDefaultcore(), true));
+            Utils.showLog("ls_freqs.size " + ls_freqs.size());
+        }
         mSliderFreqs_max.setAdapter(ls_freqs);
-        mSliderFreqs_max.setMax(ls_freqs.size());
+        mSliderFreqs_max.setMax(ls_freqs.size() - 1);
         mSliderFreqs_max.setOnSeekBarChangeListener(this);
-        //mSliderFreqs_max.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMaxFreq(true))));
+        mSliderFreqs_max.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMaxFreq(CPU.getDefaultcore(), true) / 1000)));
         mSliderFreqs_min.setAdapter(ls_freqs);
-        mSliderFreqs_min.setMax(ls_freqs.size());
+        mSliderFreqs_min.setMax(ls_freqs.size() - 1);
         mSliderFreqs_min.setOnSeekBarChangeListener(this);
-        //mSliderFreqs_max.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMinFreq(true))));
+        mSliderFreqs_min.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMinFreq(CPU.getDefaultcore(), true) / 1000)));
     }
+
+    //Slider bar cho big cluster
+
+    private LinearLayout big_sliderBarInit(LayoutInflater inflater, ViewGroup container) {
+        LinearLayout layout = new LinearLayout(getActivity());
+        layout.setPadding(16, 16, 16, 16);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        View view_max = inflater.inflate(R.layout.slider_bar_item, container, false);
+        View view_min = inflater.inflate(R.layout.slider_bar_item, container, false);
+        view_max.setBackgroundColor(Color.LTGRAY);
+        view_min.setBackgroundColor(Color.LTGRAY);
+        tvmax_big = (TextView) view_max.findViewById(R.id.slider_bar_text);
+        mSliderFreqs_max_big = (ComboSeekBar) view_max.findViewById(R.id.freqs_slider_bar);
+        mSliderFreqs_min_big = (ComboSeekBar) view_min.findViewById(R.id.freqs_slider_bar);
+        tvmin_big = (TextView) view_min.findViewById(R.id.slider_bar_text);
+        big_setFreqView();
+        layout.addView(view_max);
+        layout.addView(inflater.inflate(R.layout.div_view, container, false));
+        layout.addView(view_min);
+        return layout;
+    }
+
+    private void big_getFreqLs() {
+
+        for (int freq : CPU.getFreqs()) {
+            ls_freqs_big.add(freq / 1000 + "");
+        }
+
+    }
+
+    private void big_setFreqView() {
+        tvmin_big.setText("Minimum CPU frequency: " + CPU.getMinFreq(true) / 1000 + " MHz");
+        tvmax_big.setText("Maximum CPU frequency: " + CPU.getMaxFreq(true) / 1000 + " MHz");
+        Utils.showLog("ls_freqs.size big" + ls_freqs_big.size());
+        mSliderFreqs_max_big.setAdapter(ls_freqs_big);
+        mSliderFreqs_max_big.setMax(ls_freqs_big.size() - 1);
+        mSliderFreqs_max_big.setOnSeekBarChangeListener(this);
+        mSliderFreqs_max_big.setProgress(ls_freqs_big.indexOf(String.valueOf(CPU.getMaxFreq(true) / 1000)));
+        mSliderFreqs_min_big.setAdapter(ls_freqs_big);
+        mSliderFreqs_min_big.setMax(ls_freqs_big.size() - 1);
+        mSliderFreqs_min_big.setOnSeekBarChangeListener(this);
+        mSliderFreqs_min_big.setProgress(ls_freqs_big.indexOf(String.valueOf(CPU.getMinFreq(true) / 1000)));
+        if (DEBUG) {
+            Utils.showLog("min freq - big : " + CPU.getMinFreq(true));
+            Utils.showLog("max freq - big : " + CPU.getMaxFreq(true));
+            Utils.showLog("index of+" + String.valueOf(CPU.getMinFreq(true) / 1000) + ls_freqs_big.indexOf(String.valueOf(CPU.getMinFreq(true) / 1000)));
+        }
+
+    }
+
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -236,16 +369,27 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        int value = Utils.stringToInt(ls_freqs.get(seekBar.getProgress()));
+        if (DEBUG) {
+            Utils.showLog(" Progress" + seekBar.getProgress());
+        }
         if (seekBar == mSliderFreqs_max) {
+            int value_default = Utils.stringToInt(ls_freqs.get(seekBar.getProgress()));
+            CPU.setMaxFreq(CommandControl.CommandType.CPU_LITTLE, value_default * 1000, getActivity());
+            tvmax.setText("Maximum CPU frequency: " + value_default + " MHz");
 
-            CPU.setMaxFreq(value * 1000, getActivity());
-            tvmax.setText("Maximum CPU frequency: " + value + " MHz");
+        } else if (seekBar == mSliderFreqs_min) {
+            int value_default = Utils.stringToInt(ls_freqs.get(seekBar.getProgress()));
+            CPU.setMinFreq(CommandControl.CommandType.CPU_LITTLE, value_default * 1000, getActivity());
+            tvmin.setText("Minimum CPU frequency: " + value_default + " MHz");
 
+        } else if (seekBar == mSliderFreqs_max_big) {
+            int value_big = Utils.stringToInt(ls_freqs_big.get(seekBar.getProgress()));
+            CPU.setMaxFreq(CommandControl.CommandType.CPU, value_big * 1000, getActivity());
+            tvmax_big.setText("Maximum CPU frequency: " + value_big + " MHz");
         } else {
-            CPU.setMinFreq(value * 1000, getActivity());
-            tvmin.setText("Minimum CPU frequency: " + value + " MHz");
-
+            int value_big = Utils.stringToInt(ls_freqs_big.get(seekBar.getProgress()));
+            CPU.setMinFreq(CommandControl.CommandType.CPU, value_big * 1000, getActivity());
+            tvmin_big.setText("Minimum CPU frequency: " + value_big + " MHz");
         }
     }
 
@@ -261,6 +405,7 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
         }
         return k;
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

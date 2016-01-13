@@ -372,7 +372,7 @@ public class CPU implements Const {
     }
 
     public static void setMinFreq(CommandControl.CommandType command, int freq, Context context) {
-        if (getMaxFreq(command == CommandControl.CommandType.CPU ? getBigCore() : getLITTLEcore(), true) < freq)
+        if (getMaxFreq(command == CommandControl.CommandType.CPU ? getBigCore() : getDefaultcore(), true) < freq)
             setMaxFreq(command, freq, context);
         CommandControl.runCommand(String.valueOf(freq), CPU_MIN_FREQ, command, context);
     }
@@ -385,8 +385,8 @@ public class CPU implements Const {
         if (forceRead && core > 0) while (!Utils.existFile(String.format(CPU_MIN_FREQ, core)))
             activateCore(core, true, null);
         if (Utils.existFile(String.format(CPU_MIN_FREQ, core))) {
-            String value = Utils.readFile(String.format(CPU_MIN_FREQ, 0));
-            Log.d("HiepTHb", "getMinFreq" + String.format(CPU_MIN_FREQ, 0));
+            String value = Utils.readFile(String.format(CPU_MIN_FREQ, core));
+            Log.d("HiepTHb", "getMinFreq " + String.format(CPU_MIN_FREQ, core));
             if (value != null) return Utils.stringToInt(value);
         }
         return 0;
@@ -402,7 +402,7 @@ public class CPU implements Const {
             CommandControl.runCommand(String.valueOf(freq), CPU_MSM_CPUFREQ_LIMIT, CommandControl.CommandType.GENERIC, context);
         if (Utils.existFile(String.format(CPU_ENABLE_OC, 0)))
             CommandControl.runCommand("1", CPU_ENABLE_OC, CommandControl.CommandType.CPU, context);
-        if (getMinFreq(command == CommandControl.CommandType.CPU ? getBigCore() : getLITTLEcore(), true) > freq)
+        if (getMinFreq(command == CommandControl.CommandType.CPU ? getBigCore() : getDefaultcore(), true) > freq)
             setMinFreq(command, freq, context);
         if (Utils.existFile(String.format(CPU_MAX_FREQ_KT, 0)))
             CommandControl.runCommand(String.valueOf(freq), CPU_MAX_FREQ_KT, command, context);
@@ -450,33 +450,33 @@ public class CPU implements Const {
             RootUtils.runCommand(String.format("echo %s > " + String.format(CPU_CORE_ONLINE, core), active ? "1" : "0"));
     }
 
-    public static List<Integer> getLITTLECoreRange() {
+    public static List<Integer> getDefaultCoreRange() {
         List<Integer> list = new ArrayList<>();
-        if (!isBigLITTLE()) for (int i = 0; i < getCoreCount(); i++) list.add(i);
-        else if (getLITTLEcore() == 0) for (int i = 0; i < 4; i++) list.add(i);
-        else for (int i = getLITTLEcore(); i < getCoreCount(); i++) list.add(i);
+        if (!isBigCluster()) for (int i = 0; i < getCoreCount(); i++) list.add(i);
+        else if (getDefaultcore() == 0) for (int i = 0; i < 4; i++) list.add(i);
+        else for (int i = getDefaultcore(); i < getCoreCount(); i++) list.add(i);
         return list;
     }
 
     public static List<Integer> getBigCoreRange() {
         List<Integer> list = new ArrayList<>();
-        if (!isBigLITTLE()) for (int i = 0; i < getCoreCount(); i++) list.add(i);
+        if (!isBigCluster()) for (int i = 0; i < getCoreCount(); i++) list.add(i);
         else if (getBigCore() == 0) for (int i = 0; i < 4; i++) list.add(i);
         else for (int i = getBigCore(); i < getCoreCount(); i++) list.add(i);
         return list;
     }
 
-    public static int getLITTLEcore() {
-        isBigLITTLE();
+    public static int getDefaultcore() {
+        isBigCluster();
         return LITTLEcore == -1 ? 0 : LITTLEcore;
     }
 
     public static int getBigCore() {
-        isBigLITTLE();
+        isBigCluster();
         return bigCore == -1 ? 0 : bigCore;
     }
 
-    public static boolean isBigLITTLE() {
+    public static boolean isBigCluster() {
         boolean bigLITTLE = getCoreCount() > 4;
         if (!bigLITTLE) return false;
 

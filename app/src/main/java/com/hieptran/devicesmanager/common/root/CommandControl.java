@@ -106,7 +106,7 @@ public class CommandControl implements Const {
                         stopService(HOTPLUG_MPDEC, null);
                     }
 */
-                    List<Integer> range = command == CommandType.CPU ? CPU.getBigCoreRange() : CPU.getLITTLECoreRange();
+                    List<Integer> range = command == CommandType.CPU ? CPU.getBigCoreRange() : CPU.getDefaultCoreRange();
                     for (int i = 0; i < range.size(); i++) {
                         if (i != 0)
                             CommandControl.run(String.format("echo 1 > " + CPU_CORE_ONLINE, i),
