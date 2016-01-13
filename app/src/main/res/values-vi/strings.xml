@@ -40,4 +40,5 @@
     <string name="offline">Đã tắt</string>
     <string name="waiting_for_init">Chờ để thiết lập...</string>
     <string name="action_settings">Thiết lập</string>
+    <string name="set_on_boot_lable">Áp dụng</string>
 </resources>

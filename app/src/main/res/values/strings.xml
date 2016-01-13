@@ -54,5 +54,6 @@
     <string name="offline">Offline</string>
     <string name="waiting_for_init">Waiting for init ...</string>
     <string name="nav_setting">Setting</string>
+    <string name="set_on_boot_lable">Set on boot</string>
 
 </resources>

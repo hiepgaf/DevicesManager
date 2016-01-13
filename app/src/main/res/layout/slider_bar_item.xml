@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/slider_bar_text"
@@ -11,23 +11,19 @@
         android:layout_height="wrap_content"
         android:textSize="18sp" />
 
-    <LinearLayout
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="@string/tmp_str" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/tmp_str" />
 
-        <Spinner
-            android:id="@+id/m_spinner"
-            style="@style/Widget.MyApp.HeaderBar.Spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-
+    <comboseekbar.ComboSeekBar xmlns:cbs="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/freqs_slider_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        cbs:multiline="true"
+        cbs:myColor="@color/color_primary"
+        cbs:textSize="12sp"
+        cbs:theme="@style/ActionBarStyle" />
 </LinearLayout>
