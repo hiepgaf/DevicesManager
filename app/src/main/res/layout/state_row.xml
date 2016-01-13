@@ -3,7 +3,9 @@
     android:id="@+id/ui_state_row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/card_background_light"
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,11 +18,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <TextView
+        <com.hieptran.devicesmanager.common.CircleChart
             android:id="@+id/ui_percentage_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="@dimen/circlechart_height"
+            android:layout_height="@dimen/circlechart_height"
             android:gravity="end" />
 
         <TextView
@@ -31,13 +32,5 @@
             android:gravity="end" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/ui_bar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:max="100" />
 
 </LinearLayout>

@@ -31,7 +31,7 @@ import java.util.List;
  */
 public interface Const {
     boolean DEBUG = true;
-    String TAG = "Device Manager - HiepTHb";
+    String TAG = "DeviceManager-HiepTH";
     String VERSION_NAME = BuildConfig.VERSION_NAME;
     int VERSION_CODE = BuildConfig.VERSION_CODE;
     String PREF_NAME = "prefs";

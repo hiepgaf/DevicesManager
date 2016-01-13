@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#9C031F</color>
-    <color name="colorPrimaryDark">#9C031F</color>
-    <color name="colorAccent">#17AD19</color>
+    <color name="colorPrimaryDark">#FF303F64</color>
+    <color name="colorAccent">#404040</color>
     <color name="semi_transparent">#26000000</color>
 
     <color name="color_primary">#2A7289</color>
-    <color name="color_primary_dark">#1D5060</color>
+    <color name="color_primary_dark">#FF303F64</color>
     <color name="color_primary_light">#3F8095</color>
 
     <color name="statusbar_color">@color/color_primary_dark</color>
@@ -37,12 +37,17 @@
     <color name="navigationdrawer_selected_background_light">#1A000000</color>
     <color name="navigationdrawer_selected_background_dark">#26FFFFFF</color>
 
-    <color name="card_background_light">#FAFAFA</color>
-    <color name="card_background_dark">#202020</color>
+    <color name="card_background_light">#FFA1BBC8</color>
+    <color name="card_background_dark">#1A316B</color>
 
     <color name="textcolor_light">#FFFFFF</color>
     <color name="textcolor_dark">#BDBDBD</color>
 
-    <color name="cpu_usage_lower_bg">#17AD19</color>
+    <color name="cpu_usage_lower_bg">#494949</color>
     <color name="cpu_usage_lower_bg_dark">#2EE885</color>
+
+    <!-- DARK -->
+    <color name="main_background_dark">#404040</color>
+    <color name="item_background_dark">#c0c0c0</color>
+
 </resources>

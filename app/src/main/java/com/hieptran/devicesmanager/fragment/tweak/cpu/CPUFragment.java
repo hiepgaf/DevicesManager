@@ -234,6 +234,8 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
         layout.setOrientation(LinearLayout.VERTICAL);
         View v = inflater.inflate(R.layout.cpu_tw, container, false);
         ScrollView scrollView = (ScrollView) v.findViewById(R.id.cpu_scrollView);
+        scrollView.setBackgroundColor(R.color.card_background_dark);
+
         layout.addView(defaultCoreInit(inflater, container));
         layout.addView(default_sliderBarInit(inflater, container));
 

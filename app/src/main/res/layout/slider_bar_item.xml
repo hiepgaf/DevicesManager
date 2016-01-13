@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         cbs:multiline="true"
-        cbs:myColor="@color/color_primary"
+        cbs:myColor="@color/black"
         cbs:textSize="12sp"
         cbs:theme="@style/ActionBarStyle" />
 </LinearLayout>
