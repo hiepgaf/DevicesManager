@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hieptran.devicesmanager.R;
@@ -17,7 +16,6 @@ import com.hieptran.devicesmanager.common.CircleChart;
 import com.hieptran.devicesmanager.common.cpuspy.CpuSpyApp;
 import com.hieptran.devicesmanager.common.cpuspy.CpuStateMonitor;
 import com.hieptran.devicesmanager.utils.Const;
-import com.hieptran.devicesmanager.utils.Utils;
 import com.hieptran.devicesmanager.utils.tweak.CPU;
 
 import java.util.ArrayList;
@@ -28,8 +26,8 @@ import java.util.List;
  */
 public class CPUTimeTable extends Fragment implements Const{
 
-    private CpuSpyApp _app = null;
     LinearLayout mainView;
+    private CpuSpyApp _app = null;
     // Default View
     private LinearLayout _uiStatesView = null;
     private TextView _uiAdditionalStates = null;
@@ -70,10 +68,8 @@ public class CPUTimeTable extends Fragment implements Const{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View scroll_main = inflater.inflate(R.layout.scroll_tmp, container, false);
-        scroll_main.setBackgroundColor(getResources().getColor(R.color.main_background_dark));
         mainView = (LinearLayout) scroll_main.findViewById(R.id.main_view_cpu_time);
         View v_default = inflater.inflate(R.layout.cpu_time_table, container, false);
-        v_default.setBackgroundColor(getResources().getColor(R.color.item_background_dark));
 
         _app = new CpuSpyApp();
         findViews(v_default);
@@ -81,7 +77,6 @@ public class CPUTimeTable extends Fragment implements Const{
         LayoutInflater inf = LayoutInflater.from(getActivity());
         LinearLayout v_big = (LinearLayout) inf.inflate(
                 R.layout.cpu_time_table, container, false);
-        v_big.setBackgroundColor(getResources().getColor(R.color.item_background_dark));
 
         if(CPU.isBigCluster()) {
 
@@ -203,7 +198,7 @@ public class CPUTimeTable extends Fragment implements Const{
                 generateStateRow_big(state, _uiStatesView_big);
             } else {
                 if (state.freq == 0) {
-                    extraStates.add("Deep Sleep");
+                    extraStates.add(getString(R.string.deep_sleep));
                 } else {
                     extraStates.add(state.freq / 1000 + " MHz");
                 }
@@ -268,7 +263,7 @@ public class CPUTimeTable extends Fragment implements Const{
         // state name
         String sFreq;
         if (state.freq == 0) {
-            sFreq = "Deep Sleep";
+            sFreq = getString(R.string.deep_sleep);
         } else {
             sFreq = state.freq / 1000 + " MHz";
         }
@@ -311,7 +306,7 @@ public class CPUTimeTable extends Fragment implements Const{
         // state name
         String sFreq;
         if (state.freq == 0) {
-            sFreq = "Deep Sleep";
+            sFreq = getString(R.string.deep_sleep);
         } else {
             sFreq = state.freq / 1000 + " MHz";
         }

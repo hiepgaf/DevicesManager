@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#9C031F</color>
+    <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#FF303F64</color>
     <color name="colorAccent">#404040</color>
     <color name="semi_transparent">#26000000</color>
 
-    <color name="color_primary">#2A7289</color>
-    <color name="color_primary_dark">#FF303F64</color>
+    <color name="color_primary">#3F51B5</color>
+    <color name="color_primary_dark">#3F51B5</color>
     <color name="color_primary_light">#3F8095</color>
 
     <color name="statusbar_color">@color/color_primary_dark</color>
@@ -46,8 +46,5 @@
     <color name="cpu_usage_lower_bg">#494949</color>
     <color name="cpu_usage_lower_bg_dark">#2EE885</color>
 
-    <!-- DARK -->
-    <color name="main_background_dark">#404040</color>
-    <color name="item_background_dark">#c0c0c0</color>
 
 </resources>

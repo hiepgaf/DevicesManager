@@ -56,5 +56,10 @@
     <string name="nav_setting">Setting</string>
     <string name="set_on_boot_lable">Set on boot</string>
     <string name="deep_sleep">Deep Sleep</string>
+    <string name="max_cpu_freqs">Maximum CPU Freq:</string>
+    <string name="min_cpu_freq">Minimum CPU Freq:</string>
+    <string name="default_core_tunning">Core Tunning</string>
+    <string name="litter_core_tunning">Litte core tunning</string>
+    <string name="big_core_tunning">Big core tunning</string>
 
 </resources>

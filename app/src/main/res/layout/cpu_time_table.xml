@@ -15,9 +15,15 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/infoHeader"
-                android:text="Time In State" />
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Time In State"
+                android:textSize="24sp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/white" />
             <LinearLayout
                 android:id="@+id/ui_states_view"
                 android:layout_width="fill_parent"
@@ -39,7 +45,8 @@
 
             <TextView
                 android:id="@+id/ui_header_additional_states"
-                style="@style/infoHeader"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:text="Unused CPU states"
                 android:visibility="gone" />
 
@@ -50,10 +57,16 @@
                 android:padding="6dp"
                 android:visibility="gone" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/white" />
             <TextView
                 android:id="@+id/ui_header_total_state_time"
-                style="@style/infoHeader"
-                android:text="Total State Time" />
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Total State Time"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/ui_total_state_time"
@@ -61,7 +74,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:padding="7dp"
-                android:textColor="@color/white"
                 android:textSize="25dp" />
 
 
