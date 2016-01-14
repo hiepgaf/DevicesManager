@@ -20,7 +20,6 @@ package com.hieptran.devicesmanager.utils;
  */
 
 import com.hieptran.devicesmanager.BuildConfig;
-import com.hieptran.devicesmanager.common.adapter.CustomAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +35,7 @@ public interface Const {
     int VERSION_CODE = BuildConfig.VERSION_CODE;
     String PREF_NAME = "prefs";
     String GAMMA_URL = "https://raw.githubusercontent.com/Grarak/KernelAdiutor/master/gamma_profiles.json";
-    List<CustomAdapter.AdapView> ITEMS = new ArrayList<>();
-    List<CustomAdapter.AdapView> VISIBLE_ITEMS = new ArrayList<>();
+
 
     // Kernel Informations
     String PROC_VERSION = "/proc/version";

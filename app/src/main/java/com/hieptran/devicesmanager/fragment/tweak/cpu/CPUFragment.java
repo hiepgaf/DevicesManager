@@ -1,6 +1,7 @@
 package com.hieptran.devicesmanager.fragment.tweak.cpu;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -80,13 +81,13 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
 
                                 if (usage != null) {
                                     if (usage[0] > 75) {
-                                        mUsageCircle.setWaveColor(getResources().getColor(R.color.colorPrimary));
-                                        mUsageCircle.setBorderColor(R.color.colorPrimary);
-                                        mUsageCircle.setCenterTitleColor(R.color.white);
+                                        mUsageCircle.setWaveColor(Color.RED);
+                                        mUsageCircle.setBorderColor(Color.RED);
+                                        mUsageCircle.setCenterTitleColor(Color.WHITE);
                                     } else {
-                                        mUsageCircle.setWaveColor(getResources().getColor(R.color.cpu_usage_lower_bg));
-                                        mUsageCircle.setBorderColor(R.color.cpu_usage_lower_bg);
-                                        mUsageCircle.setCenterTitleColor(R.color.textcolor_dark);
+                                        mUsageCircle.setWaveColor(getResources().getColor(R.color.colorPrimary));
+                                        mUsageCircle.setBorderColor(R.color.color_primary);
+                                        mUsageCircle.setCenterTitleColor(Color.BLACK);
                                     }
 
                                     mUsageCircle.setProgressValue(Math.round(100 - usage[0]));

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="0,1">
+    <TableRow>
+        <TextView
+            android:text="@string/tmp_str"/>
+        <TextView
+            android:text="@string/tmp_str"
+            android:id="@+id/current_gov"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="@string/tmp_str"/>
+        <Spinner
+            android:id="@+id/available_gov"/>
+    </TableRow>
+</TableLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_gov_tunning"></ScrollView>
+</LinearLayout>

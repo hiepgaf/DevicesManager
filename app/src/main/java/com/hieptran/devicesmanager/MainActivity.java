@@ -20,6 +20,7 @@ import com.hieptran.devicesmanager.common.SplashView;
 import com.hieptran.devicesmanager.common.root.RootUtils;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
+import com.hieptran.devicesmanager.fragment.tweak.gov.GovernorFragment;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -117,6 +118,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_cpu_tw) {
             Fragment cpu_tw = new CPUTweakFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, cpu_tw).commit();
+
+        } else if (id == R.id.nav_governor_tw) {
+            Fragment gov_tw = new GovernorFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, gov_tw).commit();
 
         }
 

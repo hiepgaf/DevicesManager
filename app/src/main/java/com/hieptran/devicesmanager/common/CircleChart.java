@@ -54,7 +54,7 @@ public class CircleChart extends View {
     public CircleChart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mCircleColor = getResources().getColor(R.color.circlebar_text);
+        mCircleColor = getResources().getColor(R.color.color_primary);
         mPadding = getResources().getDimensionPixelSize(R.dimen.circlechart_padding);
         mTextsize = getResources().getDimensionPixelSize(R.dimen.circlechart_textsize);
 
@@ -88,14 +88,18 @@ public class CircleChart extends View {
         canvas.drawArc(mRectF, 0, 360, false, mPaintBackground);
         float offset = 360 / (float) mMax;
         if (mProgress < 75) {
-            mPaintCircle.setColor(getResources().getColor(R.color.cpu_usage_lower_bg));
+            mPaintCircle.setColor(getResources().getColor(R.color.color_primary));
         } else
             mPaintCircle.setColor(Color.RED);
 
         canvas.drawArc(mRectF, 270, offset * mProgress, false, mPaintCircle);
 
         TextPaint textPaint = new TextPaint();
-        textPaint.setColor(mCircleColor);
+       // textPaint.setColor(mCircleColor);
+        if (mProgress < 75) {
+            textPaint.setColor(getResources().getColor(R.color.color_primary));
+        } else
+            textPaint.setColor(Color.RED);
         textPaint.setAntiAlias(true);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(mTextsize);
