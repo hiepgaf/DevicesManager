@@ -41,8 +41,20 @@
     <string name="waiting_for_init">Chờ để thiết lập...</string>
     <string name="action_settings">Thiết lập</string>
     <string name="set_on_boot_lable">Áp dụng</string>
-    <string name="max_cpu_freqs">Tần số CPU lớn nhất: </string>
+    <string name="max_cpu_freqs">Tần số CPU lớn nhất:\t\t</string>
     <string name="nav_setting">Thiết lập</string>
-    <string name="min_cpu_freq">Tần số CPU nhỏ nhất: </string>
+    <string name="min_cpu_freq">Tần số CPU nhỏ nhất: \t\t</string>
     <string name="default_core_tunning"></string>
+    <string name="time_in_state"></string>
+    <string name="total_time_state">Thời gian hoạt động</string>
+    <string name="unused_states">Tần số không sử dụng</string>
+    <string name="time_table_title">Bảng tần số</string>
+    <string name="deep_sleep">Ngủ sâu</string>
+    <string name="advance_title">Nâng cao</string>
+    <string name="basic_title">Cơ bản</string>
+    <string name="default_core">Tùy chỉnh </string>
+    <string name="tunning">Tùy chỉnh</string>
+    <string name="avai_governor">Governor khả dụng</string>
+    <string name="current_gov">Governor hiện tại</string>
+    <string name="toast_set">Đặt %1$s thành công</string>
 </resources>

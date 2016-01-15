@@ -1,27 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<TableLayout
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_gov_tunning"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:stretchColumns="0,1">
-    <TableRow>
-        <TextView
-            android:text="@string/tmp_str"/>
-        <TextView
-            android:text="@string/tmp_str"
-            android:id="@+id/current_gov"/>
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text="@string/tmp_str"/>
-        <Spinner
-            android:id="@+id/available_gov"/>
-    </TableRow>
-</TableLayout>
-    <ScrollView
+    android:layout_height="wrap_content">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/main_gov_tunning"></ScrollView>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <include layout="@layout/div_view" />
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_primary"
+            android:gravity="center_horizontal"
+            android:text="@string/basic_title"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <include layout="@layout/div_view" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1">
+
+            <TableRow android:padding="5dp">
+
+                <TextView
+                    android:text="@string/current_gov"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/current_gov"
+                    android:text="@string/tmp_str"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+            </TableRow>
+
+            <TableRow android:padding="5dp">
+
+                <TextView
+                    android:text="@string/avai_governor"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Spinner android:id="@+id/available_gov_spinner" />
+            </TableRow>
+
+        </TableLayout>
+
+        <include layout="@layout/div_view" />
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_primary"
+            android:gravity="center_horizontal"
+            android:text="@string/advance_title"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <include layout="@layout/div_view" />
+
+        <LinearLayout
+            android:id="@+id/main_vertical_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

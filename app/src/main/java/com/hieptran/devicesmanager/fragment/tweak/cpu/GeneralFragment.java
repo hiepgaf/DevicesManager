@@ -39,7 +39,7 @@ import me.itangqi.waveloadingview.WaveLoadingView;
 /**
  * Created by hieptran on 11/01/2016.
  */
-public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeListener, Const {
+public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChangeListener, Const {
     TextView tvmax, tvmin;
     ComboSeekBar mSliderFreqs_max;
     ComboSeekBar mSliderFreqs_min;
@@ -174,13 +174,14 @@ public class CPUFragment extends Fragment implements SeekBar.OnSeekBarChangeList
         layout.addView(v1);
         mUsageCircle = (WaveLoadingView) v1.findViewById(R.id.waveLoadingView);
         default_header_core = inflater.inflate(R.layout.title_header_view, container, false);
-        ((TextView) default_header_core.findViewById(R.id.header_title)).setText(getResources().getString(R.string.default_core_tunning));
-        if (CPU.isBigCluster())
-            ((TextView) default_header_core.findViewById(R.id.header_title)).setText(getResources().getString(R.string.litter_core_tunning));
+
 
         View v2 = inflater.inflate(R.layout.div_view, container, false);
         layout.addView(v2);
-        layout.addView(default_header_core);
+        if (CPU.isBigCluster()) {
+            ((TextView) default_header_core.findViewById(R.id.header_title)).setText(getResources().getString(R.string.litter_core_tunning));
+            layout.addView(default_header_core);
+        }
         layout.addView(inflater.inflate(R.layout.div_view, container, false));
 
         //layout.addView(v2);

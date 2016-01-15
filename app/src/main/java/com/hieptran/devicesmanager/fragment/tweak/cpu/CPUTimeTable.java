@@ -16,6 +16,7 @@ import com.hieptran.devicesmanager.common.CircleChart;
 import com.hieptran.devicesmanager.common.cpuspy.CpuSpyApp;
 import com.hieptran.devicesmanager.common.cpuspy.CpuStateMonitor;
 import com.hieptran.devicesmanager.utils.Const;
+import com.hieptran.devicesmanager.utils.Utils;
 import com.hieptran.devicesmanager.utils.tweak.CPU;
 
 import java.util.ArrayList;
@@ -29,12 +30,14 @@ public class CPUTimeTable extends Fragment implements Const{
     LinearLayout mainView;
     private CpuSpyApp _app = null;
     // Default View
+    private View default_header_view;
     private LinearLayout _uiStatesView = null;
     private TextView _uiAdditionalStates = null;
     private TextView _uiTotalStateTime = null;
     private TextView _uiHeaderAdditionalStates = null;
     private TextView _uiHeaderTotalStateTime = null;
     // Default View
+    private View big_header_view;
     private LinearLayout _uiStatesView_big = null;
     private TextView _uiAdditionalStates_big = null;
     private TextView _uiTotalStateTime_big = null;
@@ -68,18 +71,25 @@ public class CPUTimeTable extends Fragment implements Const{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View scroll_main = inflater.inflate(R.layout.scroll_tmp, container, false);
-        mainView = (LinearLayout) scroll_main.findViewById(R.id.main_view_cpu_time);
+        mainView = (LinearLayout) scroll_main.findViewById(R.id.main_vertical_view);
         View v_default = inflater.inflate(R.layout.cpu_time_table, container, false);
+        default_header_view = Utils.genarateView(getActivity(), R.layout.title_header_view, container);
+        big_header_view = Utils.genarateView(getActivity(), R.layout.title_header_view, container);
 
         _app = new CpuSpyApp();
+        if (CPU.isBigCluster()) {
+            ((TextView) default_header_view.findViewById(R.id.header_title)).setText(getString(R.string.litter_core_title));
+            mainView.addView(default_header_view);
+        }
         findViews(v_default);
-       mainView.addView(v_default);
+        mainView.addView(v_default);
         LayoutInflater inf = LayoutInflater.from(getActivity());
         LinearLayout v_big = (LinearLayout) inf.inflate(
                 R.layout.cpu_time_table, container, false);
 
         if(CPU.isBigCluster()) {
-
+            ((TextView) big_header_view.findViewById(R.id.header_title)).setText(getString(R.string.big_core_title));
+            mainView.addView(big_header_view);
            // View v_big = inflater.inflate(R.layout.cpu_time_table, container, false);
             findViews_big(v_big);
             mainView.addView(v_big);
@@ -254,7 +264,6 @@ public class CPUTimeTable extends Fragment implements Const{
         LayoutInflater inf = LayoutInflater.from(getActivity());
         LinearLayout theRow = (LinearLayout) inf.inflate(
                 R.layout.state_row, parent, false);
-
         // what percetnage we've got
         CpuStateMonitor monitor = _app.getCpuStateMonitor();
         float per = (float) state.duration * 100 /

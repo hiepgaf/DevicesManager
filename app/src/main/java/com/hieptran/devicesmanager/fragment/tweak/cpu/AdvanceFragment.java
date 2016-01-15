@@ -1,4 +1,4 @@
-package com.hieptran.devicesmanager.fragment.tweak.gov;
+package com.hieptran.devicesmanager.fragment.tweak.cpu;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import com.hieptran.devicesmanager.R;
 
 /**
- * Created by hieptran on 11/01/2016.
+ * Created by hieptran on 15/01/2016.
  */
-public class GovernorFragment extends Fragment {
+public class AdvanceFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.gov_tw,container,false);
-        return v;
-
+        return inflater.inflate(R.layout.title_header_view, container, false);
     }
 }

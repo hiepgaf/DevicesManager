@@ -20,7 +20,7 @@ import com.hieptran.devicesmanager.common.SplashView;
 import com.hieptran.devicesmanager.common.root.RootUtils;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
-import com.hieptran.devicesmanager.fragment.tweak.gov.GovernorFragment;
+import com.hieptran.devicesmanager.fragment.tweak.GOVTweakFragment;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, cpu_tw).commit();
 
         } else if (id == R.id.nav_governor_tw) {
-            Fragment gov_tw = new GovernorFragment();
+            Fragment gov_tw = new GOVTweakFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, gov_tw).commit();
 
         }

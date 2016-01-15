@@ -1,10 +1,14 @@
 package com.hieptran.devicesmanager.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.hieptran.devicesmanager.R;
 
@@ -74,5 +78,8 @@ public class Utils implements Const {
         }
     }
 
-
+    public static View genarateView(Activity mActivity, int id, ViewGroup parent) {
+        LayoutInflater inf = LayoutInflater.from(mActivity);
+        return inf.inflate(id, parent, false);
+    }
 }
