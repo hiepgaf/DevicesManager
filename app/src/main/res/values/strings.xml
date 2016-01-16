@@ -70,7 +70,8 @@
     <string name="time_table_title">Time Table</string>
     <string name="basic_title">Basic</string>
     <string name="advance_title">Advance</string>
-
+    <string name="cpu_info_title">CPU Info</string>
+    <string name="kernel_info_title">Kernel Info</string>
     <!-- GOV -->
     <string name="tunning">Tunning</string>
     <string name="current_gov">Current Governor</string>

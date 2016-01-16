@@ -24,12 +24,13 @@ import io.karim.MaterialTabs;
  * Created by hieptran on 09/01/2016.
  */
 public class ViewPagerFragment extends CommonFragment {
+    static boolean have_tab = true;
+    private final List<ViewPagerItemCommon> items = new ArrayList<>();
     protected LayoutInflater inflater;
     protected ViewGroup container;
+    protected MaterialTabs mTabs;
     private PagerAdapter adapter;
     private SwipeableViewPager mViewPager;
-    protected MaterialTabs mTabs;
-    private final List<ViewPagerItemCommon> items = new ArrayList<>();
 
     @Nullable
     @Override
@@ -40,6 +41,7 @@ public class ViewPagerFragment extends CommonFragment {
         View view = getParentView();
         mViewPager = (SwipeableViewPager) view.findViewById(R.id.view_pager);
         mTabs = (MaterialTabs) view.findViewById(R.id.tabs);
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -160,7 +162,6 @@ public class ViewPagerFragment extends CommonFragment {
     public List<ViewPagerItemCommon> getItems() {
         return items;
     }
-
     @Override
     public boolean onBackPressed() {
         return false;

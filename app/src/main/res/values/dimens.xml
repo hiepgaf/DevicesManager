@@ -12,7 +12,7 @@
     <dimen name="basecard_radius">3dp</dimen>
     <dimen name="card_padding">16dp</dimen>
 
-    <dimen name="splashview_textsize">25sp</dimen>
+    <dimen name="splashview_textsize">16sp</dimen>
 
     <dimen name="circlechart_background_stroke">1dp</dimen>
     <dimen name="circlechart_stroke">1dp</dimen>
@@ -28,4 +28,6 @@
     <dimen name="fab_elevation">5dp</dimen>
     <dimen name="divider_card_elevation">5dp</dimen>
     <dimen name="information_card_elevation">5dp</dimen>
+
+    <dimen name="header_text_size">18sp</dimen>
 </resources>

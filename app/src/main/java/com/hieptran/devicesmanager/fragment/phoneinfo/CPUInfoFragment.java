@@ -19,8 +19,9 @@ public class CPUInfoFragment extends Fragment implements Const {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.default_cardview, container, false);
+        View v = inflater.inflate(R.layout.cpu_info, container, false);
         ((TextView) v.findViewById(R.id.default_view)).setText(Tools.readFile(PROC_CPUINFO, true));
+        ((TextView) v.findViewById(R.id.kernel_info)).setText(Tools.readFile(PROC_VERSION, true));
         return v;
 
     }

@@ -1,21 +1,24 @@
 package com.hieptran.devicesmanager.fragment.tweak.cpu;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.hieptran.devicesmanager.R;
+import com.hieptran.devicesmanager.common.ViewPagerItemCommon;
+import com.hieptran.devicesmanager.fragment.ViewPagerFragment;
+import com.hieptran.devicesmanager.utils.tweak.CPU;
 
 /**
  * Created by hieptran on 15/01/2016.
  */
-public class AdvanceFragment extends Fragment {
-    @Nullable
+public class AdvanceFragment extends ViewPagerFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.title_header_view, container, false);
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
+        if (CPU.isBigCluster()) {
+            addFragment(new ViewPagerItemCommon(new CPUTimeTable(), "LITTE"));
+            addFragment(new ViewPagerItemCommon(new CPUTimeTable(), "BIG"));
+        } else {
+            addFragment(new ViewPagerItemCommon(new CPUTimeTable(), " "));
+            showTabs(false);
+        }
     }
 }

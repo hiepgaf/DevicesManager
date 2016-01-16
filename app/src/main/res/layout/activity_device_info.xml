@@ -17,16 +17,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Model"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_model"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:padding="3dp">
@@ -34,17 +34,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Manufacturer"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+                android:text="@string/dv_manufacturer"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_manu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:padding="3dp">
@@ -52,17 +52,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Board"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+                android:text="@string/dv_board"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_board"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:padding="3dp">
@@ -70,17 +70,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hardware"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+                android:text="@string/dv_hardware"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_hardware"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:padding="3dp">
@@ -88,17 +88,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Screen Size"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+                android:text="@string/dv_scrsize"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_scr_sz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:padding="3dp">
@@ -106,17 +106,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Screen Density"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+                android:text="@string/dv_scrdst"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_scr_dst"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:padding="3dp">
@@ -124,17 +124,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Total RAM"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+                android:text="@string/dv_totalram"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_total_ram"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:padding="3dp">
@@ -142,17 +142,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Available RAM"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+                android:text="@string/dv_avairam"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_avai_ram"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:padding="3dp">
@@ -160,17 +160,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Total Storage"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+                android:text="@string/dv_totalstorage"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_total_storage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:padding="3dp">
@@ -178,17 +178,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Available Storage"
-                android:textColor="@color/textcolor_light"
-                android:textSize="25sp"
+                android:text="@string/dv_avaistor"
+
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/device_avai_storage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textcolor_light"
-                android:textSize="20sp" />
+
+                android:textSize="16sp" />
         </TableRow>
     </TableLayout>
 
