@@ -45,6 +45,6 @@
 
     <color name="cpu_usage_lower_bg">#494949</color>
     <color name="cpu_usage_lower_bg_dark">#2EE885</color>
-
-
+    <color name="sliderbar_light">#2A4A54</color>
+    <color name="sliderbar_dark">#B1B8BA</color>
 </resources>

@@ -1,8 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cpu_scrollView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-</ScrollView>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/main_frame_layout">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:id="@+id/fragment_pager"/>
+<!--    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp">-->
+<TextView
+   android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:textAllCaps="true"
+    android:textSize="30sp"
+    android:text="@string/cpu_load"
+    android:gravity="center"
+    android:layout_weight="1"/>
+        <me.itangqi.waveloadingview.WaveLoadingView
+            android:id="@+id/waveLoadingView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            app:mlv_borderWidth="1dp"
+            app:mlv_shapeType="circle"
+            app:mlv_titleCenterSize="30sp"
+            app:mlv_waveAmplitude="20" />
+
+
+     <!--   <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/cpu_load"
+            android:textSize="20sp" />-->
+<!--
+    </LinearLayout>-->
+
+</LinearLayout>

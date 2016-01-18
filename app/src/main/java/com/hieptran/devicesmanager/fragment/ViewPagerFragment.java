@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.common.PagerAdapter;
@@ -158,7 +160,18 @@ public class ViewPagerFragment extends CommonFragment {
     public void showTabs(boolean visible) {
         mTabs.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
-
+    public void setTabsColor(int color) {
+        int value = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                (float) 30, getResources().getDisplayMetrics());
+        int value_margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                (float) 12, getResources().getDisplayMetrics());
+        //mTabs.setBackgroundColor(color);
+        mTabs.setAllCaps(false);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
+                ,value);
+       // lp.setMargins(value_margin,value_margin,value_margin,value_margin);
+        mTabs.setLayoutParams(lp);
+    }
     public List<ViewPagerItemCommon> getItems() {
         return items;
     }

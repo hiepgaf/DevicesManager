@@ -48,10 +48,10 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
     ComboSeekBar mSliderFreqs_max_big;
     ComboSeekBar mSliderFreqs_min_big;
     List<String> ls_freqs_big = new ArrayList<>();
+    private CircleChart[] mCoreUsageText;
 
     //For big cpu (cores > 4)
     private SwitchCompat[] mCoreCheckBox;
-    private CircleChart[] mCoreUsageText;
     private AppCompatTextView[] mCoreFreqText;
     private TextView[] mCoreLable;
     private SwitchCompat[] mCoreCheckBox_big;
@@ -59,12 +59,22 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
     private AppCompatTextView[] mCoreFreqText_big;
     private TextView[] mCoreLable_big;
 
-    //Header
-    private View default_header_core, big_header_core;
+   /* //Header
+    private View default_header_core, big_header_core;*/
 
     private Handler handler;
     private WaveLoadingView mUsageCircle;
     private boolean isHaveBigCluster = CPU.isBigCluster();
+    private int mCore;
+    /**
+     * Thay doi cau truc ham khoi tao
+     * @param core day vao core bat dau cua cluster
+     */
+    public GeneralFragment(int core) {
+        this.mCore =core;
+    }
+
+
 
     private final Runnable cpuUsage = new Runnable() {
         @Override
@@ -80,7 +90,8 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
                                 //Mac dinh thiet lap cho ca CPU
 
                                 if (usage != null) {
-                                    if (usage[0] > 75) {
+                                    List<Integer> range;
+                                   /* if (usage[0] > 75) {
                                         mUsageCircle.setWaveColor(Color.RED);
                                         mUsageCircle.setBorderColor(Color.RED);
                                         mUsageCircle.setCenterTitleColor(Color.WHITE);
@@ -91,13 +102,16 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
                                     }
 
                                     mUsageCircle.setProgressValue(Math.round(100 - usage[0]));
-                                    mUsageCircle.setCenterTitle(String.valueOf(Math.round(usage[0])));
-
-
+                                    mUsageCircle.setCenterTitle(String.valueOf(Math.round(usage[0])));*/
+                                    if(mCore == CPU.getDefaultcore())
+                                       range= CPU.getDefaultCoreRange();
+                                    else
+                                        range = CPU.getBigCoreRange();
                                     //Mac dinh voi core 0-3
 
                                     if (mCoreCheckBox != null && mCoreFreqText != null) {
-                                        List<Integer> range = CPU.getDefaultCoreRange();
+
+
                                         for (int i = 0; i < mCoreCheckBox.length; i++) {
                                             int cur = CPU.getCurFreq(range.get(i));
                                             if (mCoreCheckBox[i] != null)
@@ -110,18 +124,17 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
 
 
                                     if (mCoreUsageText != null) {
-                                        List<Integer> cores = CPU.getDefaultCoreRange();
                                         for (int i = 0; i < mCoreUsageText.length; i++) {
                                             if (mCoreUsageText[i] != null)
                                                 mCoreUsageText[i].setMax(100);
-                                            mCoreUsageText[i].setProgress(Math.round(usage[cores.get(i) + 1]));
+                                            mCoreUsageText[i].setProgress(Math.round(usage[range.get(i) + 1]));
 
                                         }
                                     }
 
                                     //Neu co bigcluster, thi thuc hien add view kia vao
 
-                                    if (isHaveBigCluster) {
+                               /*     if (isHaveBigCluster) {
                                         if (mCoreCheckBox_big != null && mCoreFreqText_big != null) {
                                             List<Integer> range = CPU.getBigCoreRange();
                                             for (int i = 0; i < mCoreCheckBox_big.length; i++) {
@@ -144,7 +157,7 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
 
                                             }
                                         }
-                                    }
+                                    }*/
 
                                 }
                             }
@@ -168,21 +181,7 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setPadding(16, 16, 16, 16);
         layout.setOrientation(LinearLayout.VERTICAL);
-
-        //Add Cpu Usage
-        View v1 = inflater.inflate(R.layout.usage_view_item, container, false);
-        layout.addView(v1);
-        mUsageCircle = (WaveLoadingView) v1.findViewById(R.id.waveLoadingView);
-        default_header_core = inflater.inflate(R.layout.title_header_view, container, false);
-
-
-        View v2 = inflater.inflate(R.layout.div_view, container, false);
-        layout.addView(v2);
-        if (CPU.isBigCluster()) {
-            ((TextView) default_header_core.findViewById(R.id.header_title)).setText(getResources().getString(R.string.litter_core_tunning));
-            layout.addView(default_header_core);
-        }
-        layout.addView(inflater.inflate(R.layout.div_view, container, false));
+       // layout.addView(inflater.inflate(R.layout.div_view, container, false));
 
         //layout.addView(v2);
         //
@@ -206,7 +205,7 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
         return layout;
     }
 
-    private LinearLayout bigClusterCoreInit(LayoutInflater inflater, ViewGroup container) {
+  /*  private LinearLayout bigClusterCoreInit(LayoutInflater inflater, ViewGroup container) {
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setPadding(16, 16, 16, 16);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -239,30 +238,25 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
         }
         return layout;
     }
-
+*/
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         handler = new Handler();
-        default_getFreqLs();
+        default_getFreqLs(mCore);
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setPadding(16, 16, 16, 16);
         layout.setOrientation(LinearLayout.VERTICAL);
-        View v = inflater.inflate(R.layout.cpu_tw, container, false);
-        ScrollView scrollView = (ScrollView) v.findViewById(R.id.cpu_scrollView);
+      /*  View v = inflater.inflate(R.layout.cpu_tw_item, container, false);
+        ScrollView scrollView = (ScrollView) v.findViewById(R.id.cpu_scrollView);*/
         layout.addView(defaultCoreInit(inflater, container));
         layout.addView(default_sliderBarInit(inflater, container));
-
-        if (isHaveBigCluster) {
-            big_getFreqLs();
-            layout.addView(bigClusterCoreInit(inflater, container));
-            layout.addView(big_sliderBarInit(inflater, container));
-
-        }
+/*
         scrollView.addView(layout);
+*/
         //return super.onCreateView(inflater, container, savedInstanceState);
-        return v;
+        return layout;
     }
 
     @Override
@@ -288,83 +282,36 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
         mSliderFreqs_max = (ComboSeekBar) view_max.findViewById(R.id.freqs_slider_bar);
         mSliderFreqs_min = (ComboSeekBar) view_min.findViewById(R.id.freqs_slider_bar);
         tvmin = (TextView) view_min.findViewById(R.id.slider_bar_text);
-        default_setFreqView();
+        default_setFreqView(mCore);
         layout.addView(view_max);
         layout.addView(view_min);
         return layout;
     }
 
-    private void default_getFreqLs() {
+    private void default_getFreqLs(int core) {
 
-        for (int freq : CPU.getFreqs(CPU.getDefaultcore())) {
+        for (int freq : CPU.getFreqs(core)) {
             ls_freqs.add(freq / 1000 + "");
         }
 
     }
 
-    private void default_setFreqView() {
-        tvmin.setText(getResources().getString(R.string.min_cpu_freq) + CPU.getMinFreq(CPU.getDefaultcore(), true) / 1000 + " MHz");
-        tvmax.setText(getResources().getString(R.string.max_cpu_freqs) + CPU.getMaxFreq(CPU.getDefaultcore(), true) / 1000 + " MHz");
+    private void default_setFreqView(int core) {
+        tvmin.setText(getResources().getString(R.string.min_cpu_freq) + CPU.getMinFreq(core, true) / 1000 + " MHz");
+        tvmax.setText(getResources().getString(R.string.max_cpu_freqs) + CPU.getMaxFreq(core, true) / 1000 + " MHz");
         if (DEBUG) {
-            Utils.showLog("min freq - default : " + CPU.getMinFreq(CPU.getDefaultcore(), true));
-            Utils.showLog("max freq - default : " + CPU.getMaxFreq(CPU.getDefaultcore(), true));
+            Utils.showLog("min freq - default : " + CPU.getMinFreq(core, true));
+            Utils.showLog("max freq - default : " + CPU.getMaxFreq(core, true));
             Utils.showLog("ls_freqs.size " + ls_freqs.size());
         }
         mSliderFreqs_max.setAdapter(ls_freqs);
         mSliderFreqs_max.setMax(ls_freqs.size() - 1);
         mSliderFreqs_max.setOnSeekBarChangeListener(this);
-        mSliderFreqs_max.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMaxFreq(CPU.getDefaultcore(), true) / 1000)));
+        mSliderFreqs_max.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMaxFreq(core, true) / 1000)));
         mSliderFreqs_min.setAdapter(ls_freqs);
         mSliderFreqs_min.setMax(ls_freqs.size() - 1);
         mSliderFreqs_min.setOnSeekBarChangeListener(this);
-        mSliderFreqs_min.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMinFreq(CPU.getDefaultcore(), true) / 1000)));
-    }
-
-    //Slider bar cho big cluster
-
-    private LinearLayout big_sliderBarInit(LayoutInflater inflater, ViewGroup container) {
-        LinearLayout layout = new LinearLayout(getActivity());
-        layout.setPadding(16, 16, 16, 16);
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        View view_max = inflater.inflate(R.layout.slider_bar_item, container, false);
-        View view_min = inflater.inflate(R.layout.slider_bar_item, container, false);
-        tvmax_big = (TextView) view_max.findViewById(R.id.slider_bar_text);
-        mSliderFreqs_max_big = (ComboSeekBar) view_max.findViewById(R.id.freqs_slider_bar);
-        mSliderFreqs_min_big = (ComboSeekBar) view_min.findViewById(R.id.freqs_slider_bar);
-        tvmin_big = (TextView) view_min.findViewById(R.id.slider_bar_text);
-        big_setFreqView();
-        layout.addView(view_max);
-        layout.addView(view_min);
-        return layout;
-    }
-
-    private void big_getFreqLs() {
-
-        for (int freq : CPU.getFreqs()) {
-            ls_freqs_big.add(freq / 1000 + "");
-        }
-
-    }
-
-    private void big_setFreqView() {
-        tvmin_big.setText(getResources().getString(R.string.min_cpu_freq) + CPU.getMinFreq(true) / 1000 + " MHz");
-        tvmax_big.setText(getResources().getString(R.string.max_cpu_freqs) + CPU.getMaxFreq(true) / 1000 + " MHz");
-        Utils.showLog("ls_freqs.size big" + ls_freqs_big.size());
-        mSliderFreqs_max_big.setAdapter(ls_freqs_big);
-        mSliderFreqs_max_big.setMax(ls_freqs_big.size() - 1);
-        mSliderFreqs_max_big.setOnSeekBarChangeListener(this);
-        mSliderFreqs_max_big.setProgress(ls_freqs_big.indexOf(String.valueOf(CPU.getMaxFreq(true) / 1000)));
-        mSliderFreqs_min_big.setAdapter(ls_freqs_big);
-        mSliderFreqs_min_big.setMax(ls_freqs_big.size() - 1);
-        mSliderFreqs_min_big.setOnSeekBarChangeListener(this);
-        mSliderFreqs_min_big.setProgress(ls_freqs_big.indexOf(String.valueOf(CPU.getMinFreq(true) / 1000)));
-        if (DEBUG) {
-            Utils.showLog("min freq - big : " + CPU.getMinFreq(true));
-            Utils.showLog("max freq - big : " + CPU.getMaxFreq(true));
-            Utils.showLog("index of+" + String.valueOf(CPU.getMinFreq(true) / 1000) + ls_freqs_big.indexOf(String.valueOf(CPU.getMinFreq(true) / 1000)));
-        }
-
+        mSliderFreqs_min.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMinFreq(core, true) / 1000)));
     }
 
 
@@ -403,6 +350,7 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
             tvmin_big.setText(getResources().getString(R.string.min_cpu_freq) + value_big + " MHz");
         }
     }
+/*
 
     //Test - Hien tai chua xu ly dung
     private int getPos(int val) {
@@ -416,6 +364,7 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
         }
         return k;
     }
+*/
 
 
     @Override
