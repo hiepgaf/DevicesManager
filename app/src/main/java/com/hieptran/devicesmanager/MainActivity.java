@@ -2,6 +2,7 @@ package com.hieptran.devicesmanager;
 
 import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.hieptran.devicesmanager.common.SplashView;
@@ -41,7 +44,18 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+       if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+           setSupportActionBar(toolbar);
+           Window window = getWindow();
+           window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+           window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+           window.setStatusBarColor(getResources().getColor(R.color.color_primary_dark));
+       }
+        else {
+           toolbar.setVisibility(View.GONE);
+           getApplication().setTheme(android.R.style.Theme_Material_NoActionBar);
+       }
         //mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mSplashView = (SplashView) findViewById(R.id.splash_view);
