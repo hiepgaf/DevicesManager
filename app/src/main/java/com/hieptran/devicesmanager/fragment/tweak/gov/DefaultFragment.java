@@ -31,6 +31,8 @@ import com.hieptran.devicesmanager.utils.tweak.CPU;
 
 import java.util.List;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 /**
  * Created by hieptran on 11/01/2016.
  */
@@ -44,6 +46,8 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
     private List<String> ls_avai_gov;
     private ArrayAdapter<String> adap_avai_gov;
     private int mState = 0;
+    protected boolean inhibit_spinner = true;
+      MaterialDialog mSflashDialog;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
         ls_avai_gov = CPU.getAvailableGovernors(0);
         adap_avai_gov = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, ls_avai_gov);
         avai_gov.setAdapter(adap_avai_gov);
+      mSflashDialog = new MaterialDialog(getContext());
         adap_avai_gov.setNotifyOnChange(true);
         avai_gov.setOnItemSelectedListener(this);
         setStaticView();
@@ -83,11 +88,35 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        CPU.setGovernor(adap_avai_gov.getItem(position), getActivity());
-        // Toast.makeText(getContext(),String.format(getString(R.string.toast_set),_current_gov),Toast.LENGTH_LONG).show();
-        mState = 1;
-        setStaticView();
-        getActivity().invalidateOptionsMenu();
+        if (inhibit_spinner) {
+            inhibit_spinner = false;
+            CPU.setGovernor(adap_avai_gov.getItem(position), getActivity());
+
+        }else {
+            mSflashDialog = new MaterialDialog(getContext())
+                    .setTitle("Set Governor")
+                    .setMessage("Change governor to " + ls_avai_gov.get(position) + "?")
+                    .setPositiveButton("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mState = 1;
+                            setStaticView();
+                            getActivity().invalidateOptionsMenu();
+                            updateView();
+                            mSflashDialog.dismiss();
+
+                        }
+                    })
+                    .setNegativeButton("CANCEL", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mSflashDialog.dismiss();
+                        }
+                    });
+            mSflashDialog.show();
+            CPU.setGovernor(adap_avai_gov.getItem(position), getActivity());
+
+        }
     }
 
     private void updateView() {

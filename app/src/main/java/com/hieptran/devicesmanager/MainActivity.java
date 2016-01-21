@@ -21,9 +21,11 @@ import android.widget.Toast;
 
 import com.hieptran.devicesmanager.common.SplashView;
 import com.hieptran.devicesmanager.common.root.RootUtils;
+import com.hieptran.devicesmanager.fragment.others.SettingFragment;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.GOVTweakFragment;
+import com.hieptran.devicesmanager.utils.Utils;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -53,8 +55,11 @@ public class MainActivity extends AppCompatActivity
            window.setStatusBarColor(getResources().getColor(R.color.color_primary_dark));
        }
         else {
-           toolbar.setVisibility(View.GONE);
+           //getSupportActionBar().hide();
+           setSupportActionBar(toolbar);
+/*
            getApplication().setTheme(android.R.style.Theme_Material_NoActionBar);
+*/
        }
         //mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -80,7 +85,10 @@ public class MainActivity extends AppCompatActivity
         mSflashDialog.show();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        if(Utils.DARK) {
+            drawer.setBackgroundColor(getResources().getColor(R.color.card_background_dark));
+            mSflashDialog.setBackgroundResource(R.color.card_background_dark);
+        }
     }
 
 
@@ -122,20 +130,28 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        setTitle("Phone Info");
+
 /*
         if (mScrimInsetsFrameLayout != null) drawer.closeDrawer(mScrimInsetsFrameLayout);
 */
         if (id == R.id.nav_devices_menu) {
             Fragment phone_info_fragment = new PhoneInfoFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, phone_info_fragment).commit();
+            setTitle(getString(R.string.nav_devices));
         } else if (id == R.id.nav_cpu_tw) {
             Fragment cpu_tw = new CPUTweakFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, cpu_tw).commit();
+            setTitle(getString(R.string.nav_cpu));
 
         } else if (id == R.id.nav_governor_tw) {
             Fragment gov_tw = new GOVTweakFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, gov_tw).commit();
+            setTitle(getString(R.string.nav_gov));
+        } else if (id == R.id.nav_setting) {
+            Fragment setting = new SettingFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
+            setTitle(getString(R.string.nav_gov));
+            setTitle(getString(R.string.nav_setting));
 
         }
 

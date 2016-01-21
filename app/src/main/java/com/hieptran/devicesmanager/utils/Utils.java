@@ -17,6 +17,8 @@ import com.hieptran.devicesmanager.R;
  * Created by hieptran on 09/01/2016.
  */
 public class Utils implements Const {
+    //Provide changing theme
+    public static boolean DARK = false;
     //Show log
     public static void showLog(String msg) {
         Log.d(Const.TAG, msg);

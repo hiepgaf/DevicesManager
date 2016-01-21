@@ -52,7 +52,7 @@ public class DeviceFragment extends Fragment {
                             //publishProgress(String.valueOf(twoDecimalForm.format(memInfo.availMem / 1048576)));
                             double tmp = memInfo.availMem / 1048576;
                             String tmp_str;
-                            if (tmp > 1024) {
+                           if (tmp > 1024) {
                                 tmp = tmp / 1024;
                                 tmp_str = String.valueOf(twoDecimalForm.format(tmp)) + " GB";
                             } else

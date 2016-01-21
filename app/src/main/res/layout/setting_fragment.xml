@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:slideswitch="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/RelativeLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="@dimen/card_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="start"
+            android:text="DARK THEME" />
+
+        <com.leaking.slideswitch.SlideSwitch
+            android:id="@+id/switch_dark"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            slideswitch:shape="circle"
+            android:layout_alignParentRight="true"
+
+            slideswitch:themeColor="#f200aa96" >
+        </com.leaking.slideswitch.SlideSwitch>
+    </RelativeLayout>
+
+</LinearLayout>
