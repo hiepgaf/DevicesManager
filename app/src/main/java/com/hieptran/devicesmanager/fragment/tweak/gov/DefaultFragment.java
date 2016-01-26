@@ -37,28 +37,33 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by hieptran on 11/01/2016.
  */
 public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSelectedListener {
+    protected boolean inhibit_spinner = true;
     LinearLayout main_vertical_view;
     MenuItem item_refresh;
     Handler hand;
+    MaterialDialog mSflashDialog;
+    int mCores;
     private String _current_gov;
     private TextView tv_current_gov;
     private Spinner avai_gov;
     private List<String> ls_avai_gov;
     private ArrayAdapter<String> adap_avai_gov;
     private int mState = 0;
-    protected boolean inhibit_spinner = true;
-      MaterialDialog mSflashDialog;
+
+    public DefaultFragment(int core) {
+        mCores = core;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.gov_tw,container,false);
+        View v = inflater.inflate(R.layout.gov_tw, container, false);
         tv_current_gov = (TextView) v.findViewById(R.id.current_gov);
         avai_gov = (Spinner) v.findViewById(R.id.available_gov_spinner);
         main_vertical_view = (LinearLayout) v.findViewById(R.id.main_vertical_view);
-        ls_avai_gov = CPU.getAvailableGovernors(0);
+        ls_avai_gov = CPU.getAvailableGovernors(mCores);
         adap_avai_gov = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, ls_avai_gov);
         avai_gov.setAdapter(adap_avai_gov);
-      mSflashDialog = new MaterialDialog(getContext());
+        mSflashDialog = new MaterialDialog(getContext());
         adap_avai_gov.setNotifyOnChange(true);
         avai_gov.setOnItemSelectedListener(this);
         setStaticView();
@@ -74,7 +79,7 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
     }
 
     private void setStaticView() {
-        _current_gov = Utils.readFile(String.format(CPU_SCALING_GOVERNOR, 0));
+        _current_gov = CPU.getCurGovernor(mCores, true);
         tv_current_gov.setText("\t\t" + _current_gov);
         avai_gov.setSelection(ls_avai_gov.indexOf(_current_gov));
         //updateView();
@@ -92,7 +97,7 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
             inhibit_spinner = false;
             CPU.setGovernor(adap_avai_gov.getItem(position), getActivity());
 
-        }else {
+        } else {
             mSflashDialog = new MaterialDialog(getContext())
                     .setTitle("Set Governor")
                     .setMessage("Change governor to " + ls_avai_gov.get(position) + "?")
@@ -151,7 +156,7 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
 
     public String getPath() {
         return getPath(CPU.isBigCluster() ? String.format(CPU_GOVERNOR_TUNABLES_CORE, 4) :
-                CPU_GOVERNOR_TUNABLES, CPU.getCurGovernor(0, true));
+                String.format(CPU_GOVERNOR_TUNABLES_CORE, 0), CPU.getCurGovernor(mCores, true));
     }
 
     private String getPath(String path, String governor) {

@@ -1,7 +1,6 @@
 package com.hieptran.devicesmanager.fragment.tweak.cpu;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -66,16 +65,6 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
     private WaveLoadingView mUsageCircle;
     private boolean isHaveBigCluster = CPU.isBigCluster();
     private int mCore;
-    /**
-     * Thay doi cau truc ham khoi tao
-     * @param core day vao core bat dau cua cluster
-     */
-    public GeneralFragment(int core) {
-        this.mCore =core;
-    }
-
-
-
     private final Runnable cpuUsage = new Runnable() {
         @Override
         public void run() {
@@ -171,6 +160,16 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
         }
     };
 
+
+    /**
+     * Thay doi cau truc ham khoi tao
+     *
+     * @param core day vao core bat dau cua cluster
+     */
+    public GeneralFragment(int core) {
+        this.mCore = core;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,7 +184,11 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
 
         //layout.addView(v2);
         //
-        mCoreCheckBox = new SwitchCompat[CPU.getDefaultCoreRange().size()];
+        if (mCore == 0) {
+            mCoreCheckBox = new SwitchCompat[CPU.getDefaultCoreRange().size()];
+        } else
+            mCoreCheckBox = new SwitchCompat[CPU.getBigCoreRange().size()];
+
         mCoreUsageText = new CircleChart[mCoreCheckBox.length];
         mCoreLable = new TextView[mCoreCheckBox.length];
         mCoreFreqText = new AppCompatTextView[mCoreCheckBox.length];
@@ -248,15 +251,15 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setPadding(16, 16, 16, 16);
         layout.setOrientation(LinearLayout.VERTICAL);
-      /*  View v = inflater.inflate(R.layout.cpu_tw_item, container, false);
-        ScrollView scrollView = (ScrollView) v.findViewById(R.id.cpu_scrollView);*/
+        View v = inflater.inflate(R.layout.cpu_tw_item, container, false);
+        ScrollView scrollView = (ScrollView) v.findViewById(R.id.cpu_scrollView);
         layout.addView(defaultCoreInit(inflater, container));
         layout.addView(default_sliderBarInit(inflater, container));
-/*
+
         scrollView.addView(layout);
-*/
+
         //return super.onCreateView(inflater, container, savedInstanceState);
-        return layout;
+        return v;
     }
 
     @Override

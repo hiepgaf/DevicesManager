@@ -15,7 +15,7 @@ public class PhoneInfoFragment extends ViewPagerFragment {
         super.init(savedInstanceState);
         addFragment(new ViewPagerItemCommon(new DeviceFragment(), getString(R.string.pif_devices)));
         addFragment(new ViewPagerItemCommon(new CPUInfoFragment(), getString(R.string.pif_cpu)));
-        addFragment(new ViewPagerItemCommon(new DeviceFragment(), getString(R.string.pif_devices)));
+        //  addFragment(new ViewPagerItemCommon(new DeviceFragment(), getString(R.string.pif_devices)));
 
     }
 }

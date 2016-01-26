@@ -1,31 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<ScrollView
+<?xml version="1.0" encoding="utf-8"?><!--<ScrollView
 
     android:layout_width="match_parent"
     android:layout_height="match_parent">-->
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
+    <FrameLayout
+        android:id="@+id/fragment_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
+        android:paddingBottom="5dp"
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingStart="16dp"
         android:paddingTop="16dp">
 
-
+        <TextView
+            android:id="@+id/text"
+            style="@style/header_style"
+            android:text="@string/cpu_load" />
 
         <me.itangqi.waveloadingview.WaveLoadingView
             android:id="@+id/waveLoadingView"
@@ -36,24 +42,20 @@
             android:padding="5dp"
             app:mlv_borderWidth="1dp"
             app:mlv_shapeType="circle"
-            app:mlv_titleCenterSize="30sp"
-            app:mlv_waveAmplitude="20" />
+            app:mlv_titleCenterSize="24sp"
+            app:mlv_waveAmplitude="80" />
 
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:text="@string/cpu_load"
-            android:textSize="20sp" />
+        <!-- <TextView
+             android:id="@+id/text"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="20dp"
+             android:layout_marginStart="20dp"
+             android:text="@string/cpu_load"
+             android:textSize="20sp" />-->
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8" />
+
 </LinearLayout>
