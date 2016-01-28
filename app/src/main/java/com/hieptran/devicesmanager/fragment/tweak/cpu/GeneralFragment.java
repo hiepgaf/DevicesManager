@@ -300,8 +300,11 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
     }
 
     private void default_setFreqView(int core) {
+        Log.d("HiepTHb", "check1");
         tvmin.setText(getResources().getString(R.string.min_cpu_freq) + CPU.getMinFreq(core, true) / 1000 + " MHz");
         tvmax.setText(getResources().getString(R.string.max_cpu_freqs) + CPU.getMaxFreq(core, true) / 1000 + " MHz");
+        Log.d("HiepTHb", "check2");
+
         if (DEBUG) {
             Utils.showLog("min freq - default : " + CPU.getMinFreq(core, true));
             Utils.showLog("max freq - default : " + CPU.getMaxFreq(core, true));
@@ -310,11 +313,15 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
         mSliderFreqs_max.setAdapter(ls_freqs);
         mSliderFreqs_max.setMax(ls_freqs.size() - 1);
         mSliderFreqs_max.setOnSeekBarChangeListener(this);
+        Log.d("HiepTHb", "check3");
+
         mSliderFreqs_max.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMaxFreq(core, true) / 1000)));
         mSliderFreqs_min.setAdapter(ls_freqs);
         mSliderFreqs_min.setMax(ls_freqs.size() - 1);
         mSliderFreqs_min.setOnSeekBarChangeListener(this);
         mSliderFreqs_min.setProgress(ls_freqs.indexOf(String.valueOf(CPU.getMinFreq(core, true) / 1000)));
+        Log.d("HiepTHb", "check4");
+
     }
 
 

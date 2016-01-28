@@ -6,7 +6,7 @@ import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.common.ViewPagerItemCommon;
 import com.hieptran.devicesmanager.fragment.ViewPagerFragment;
 import com.hieptran.devicesmanager.fragment.tweak.gov.DefaultFragment;
-import com.hieptran.devicesmanager.fragment.tweak.gov.IOFragment;
+import com.hieptran.devicesmanager.fragment.tweak.gov.HotPlugFragment;
 import com.hieptran.devicesmanager.utils.tweak.CPU;
 
 /**
@@ -19,7 +19,7 @@ public class GOVTweakFragment extends ViewPagerFragment {
         String default_title = getString(R.string.tunning);
 
         addFragment(new ViewPagerItemCommon(new BigLitteGovFrag(), default_title));
-        addFragment(new ViewPagerItemCommon(new IOFragment(), "IOFragment"));
+        addFragment(new ViewPagerItemCommon(new HotPlugFragment(), "HotPlugFragment"));
 
     }
 

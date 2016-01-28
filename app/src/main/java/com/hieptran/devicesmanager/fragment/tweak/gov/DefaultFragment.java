@@ -53,6 +53,7 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
     public DefaultFragment(int core) {
         mCores = core;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,7 +120,11 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
                         }
                     });
             mSflashDialog.show();
-            CPU.setGovernor(adap_avai_gov.getItem(position), getActivity());
+            if (mCores == CPU.getBigCore())
+                CPU.setGovernor(adap_avai_gov.getItem(position), getActivity());
+            else
+                CPU.setGovernor(CommandControl.CommandType.CPU_LITTLE, adap_avai_gov.getItem(position), getActivity());
+
 
         }
     }
@@ -156,7 +161,7 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
 
     public String getPath() {
         return getPath(CPU.isBigCluster() ? String.format(CPU_GOVERNOR_TUNABLES_CORE, 4) :
-                String.format(CPU_GOVERNOR_TUNABLES_CORE, 0), CPU.getCurGovernor(mCores, true));
+                CPU_GOVERNOR_TUNABLES, CPU.getCurGovernor(mCores, true));
     }
 
     private String getPath(String path, String governor) {
@@ -191,7 +196,13 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
                 }).setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                CommandControl.runCommand(editText.getText().toString(), file, CommandControl.CommandType.GENERIC, getActivity());
+                if (mCores == CPU.getBigCore()) {
+                    Log.d("HiepTHb", "BigCore - set param");
+                    CommandControl.runCommand(editText.getText().toString(), file, CommandControl.CommandType.CPU, getActivity());
+                } else {
+                    Log.d("HiepTHb", "BigCore - set param");
+                    CommandControl.runCommand(editText.getText().toString(), file, CommandControl.CommandType.GENERIC, getActivity());
+                }
                 updateView();
             }
         }).show();

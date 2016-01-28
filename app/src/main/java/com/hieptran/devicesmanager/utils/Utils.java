@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hieptran.devicesmanager.R;
+import com.hieptran.devicesmanager.common.root.RootUtils;
 
 
 /**
@@ -84,4 +85,21 @@ public class Utils implements Const {
         LayoutInflater inf = LayoutInflater.from(mActivity);
         return inf.inflate(id, parent, false);
     }
+
+    public static boolean isPropActive(String key) {
+        try {
+            return RootUtils.runCommand("getprop | grep " + key).split("]:")[1].contains("running");
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    public static boolean hasProp(String key) {
+        try {
+            return RootUtils.runCommand("getprop | grep " + key).split("]:").length > 1;
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
 }
