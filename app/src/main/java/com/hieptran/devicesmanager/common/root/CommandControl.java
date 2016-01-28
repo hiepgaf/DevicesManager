@@ -107,6 +107,11 @@ public class CommandControl implements Const {
                     }
 */
                     List<Integer> range = command == CommandType.CPU ? CPU.getBigCoreRange() : CPU.getDefaultCoreRange();
+                    for (int i:range
+                         ) {
+                        Log.d("HiepTHb","Check range: " + i);
+
+                    }
                     for (int i = 0; i < range.size(); i++) {
                         if (i != 0)
                             CommandControl.run(String.format("echo 1 > " + CPU_CORE_ONLINE, i),
