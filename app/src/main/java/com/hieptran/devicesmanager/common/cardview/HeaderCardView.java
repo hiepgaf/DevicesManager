@@ -22,10 +22,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.grarak.kerneladiutor.R;
+import com.hieptran.devicesmanager.R;
+
 
 /**
- * Created by willi on 25.12.14.
+ * Created by hieptran
  */
 public class HeaderCardView {
 
