@@ -7,6 +7,7 @@ import com.hieptran.devicesmanager.common.ViewPagerItemCommon;
 import com.hieptran.devicesmanager.fragment.ViewPagerFragment;
 import com.hieptran.devicesmanager.fragment.tweak.gov.DefaultFragment;
 import com.hieptran.devicesmanager.fragment.tweak.gov.HotPlugFragment;
+import com.hieptran.devicesmanager.fragment.tweak.gov.IOFragment;
 import com.hieptran.devicesmanager.utils.tweak.CPU;
 
 /**
@@ -20,10 +21,10 @@ public class GOVTweakFragment extends ViewPagerFragment {
 
         addFragment(new ViewPagerItemCommon(new BigLitteGovFrag(), default_title));
         addFragment(new ViewPagerItemCommon(new HotPlugFragment(), "HotPlugFragment"));
-
+        addFragment(new ViewPagerItemCommon(new IOFragment(),"IO"));
     }
 
-    class BigLitteGovFrag extends ViewPagerFragment {
+    public static class BigLitteGovFrag extends ViewPagerFragment {
         @Override
         public void init(Bundle savedInstanceState) {
             super.init(savedInstanceState);

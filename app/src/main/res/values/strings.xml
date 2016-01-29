@@ -197,5 +197,14 @@
     <string name="cycle_down_summary">Cycles to wait after the last hotplug event to unplug another core.</string>
     <string name="cycle_up">Cycle Up</string>
     <string name="cycle_up_summary">Cycles to wait after the last hotplug event to plug another core.</string>
+    <!-- I/O Scheduler -->
+    <string name="internal_storage">Internal Storage</string>
+    <string name="external_storage">External Storage</string>
+    <string name="scheduler">Scheduler</string>
+    <string name="scheduler_summary">Set the active I/O elevator algorithm. The Scheduler decides how to handle I/O requests.</string>
+    <string name="scheduler_tunable">Scheduler Tunable</string>
+    <string name="scheduler_tunable_summary">The various configuration items which are Scheduler-dependent.</string>
+    <string name="read_ahead">Read-ahead</string>
+    <string name="read_ahead_summary">The Read-ahead value on the phone memory.</string>
 
 </resources>
