@@ -25,13 +25,16 @@ import com.hieptran.devicesmanager.fragment.others.SettingFragment;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.GOVTweakFragment;
+import com.hieptran.devicesmanager.fragment.tweak.profile.ProfileFragment;
 import com.hieptran.devicesmanager.utils.Utils;
 
 import me.drakeet.materialdialog.MaterialDialog;
-
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     boolean pressAgain = true;
     ActionBarDrawerToggle toggle;
@@ -39,13 +42,27 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     SplashView mSplashView;
     Handler hand;
+    AdView mAdView;
+    AdRequest adRequest;
     //private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
     MaterialDialog mSflashDialog;
+    private InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+         mAdView = (AdView) findViewById(R.id.adView);
+         adRequest = new AdRequest.Builder().build();
+        mInterstitialAd = new InterstitialAd(this);
+        // Defined in res/values/strings.xml
+        mInterstitialAd.setAdUnitId(getString(R.string.splash_banner_));
+        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Toast.makeText(this, "Ad did not load", Toast.LENGTH_SHORT).show();
+            //startGame();
+        }
 
        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
            setSupportActionBar(toolbar);
@@ -63,7 +80,7 @@ public class MainActivity extends AppCompatActivity
        }
         //mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mSplashView = (SplashView) findViewById(R.id.splash_view);
+       // mSplashView = (SplashView) findViewById(R.id.splash_view);
         mSflashDialog = new MaterialDialog(this)
                 .setTitle("MaterialDialog")
                 .setMessage("Hello world!")
@@ -95,7 +112,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         Log.d("HiepTHb", "onBackPressed");
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             pressAgain = false;
@@ -154,15 +171,34 @@ public class MainActivity extends AppCompatActivity
             setTitle(getString(R.string.nav_setting));
 
         }
+        else if (id == R.id.nav_set_pr) {
+            Fragment setting = new ProfileFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        }
+
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void setInterface() {
         if (drawer != null) {
-            toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0);
+            toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0){
+                @Override
+                public void onDrawerClosed(View view) {
+                    invalidateOptionsMenu();
+                    mAdView.removeAllViews();
+                }
+
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    invalidateOptionsMenu();
+                    mAdView.loadAd(adRequest);
+
+                }
+            };
             drawer.setDrawerListener(toggle);
 
             drawer.post(new Runnable() {
@@ -207,12 +243,13 @@ public class MainActivity extends AppCompatActivity
             if (hasRoot) {
                 mSflashDialog.dismiss();
 
-                mSplashView.finish();
-
+          //      mSplashView.finish();
+                mAdView.removeAllViews();
                 setInterface();
                 return;
             }
 
         }
     }
+
 }

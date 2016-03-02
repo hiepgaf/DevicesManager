@@ -207,4 +207,8 @@
     <string name="read_ahead">Read-ahead</string>
     <string name="read_ahead_summary">The Read-ahead value on the phone memory.</string>
 
+    <!-- Ads -->
+    <string name="banner_ad_unit_id">ca-app-pub-6458726730142231/7337464904</string>
+    <string name="splash_banner_">ca-app-pub-6458726730142231/1290931308</string>
+
 </resources>

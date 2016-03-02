@@ -24,17 +24,17 @@
                 android:id="@+id/nav_rom_tw"
                 android:checkable="true"
                 android:icon="@drawable/ic_perm_device_information_2x"
-                android:title="@string/tmp_str" />
+                android:title="Profile" />
         </menu>
     </item>
     <item android:title="@string/tmp_str">
 
         <menu>
             <item
-                android:id="@+id/nav_share_menu"
+                android:id="@+id/nav_set_pr"
                 android:checkable="true"
                 android:icon="@drawable/ic_perm_device_information_2x"
-                android:title="@string/tmp_str" />
+                android:title="Profile" />
             <item
                 android:id="@+id/nav_bug_report_menu"
                 android:checkable="true"
