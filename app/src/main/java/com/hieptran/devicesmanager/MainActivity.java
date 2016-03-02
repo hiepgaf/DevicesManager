@@ -23,6 +23,7 @@ import com.hieptran.devicesmanager.common.SplashView;
 import com.hieptran.devicesmanager.common.root.RootUtils;
 import com.hieptran.devicesmanager.fragment.others.SettingFragment;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
+import com.hieptran.devicesmanager.fragment.tweak.BatteryFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.GOVTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.profile.ProfileFragment;
@@ -170,6 +171,11 @@ public class MainActivity extends AppCompatActivity
             setTitle(getString(R.string.nav_gov));
             setTitle(getString(R.string.nav_setting));
 
+        }
+        else if (id == R.id.nav_battery_tw) {
+            Fragment bat_tw = new BatteryFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, bat_tw).commit();
+            setTitle(getString(R.string.battery));
         }
         else if (id == R.id.nav_set_pr) {
             Fragment setting = new ProfileFragment();

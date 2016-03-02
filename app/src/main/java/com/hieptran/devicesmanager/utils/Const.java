@@ -738,4 +738,8 @@ public interface Const {
     // Init.d
     String INITD = "/system/etc/init.d";
 
+    //Battery
+    String BATTERY_CURRENT_NOW = "/sys/class/power_supply/battery/current_now";
+    String BATTERY_VOLTAGE_NOW = "/sys/class/power_supply/battery/voltage_now";
+
 }

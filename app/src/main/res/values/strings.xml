@@ -210,5 +210,8 @@
     <!-- Ads -->
     <string name="banner_ad_unit_id">ca-app-pub-6458726730142231/7337464904</string>
     <string name="splash_banner_">ca-app-pub-6458726730142231/1290931308</string>
-
+    <!--Battery-->
+    <string name="battery">Battery</string>
+    <string name="battery_info">Battery Info</string>
+    <string name="power_info">Power Info</string>
 </resources>

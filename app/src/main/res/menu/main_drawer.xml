@@ -21,10 +21,10 @@
                 android:icon="@drawable/ic_perm_device_information_2x"
                 android:title="@string/nav_gov" />
             <item
-                android:id="@+id/nav_rom_tw"
+                android:id="@+id/nav_battery_tw"
                 android:checkable="true"
                 android:icon="@drawable/ic_perm_device_information_2x"
-                android:title="Profile" />
+                android:title="@string/battery" />
         </menu>
     </item>
     <item android:title="@string/tmp_str">

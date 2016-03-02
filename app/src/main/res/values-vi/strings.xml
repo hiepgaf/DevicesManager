@@ -59,4 +59,8 @@
     <string name="toast_set">Đặt %1$s thành công</string>
     <string name="cpu_info_title">Thông tin chi tiết</string>
     <string name="kernel_info_title">Thông tin Kernel</string>
+    <string name="battery">Pin</string>
+    <string name="battery_info">Thông tin pin</string>
+    <string name="power_info">Thông tin năng lượng</string>
+    <string name="powersaver_mode">Chế độ tiết kiệm năng lượng</string>
 </resources>

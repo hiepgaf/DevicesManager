@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<TextView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="@string/tmp_str"/>
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/voltage_now_tv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/tmp_str" />
+
+    <TextView
+        android:id="@+id/current_now_tv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/tmp_str" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:stretchColumns="0,1">
+
+        <TableRow>
+
+            <TextView
+                style="@style/header_style"
+                android:text="Voltage now"></TextView>
+
+            <TextView
+                style="@style/header_style"
+                android:text="Current now"></TextView>
+        </TableRow>
+
+    </TableLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:id="@+id/voltage_now_lv"></ListView>
+
 </LinearLayout>

@@ -18,8 +18,9 @@
         android:layout_height="wrap_content"
         app:mlv_borderWidth="1dp"
         app:mlv_shapeType="circle"
+        app:mlv_waveColor="@color/color_primary"
         app:mlv_titleCenterSize="30sp"
-        app:mlv_waveAmplitude="20" />
+        app:mlv_waveAmplitude="50" />
 
 
     <TextView
