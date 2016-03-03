@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FF1a64d7</color>
-    <color name="colorPrimaryDark">#ff1aaad7</color>
+    <color name="colorPrimaryDark">#FF0000</color>
     <color name="colorAccent">#ff1a64d7</color>
     <color name="semi_transparent">#26000000</color>
 
     <color name="color_primary">#ff1a64d7</color>
-    <color name="color_primary_dark">#ff1a64d7</color>
+    <color name="color_primary_dark">#FF0000</color>
     <color name="color_primary_light">#ff1a64d7</color>
 
     <color name="statusbar_color">@color/color_primary_dark</color>

@@ -35,6 +35,8 @@ import com.hieptran.devicesmanager.R;
 /**
  * Created by HiepTran on 09.03.15.
  */
+//Todo: View hiển thị khi thiết lập các môi trường ban đầu, lấy quyền root từ thiết bị
+
 public class SplashView extends View {
 
 

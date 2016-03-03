@@ -30,12 +30,13 @@ import com.hieptran.devicesmanager.fragment.tweak.profile.ProfileFragment;
 import com.hieptran.devicesmanager.utils.Utils;
 
 import me.drakeet.materialdialog.MaterialDialog;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     boolean pressAgain = true;
     ActionBarDrawerToggle toggle;
@@ -48,13 +49,14 @@ public class MainActivity extends AppCompatActivity
     //private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
     MaterialDialog mSflashDialog;
     private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-         mAdView = (AdView) findViewById(R.id.adView);
-         adRequest = new AdRequest.Builder().build();
+        mAdView = (AdView) findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder().build();
         mInterstitialAd = new InterstitialAd(this);
         // Defined in res/values/strings.xml
         mInterstitialAd.setAdUnitId(getString(R.string.splash_banner_));
@@ -65,24 +67,24 @@ public class MainActivity extends AppCompatActivity
             //startGame();
         }
 
-       if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-           setSupportActionBar(toolbar);
-           Window window = getWindow();
-           window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-           window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-           window.setStatusBarColor(getResources().getColor(R.color.color_primary_dark));
-       }
-        else {
-           //getSupportActionBar().hide();
-           setSupportActionBar(toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSupportActionBar(toolbar);
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.color_primary_dark));
+        } else {
+            //getSupportActionBar().hide();
+            setSupportActionBar(toolbar);
 /*
            getApplication().setTheme(android.R.style.Theme_Material_NoActionBar);
 */
-       }
+        }
         //mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-       // mSplashView = (SplashView) findViewById(R.id.splash_view);
-        mSflashDialog = new MaterialDialog(this)
+        mSplashView = (SplashView) findViewById(R.id.splash_view);
+        new Task().execute();
+      /*  mSflashDialog = new MaterialDialog(this)
                 .setTitle("MaterialDialog")
                 .setMessage("Hello world!")
                 .setPositiveButton("OK", new View.OnClickListener() {
@@ -100,12 +102,13 @@ public class MainActivity extends AppCompatActivity
                         finish();
                     }
                 });
-        mSflashDialog.show();
+        mSflashDialog.show();*/
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        if(Utils.DARK) {
-            drawer.setBackgroundColor(getResources().getColor(R.color.card_background_dark));
-            mSflashDialog.setBackgroundResource(R.color.card_background_dark);
+        if (Utils.DARK) {
+            super.setTheme(R.style.AppThemeDark);
+           // drawer.setBackgroundColor(getResources().getColor(R.color.card_background_dark));
+          //  mSflashDialog.setBackgroundResource(R.color.card_background_dark);
         }
     }
 
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             pressAgain = false;
-            Toast.makeText(this,"press back again to leave",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "press back again to leave", Toast.LENGTH_LONG).show();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -134,6 +137,7 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -171,13 +175,11 @@ public class MainActivity extends AppCompatActivity
             setTitle(getString(R.string.nav_gov));
             setTitle(getString(R.string.nav_setting));
 
-        }
-        else if (id == R.id.nav_battery_tw) {
+        } else if (id == R.id.nav_battery_tw) {
             Fragment bat_tw = new BatteryFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, bat_tw).commit();
             setTitle(getString(R.string.battery));
-        }
-        else if (id == R.id.nav_set_pr) {
+        } else if (id == R.id.nav_set_pr) {
             Fragment setting = new ProfileFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
 
@@ -191,7 +193,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setInterface() {
         if (drawer != null) {
-            toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0){
+            toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0) {
                 @Override
                 public void onDrawerClosed(View view) {
                     invalidateOptionsMenu();
@@ -215,6 +217,7 @@ public class MainActivity extends AppCompatActivity
             });
         }
     }
+
     public interface OnBackButtonListener {
         boolean onBackPressed();
     }
@@ -247,9 +250,8 @@ public class MainActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
 
             if (hasRoot) {
-                mSflashDialog.dismiss();
-
-          //      mSplashView.finish();
+               // mSflashDialog.dismiss();
+                mSplashView.finish();
                 mAdView.removeAllViews();
                 setInterface();
                 return;

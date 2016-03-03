@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 /**
  * Created by hieptran on 02/02/2016.
  */
-public class ProfileService extends Service {
+public class DumpLogService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
