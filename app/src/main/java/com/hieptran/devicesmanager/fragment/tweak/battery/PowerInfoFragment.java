@@ -109,18 +109,14 @@ public class PowerInfoFragment extends Fragment implements Const{
 
                             try {
                                 mPowerProfile_ = Class.forName(POWER_PROFILE_CLASS)
-                                        .getConstructor(Context.class).newInstance(this);
+                                        .getConstructor(Context.class).newInstance(getContext());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
                             try {
-                                 batteryCapacity = (Double) Class
-                                        .forName(POWER_PROFILE_CLASS)
-                                        .getMethod("getAveragePower", java.lang.String.class)
-                                        .invoke(mPowerProfile_, "battery.capacity");
-                                Toast.makeText(getActivity(), batteryCapacity + " mah",
-                                        Toast.LENGTH_LONG).show();
+                                 batteryCapacity = (Double)Class.forName(POWER_PROFILE_CLASS).getMethod("getAveragePower", java.lang.String.class).invoke(mPowerProfile_, "battery.capacity");
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

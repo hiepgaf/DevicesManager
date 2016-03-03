@@ -22,17 +22,25 @@ import me.itangqi.waveloadingview.WaveLoadingView;
  * Created by hieptran on 02/03/2016.
  */
 public class BatteryInfoFragment extends Fragment{
-    private WaveLoadingView waveLevelView;
+    private WaveLoadingView waveLevelView,realLv;
     private TextView lvText;
     private TextView voltageText;
-    private TextView tempText;
+    private TextView tempText,totalPw;
+    public static int level,voltage;
+    double totalPower,currentPower;
+    double realLevel;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        View v = inflater.inflate(R.layout.battery_info_fragment,container,false);
         waveLevelView = (WaveLoadingView) v.findViewById(R.id.waveLoadingView);
+        totalPw = (TextView) v.findViewById(R.id.totalpower);
+        realLv = (WaveLoadingView) v.findViewById(R.id.reallv);
+        totalPower = 3.7 * 2300;
         lvText = (TextView) v.findViewById(R.id.text);
         lvText.setText("Battery Level");
+        totalPw.setText("Total: "+String.valueOf(totalPower)+ " mWh");
+
         voltageText = (TextView) v.findViewById(R.id.bat_vol);
         try {
             getActivity().registerReceiver(mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
@@ -43,12 +51,24 @@ public class BatteryInfoFragment extends Fragment{
     private final BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context arg0, Intent intent) {
-            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-            int voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0);
-            int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0);
+             level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+            voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0);
+            int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                    status == BatteryManager.BATTERY_STATUS_FULL;
 
-            waveLevelView.setProgressValue(100-level);
-          //  waveLevelView.setWaveColor(Color.GREEN);
+            int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0);
+            currentPower = voltage * level * 2.3;
+            realLevel  = (currentPower/totalPower);
+            realLv.setProgressValue(100 - (int) (realLevel));
+            realLv.setCenterTitle(String.format("%.2f", currentPower / 100) + " mW\n");
+            realLv.setTopTitle(String.format("%.2f", realLevel) + " %");
+            if(!isCharging)
+                waveLevelView.setAmplitudeRatio(1);
+            else waveLevelView.setAmplitudeRatio(50);
+                waveLevelView.setProgressValue(100-level);
+
+            //  waveLevelView.setWaveColor(Color.GREEN);
             waveLevelView.setCenterTitle(level+" %");
             voltageText.setText("Battery Voltage "+voltage + "    mV");
 

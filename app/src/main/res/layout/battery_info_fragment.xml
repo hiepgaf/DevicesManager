@@ -2,10 +2,82 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/usage_view_item"></include>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp">
+
+        <me.itangqi.waveloadingview.WaveLoadingView
+            android:id="@+id/waveLoadingView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mlv_borderWidth="1dp"
+            app:mlv_shapeType="circle"
+            app:mlv_waveColor="@color/color_primary"
+            app:mlv_titleCenterSize="15sp"
+            app:mlv_waveAmplitude="50" />
+
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/cpu_load"
+            android:textSize="15sp" />
+
+    </LinearLayout>
     <TextView
         android:id="@+id/bat_vol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/cpu_load"
+        android:textSize="15sp" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/tmp_str"/>
+        android:layout_height="200dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp">
+
+        <me.itangqi.waveloadingview.WaveLoadingView
+            android:id="@+id/reallv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mlv_borderWidth="1dp"
+            app:mlv_shapeType="circle"
+            app:mlv_titleTopSize="15sp"
+            app:mlv_waveColor="@color/color_primary"
+            app:mlv_titleCenterSize="15sp"
+            app:mlv_waveAmplitude="50" />
+
+
+        <TextView
+            android:id="@+id/totalpower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/cpu_load"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
 </LinearLayout>
