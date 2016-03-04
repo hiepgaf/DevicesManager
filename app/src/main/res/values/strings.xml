@@ -214,4 +214,11 @@
     <string name="battery">Battery</string>
     <string name="battery_info">Battery Info</string>
     <string name="power_info">Power Info</string>
+    <string name="start_record">Start Record</string>
+
+    <!--Profile-->
+    <string name="set_profile">Set %s profile successful</string>
+    <string name="bat_lv_prf">Battery Level</string>
+    <string name="pw_plug_prf">Power Plug</string>
+    <string name="scr_state_prf">Screen State</string>
 </resources>

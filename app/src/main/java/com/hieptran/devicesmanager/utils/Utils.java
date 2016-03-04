@@ -3,6 +3,7 @@ package com.hieptran.devicesmanager.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -12,6 +13,9 @@ import android.view.ViewGroup;
 
 import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.common.root.RootUtils;
+
+import java.io.File;
+import java.io.FileWriter;
 
 
 /**
@@ -100,6 +104,32 @@ public class Utils implements Const {
         } catch (Exception ignored) {
             return false;
         }
+    }
+    public static void writeToSdcard(String name,String content) {
+        File wearableOsDir = new File("/sdcard/WearableOS/");
+        wearableOsDir.mkdirs();
+        File output = new File(wearableOsDir,name);
+        FileWriter writer= null;
+        try {
+            writer = new FileWriter(output,true);
+            writer.write(content);
+            writer.flush();
+        } catch (Exception ex) {
+            Log.e("HiepTHb", ex.getMessage());
+        }
+        finally {
+            try {
+                if(writer != null ) writer.close();
+            }
+            catch (Exception e) {
+
+            }
+        }
+    }
+    public static void sendIntent(Context ctx, String action) {
+        Intent i = new Intent();
+        i.setAction(action);
+        ctx.sendBroadcast(i);
     }
 
 }

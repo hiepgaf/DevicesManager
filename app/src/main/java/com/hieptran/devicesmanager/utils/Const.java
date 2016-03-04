@@ -741,5 +741,10 @@ public interface Const {
     //Battery
     String BATTERY_CURRENT_NOW = "/sys/class/power_supply/battery/current_now";
     String BATTERY_VOLTAGE_NOW = "/sys/class/power_supply/battery/voltage_now";
+    //Profile
+    String ACTION_PROFILE_BATTERY_LEVEL = "com.hieptran.devicesmanager.profile.BATTERY_LEVEL";
+    String ACTION_PROFILE_POWER_PLUG = "com.hieptran.devicesmanager.profile.POWER_PLUG";
+    String ACTION_PROFILE_SCREEN_STATE = "com.hieptran.devicesmanager.profile.SCREEN_STATE";
+    //String ACTION_PROFILE_BATTERY_LEVEL = "com.hieptran.devicesmanager.profile.BATTERY_LEVEL";
 
 }

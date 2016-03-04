@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -30,6 +31,8 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 
 import com.hieptran.devicesmanager.R;
+
+import me.itangqi.waveloadingview.WaveLoadingView;
 
 
 /**
@@ -47,6 +50,7 @@ public class SplashView extends View {
     private int rotate = 0;
     private boolean finished = false;
     private float angle;
+    private boolean isFinish = false;
     public SplashView(Context context) {
         this(context, null);
     }
@@ -73,13 +77,39 @@ public class SplashView extends View {
         //Initial Angle (optional, it can be zero)
         angle = 0;
         setBackgroundColor(getResources().getColor(R.color.black));
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(100);
+                        splashTime+=100;
+                        ((Activity) getContext()).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                invalidate();
+                            }
+                        });
+                        if (isFinish) break;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+/*//HiepTHb
+        waveView = new WaveLoadingView();
+        waveView.setBorderWidth(0);
+        waveView.setAmplitudeRatio(50);
+        waveView.setShapeType(WaveLoadingView.ShapeType.CIRCLE);
+        waveView.setProgressValue(50);
+        waveView.setWaveColor(Color.WHITE);*/
 
 
     }
 
     public void finish() {
-
+        isFinish = true;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -112,7 +142,7 @@ public class SplashView extends View {
     public float getAngle() {
         return angle;
     }
-
+    int splashTime=0;
     public void setAngle(float angle) {
         this.angle = angle;
     }
@@ -125,10 +155,27 @@ public class SplashView extends View {
         textPaint.setAntiAlias(true);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.splashview_textsize));
-        canvas.drawText(getResources().getString(R.string.waiting_for_init), getWidth() / 2, getHeight() / 2, textPaint);
+        //canvas.drawText(getResources().getString(R.string.waiting_for_init), getWidth() / 2, getHeight() / 2, textPaint);
+
+                if(splashTime < 500){
+                    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                    canvas.drawText(getResources().getString(R.string.waiting_for_init) +" .", getWidth() / 2, getHeight() / 2, textPaint);
+                }
+                else if(splashTime >= 500 && splashTime < 700 ){
+                    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+                    canvas.drawText(getResources().getString(R.string.waiting_for_init)+ " ..", getWidth() / 2, getHeight() / 2, textPaint);
+                }else if (splashTime >= 700){
+                    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+                    canvas.drawText(getResources().getString(R.string.waiting_for_init)+ " ...", getWidth() / 2, getHeight() / 2, textPaint);
+                }
+                //splashTime = splashTime + 100;
+            }
+
         // canvas.drawArc(rect, START_ANGLE_POINT, angle, false, paint);
 
 
-    }
+
 
 }

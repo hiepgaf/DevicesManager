@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="3dp">
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_padding"></View>
+        android:layout_height="5dp"></View>
 
     <TextView
         style="@style/header_style"
@@ -18,12 +19,7 @@
         android:layout_height="100dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp">
+      >
 
         <me.itangqi.waveloadingview.WaveLoadingView
             android:id="@+id/waveLoadingView"
@@ -67,7 +63,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_padding"></View>
+        android:layout_height="5dp"></View>
 
     <TextView
         style="@style/header_style"
@@ -79,12 +75,7 @@
         android:layout_height="100dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp">
+       >
 
         <me.itangqi.waveloadingview.WaveLoadingView
             android:id="@+id/reallv"
@@ -126,4 +117,23 @@
         android:layout_marginStart="20dp"
         android:text="@string/cpu_load"
         android:textSize="15sp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:gravity="center_horizontal">
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="15sp"
+        android:textColor="@android:color/white"
+        android:id="@+id/bt_start_record"
+        android:text="@string/start_record"
+        android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 </LinearLayout>
