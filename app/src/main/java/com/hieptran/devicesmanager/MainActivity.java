@@ -1,5 +1,10 @@
 package com.hieptran.devicesmanager;
 
+import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -37,7 +43,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
 
     boolean pressAgain = true;
     ActionBarDrawerToggle toggle;
@@ -47,6 +53,15 @@ public class MainActivity extends AppCompatActivity
     Handler hand;
     AdView mAdView;
     AdRequest adRequest;
+    ///Test
+    //variable for counting two successive up-down events
+    int clickCount = 0;
+    //variable for storing the time of first click
+    long startTime;
+    //variable for calculating the total time
+    long duration;
+    //constant for defining the time duration between the click that can be considered as double-tap
+    static final int MAX_DURATION = 500;
     //private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
     MaterialDialog mSflashDialog;
     private InterstitialAd mInterstitialAd;
@@ -111,6 +126,8 @@ public class MainActivity extends AppCompatActivity
            // drawer.setBackgroundColor(getResources().getColor(R.color.card_background_dark));
           //  mSflashDialog.setBackgroundResource(R.color.card_background_dark);
         }
+
+
     }
 
 
@@ -260,5 +277,59 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch(event.getAction() & MotionEvent.ACTION_MASK)
+        {
+            case MotionEvent.ACTION_DOWN:
+                startTime = System.currentTimeMillis();
+                Log.d("HiepTHb","doubletap");
+                clickCount++;
+                break;
+            case MotionEvent.ACTION_UP:
+                long time = System.currentTimeMillis() - startTime;
+                duration=  duration + time;
+                if(clickCount == 2)
+                {
+                    if(duration<= MAX_DURATION)
+                    {
+                        Log.d("HiepTHb","doubletap");
+                        turnScreenOff(getApplicationContext());
+                        //Toast.makeText(captureActivity.this, "double tap",Toast.LENGTH_LONG).show();
+                    }
+                    clickCount = 0;
+                    duration = 0;
+                    break;
+                }
+        }
+        return true;        }
+    static void turnScreenOff(final Context context) {
+        DevicePolicyManager policyManager = (DevicePolicyManager) context
+                .getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName adminReceiver = new ComponentName(context,
+                ScreenOffAdminReceiver.class);
+        boolean admin = policyManager.isAdminActive(adminReceiver);
+        if (admin) {
+            Log.i("HiepTHb", "Going to sleep now.");
+            policyManager.lockNow();
+        } else {
+            Log.i("HiepTHb", "Not an admin");
 
+        }
+    }
+    public class ScreenOffAdminReceiver extends DeviceAdminReceiver {
+        private void showToast(Context context, String msg) {
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onEnabled(Context context, Intent intent) {
+
+        }
+
+        @Override
+        public void onDisabled(Context context, Intent intent) {
+
+        }
+    }
 }

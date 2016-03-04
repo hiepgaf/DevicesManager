@@ -15,7 +15,7 @@ android:padding="@dimen/card_padding"
         android:orientation="horizontal"
         >
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="8"
@@ -33,7 +33,7 @@ android:padding="@dimen/card_padding"
     android:id="@+id/main_frofile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"
+        android:layout_weight="11"
         android:orientation="vertical"
         android:clickable="false"
         >
