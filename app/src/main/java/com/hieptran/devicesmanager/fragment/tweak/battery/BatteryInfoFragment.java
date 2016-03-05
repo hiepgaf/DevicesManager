@@ -62,13 +62,10 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     public void onClick(View v) {
         if (v == btRecord) {
             if (!isrecord) {
-                showNoti();
                 isrecord = true;
                 btRecord.setBackgroundResource(R.drawable.bg_off);
                 btRecord.setText(getString(R.string.start_record));
                 logrecord.setStartTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
-
-
             } else {
                 time =0;
                 isrecord = false;
@@ -98,7 +95,6 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
         lvText.setText("Battery Level");
         totalPw.setText(String.valueOf(totalPower) + " mWh");
         btRecord.setBackgroundResource(R.drawable.bg_on);
-
         voltage_now_al = new ArrayList<>();
         current_now_al = new ArrayList<>();
         voltage_now_ad = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,voltage_now_al);
@@ -187,10 +183,11 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                             }
                             else {
                                 Date date = new Date(1000*(time++)); //260000 milliseconds
-
                                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                                 result = sdf.format(date);
                                 btRecord.setText(result);
+                                showNoti(result);
+
                                 voltage_now_ad.add(readVoltageNow());
                                 voltage_now_ad.setNotifyOnChange(true);
                                 current_now_ad.add(readCurrentNow());
@@ -259,13 +256,13 @@ public class LogVolAmp {
 
         }
     }
-    private void showNoti() {
+    private void showNoti(String time) {
 
         Notification notification = new Notification(R.drawable.about_icon,"Record",System.currentTimeMillis());
         mNotiManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         RemoteViews notiView = new RemoteViews(getContext().getPackageName(),R.layout.record_notification);
         notiView.setTextViewText(R.id.title, getString(R.string.app_name));
-        notiView.setTextViewText(R.id.text, "Recording data ..." + "");
+        notiView.setTextViewText(R.id.text, "Recording data ..." + "\nTime: "+ time);
         notification.contentView = notiView;
         mNotiManager.notify(RECORD_NOTI_ID,notification);
     }
