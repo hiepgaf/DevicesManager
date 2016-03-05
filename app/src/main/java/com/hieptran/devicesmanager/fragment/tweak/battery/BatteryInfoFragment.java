@@ -65,6 +65,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                 isrecord = true;
                 btRecord.setBackgroundResource(R.drawable.bg_off);
                 btRecord.setText(getString(R.string.start_record));
+                starttimerecord = new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis()));
                 logrecord.setStartTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
             } else {
                 time =0;
@@ -73,7 +74,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                 btRecord.setBackgroundResource(R.drawable.bg_on);
                 btRecord.setText(result);
                 logrecord.setEndTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
-                Utils.writeToSdcard("123" + "_log.txt", logrecord.toString());
+                Utils.writeToSdcard(starttimerecord + "_log.txt", logrecord.toString());
                 Log.d("HiepTHb", "Result :\n" + logrecord.toString() + "\n currt"+System.currentTimeMillis());
             }
         }
