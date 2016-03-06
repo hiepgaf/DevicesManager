@@ -32,6 +32,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hieptran.devicesmanager.LogViewActivity;
 import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.ViewLogActivity;
 import com.hieptran.devicesmanager.utils.Const;
@@ -309,7 +310,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
         ActivityManager am =(ActivityManager)  getContext().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningAppProcessInfo rap: am.getRunningAppProcesses()
                 ) {
-            builder.append(rap.processName+ "\n");
+            builder.append(rap.processName + "\n");
         }
         return builder.toString();
     }

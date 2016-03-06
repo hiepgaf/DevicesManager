@@ -1,42 +1,28 @@
 package com.hieptran.devicesmanager;
 
-import android.annotation.SuppressLint;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.hieptran.devicesmanager.utils.Utils;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
-public class ViewLogActivity extends ActionBarActivity {
-
-    private TextView mContentView;
+public class LogViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_view_log);
-       // getSupportActionBar().show();
-        mContentView = (TextView)findViewById(R.id.fullscreen_content);
+        setContentView(R.layout.activity_log_view);
+       TextView mContentView = (TextView)findViewById(R.id.fullscreen_content);
         String path = getIntent().getStringExtra("FILE_NAME").toString();
         //mContentView.setText(Utils.readFile(path));
         try {
@@ -71,4 +57,5 @@ public class ViewLogActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
 
     }
+
 }

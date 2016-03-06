@@ -53,7 +53,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
     @Nullable
     @Override
@@ -106,10 +105,9 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         aDapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, lsProfile);
         avaiProfile.setAdapter(aDapter);
         aDapter.setNotifyOnChange(true);
-        if (Utils.getBoolean("profile_service", false, getContext())) {
-            enableService.setChecked(true);
-            avaiProfile.setSelection(Utils.getInt("active_prof", 0, getContext()));
-        }
+        setHasOptionsMenu(true);
+
+
         return v;
     }
 
@@ -187,9 +185,14 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.set_on_boot, menu);
         MenuItem item = menu.findItem(R.id.set_on_boot);
-        SwitchCompat switchCompat = (SwitchCompat) MenuItemCompat.getActionView(item);
-        switchCompat.setOnCheckedChangeListener(this);
-
+        enableService = (SwitchCompat) MenuItemCompat.getActionView(item);
+        if (Utils.getBoolean("profile_service", false, getContext())) {
+            enableService.setChecked(true);
+            mainlayout.setVisibility(View.VISIBLE);
+            getActivity().startService(new Intent(getActivity(), ProfileService.class));
+            avaiProfile.setSelection(Utils.getInt("active_prof", 0, getContext()));
+        }
+        enableService.setOnCheckedChangeListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
 }
