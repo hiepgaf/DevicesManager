@@ -29,5 +29,5 @@
     <dimen name="divider_card_elevation">5dp</dimen>
     <dimen name="information_card_elevation">5dp</dimen>
 
-    <dimen name="header_text_size">18sp</dimen>
+    <dimen name="header_text_size">16sp</dimen>
 </resources>

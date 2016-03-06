@@ -7,9 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +50,11 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
     long duration;
     //constant for defining the time duration between the click that can be considered as double-tap
     static final int MAX_DURATION = 500;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,8 +97,8 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         //setViewAndChildrenEnabled(mainlayout,false);
         avaiProfile.setOnItemClickListener(this);
         avaiProfile.setSelector(R.color.color_primary);
-        enableService = (SwitchCompat) v.findViewById(R.id.start_profile_service);
-        enableService.setOnCheckedChangeListener(this);
+       // enableService = (SwitchCompat) v.findViewById(R.id.start_profile_service);
+        //enableService.setOnCheckedChangeListener(this);
         lsProfile = new ArrayList<>();
         lsProfile.add("Battery Level");
         lsProfile.add("Power Plug");
@@ -173,6 +182,15 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
             Log.i("HiepTHb", "Not an admin");
 
         }
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.set_on_boot, menu);
+        MenuItem item = menu.findItem(R.id.set_on_boot);
+        SwitchCompat switchCompat = (SwitchCompat) MenuItemCompat.getActionView(item);
+        switchCompat.setOnCheckedChangeListener(this);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
 

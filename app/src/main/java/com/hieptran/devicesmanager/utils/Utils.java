@@ -16,6 +16,9 @@ import com.hieptran.devicesmanager.common.root.RootUtils;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 /**
@@ -143,5 +146,11 @@ public class Utils implements Const {
         i.setAction(action);
         ctx.sendBroadcast(i);
     }
-
+    public static String formatSeconds(int seconds) {
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        df.setTimeZone(tz);
+        String time = df.format(new Date(seconds*1000));
+        return time;
+    }
 }

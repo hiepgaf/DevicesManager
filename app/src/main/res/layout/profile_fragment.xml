@@ -8,26 +8,6 @@ android:padding="@dimen/card_padding"
     android:orientation="vertical"
    >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        >
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:textSize="16sp"
-            android:text="Enable Profile Service" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/start_profile_service"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2" />
-    </LinearLayout>
 
     <LinearLayout
     android:id="@+id/main_frofile"

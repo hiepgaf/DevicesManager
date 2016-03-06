@@ -746,5 +746,5 @@ public interface Const {
     String ACTION_PROFILE_POWER_PLUG = "com.hieptran.devicesmanager.profile.POWER_PLUG";
     String ACTION_PROFILE_SCREEN_STATE = "com.hieptran.devicesmanager.profile.SCREEN_STATE";
     //String ACTION_PROFILE_BATTERY_LEVEL = "com.hieptran.devicesmanager.profile.BATTERY_LEVEL";
-
+        String WEARABLE_OS_PATH = "/sdcard/WearableOS/";
 }
