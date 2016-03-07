@@ -10,21 +10,10 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <include layout="@layout/div_view" />
-
         <TextView
             android:id="@+id/header_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_primary"
-            android:gravity="center_horizontal"
-            android:text="@string/basic_title"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <include layout="@layout/div_view" />
+            style="@style/header_style"
+            android:text="@string/basic_title" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -57,21 +46,11 @@
 
         </TableLayout>
 
-        <include layout="@layout/div_view" />
 
         <TextView
             android:id="@+id/header_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_primary"
-            android:gravity="center_horizontal"
-            android:text="@string/advance_title"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <include layout="@layout/div_view" />
+            style="@style/header_style"
+            android:text="@string/advance_title" />
 
         <LinearLayout
             android:id="@+id/main_vertical_view"

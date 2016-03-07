@@ -1,10 +1,5 @@
 package com.hieptran.devicesmanager;
 
-import android.app.admin.DeviceAdminReceiver;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,17 +14,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.hieptran.devicesmanager.common.SplashView;
 import com.hieptran.devicesmanager.common.root.RootUtils;
 import com.hieptran.devicesmanager.fragment.others.SettingFragment;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
-import com.hieptran.devicesmanager.fragment.tweak.BatteryFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.GOVTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.battery.BatteryInfoFragment;
@@ -38,13 +34,11 @@ import com.hieptran.devicesmanager.utils.Utils;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
-
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
+    //constant for defining the time duration between the click that can be considered as double-tap
+    static final int MAX_DURATION = 500;
     boolean pressAgain = true;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawer;
@@ -60,8 +54,6 @@ public class MainActivity extends AppCompatActivity
     long startTime;
     //variable for calculating the total time
     long duration;
-    //constant for defining the time duration between the click that can be considered as double-tap
-    static final int MAX_DURATION = 500;
     //private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
     MaterialDialog mSflashDialog;
     private InterstitialAd mInterstitialAd;
@@ -88,43 +80,18 @@ public class MainActivity extends AppCompatActivity
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.color_primary_dark));
+            window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         } else {
             //getSupportActionBar().hide();
             setSupportActionBar(toolbar);
-/*
-           getApplication().setTheme(android.R.style.Theme_Material_NoActionBar);
-*/
         }
-        //mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mSplashView = (SplashView) findViewById(R.id.splash_view);
         new Task().execute();
-      /*  mSflashDialog = new MaterialDialog(this)
-                .setTitle("MaterialDialog")
-                .setMessage("Hello world!")
-                .setPositiveButton("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSflashDialog.dismiss();
-
-                        new Task().execute();
-
-                    }
-                })
-                .setNegativeButton("CANCEL", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
-        mSflashDialog.show();*/
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         if (Utils.DARK) {
-            super.setTheme(R.style.AppThemeDark);
-           // drawer.setBackgroundColor(getResources().getColor(R.color.card_background_dark));
-          //  mSflashDialog.setBackgroundResource(R.color.card_background_dark);
+            super.setTheme(android.R.style.Theme_Material);
         }
 
 
@@ -134,7 +101,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         Log.d("HiepTHb", "onBackPressed");
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             pressAgain = false;
@@ -277,59 +243,5 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch(event.getAction() & MotionEvent.ACTION_MASK)
-        {
-            case MotionEvent.ACTION_DOWN:
-                startTime = System.currentTimeMillis();
-                Log.d("HiepTHb","doubletap");
-                clickCount++;
-                break;
-            case MotionEvent.ACTION_UP:
-                long time = System.currentTimeMillis() - startTime;
-                duration=  duration + time;
-                if(clickCount == 2)
-                {
-                    if(duration<= MAX_DURATION)
-                    {
-                        Log.d("HiepTHb","doubletap");
-                        turnScreenOff(getApplicationContext());
-                        //Toast.makeText(captureActivity.this, "double tap",Toast.LENGTH_LONG).show();
-                    }
-                    clickCount = 0;
-                    duration = 0;
-                    break;
-                }
-        }
-        return true;        }
-    static void turnScreenOff(final Context context) {
-        DevicePolicyManager policyManager = (DevicePolicyManager) context
-                .getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName adminReceiver = new ComponentName(context,
-                ScreenOffAdminReceiver.class);
-        boolean admin = policyManager.isAdminActive(adminReceiver);
-        if (admin) {
-            Log.i("HiepTHb", "Going to sleep now.");
-            policyManager.lockNow();
-        } else {
-            Log.i("HiepTHb", "Not an admin");
 
-        }
-    }
-    public class ScreenOffAdminReceiver extends DeviceAdminReceiver {
-        private void showToast(Context context, String msg) {
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onEnabled(Context context, Intent intent) {
-
-        }
-
-        @Override
-        public void onDisabled(Context context, Intent intent) {
-
-        }
-    }
 }

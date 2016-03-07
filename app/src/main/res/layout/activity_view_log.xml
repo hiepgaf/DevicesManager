@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_primary"
     tools:context="com.hieptran.devicesmanager.ViewLogActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -16,7 +17,7 @@
         android:layout_height="match_parent"
         android:keepScreenOn="true"
         android:text="@string/dummy_content"
-        android:textColor="#33b5e5"
+        android:textColor="#FFFFFF"
         android:textSize="12sp"
        />
     </ScrollView>

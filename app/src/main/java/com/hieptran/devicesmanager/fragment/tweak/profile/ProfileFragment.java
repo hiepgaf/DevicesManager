@@ -36,11 +36,8 @@ import java.util.ArrayList;
  * Created by hieptran on 26/02/2016.
  */
 public class ProfileFragment extends Fragment implements AdapterView.OnItemClickListener, Const, View.OnClickListener, SwitchCompat.OnCheckedChangeListener, View.OnTouchListener{
-    private ListView avaiProfile, cusProfile;
-    private ArrayAdapter<String> aDapter;
-    private ArrayList<String> lsProfile;
-    private LinearLayout mainlayout;
-    private SwitchCompat enableService;
+    //constant for defining the time duration between the click that can be considered as double-tap
+    static final int MAX_DURATION = 500;
     ///Test
     //variable for counting two successive up-down events
     int clickCount = 0;
@@ -48,12 +45,43 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
     long startTime;
     //variable for calculating the total time
     long duration;
-    //constant for defining the time duration between the click that can be considered as double-tap
-    static final int MAX_DURATION = 500;
+    private ListView avaiProfile, cusProfile;
+    private ArrayAdapter<String> aDapter;
+    private ArrayList<String> lsProfile;
+    private LinearLayout mainlayout;
+    private SwitchCompat enableService;
+
+    private static void setViewAndChildrenEnabled(View view, boolean enabled) {
+        view.setEnabled(enabled);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                setViewAndChildrenEnabled(child, enabled);
+            }
+        }
+    }
+
+    static void turnScreenOff(final Context context) {
+        DevicePolicyManager policyManager = (DevicePolicyManager) context
+                .getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName adminReceiver = new ComponentName(context,
+                ScreenOffAdminReceiver.class);
+        boolean admin = policyManager.isAdminActive(adminReceiver);
+        if (admin) {
+            Log.i("HiepTHb", "Going to sleep now.");
+            policyManager.lockNow();
+        } else {
+            Log.i("HiepTHb", "Not an admin");
+
+        }
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,17 +161,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         }
     }
 
-    private static void setViewAndChildrenEnabled(View view, boolean enabled) {
-        view.setEnabled(enabled);
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View child = viewGroup.getChildAt(i);
-                setViewAndChildrenEnabled(child, enabled);
-            }
-        }
-    }
-
     @Override
     public void onClick(View v) {
     }
@@ -167,20 +184,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         }
         return false;
     }
-    static void turnScreenOff(final Context context) {
-        DevicePolicyManager policyManager = (DevicePolicyManager) context
-                .getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName adminReceiver = new ComponentName(context,
-                ScreenOffAdminReceiver.class);
-        boolean admin = policyManager.isAdminActive(adminReceiver);
-        if (admin) {
-            Log.i("HiepTHb", "Going to sleep now.");
-            policyManager.lockNow();
-        } else {
-            Log.i("HiepTHb", "Not an admin");
 
-        }
-    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.set_on_boot, menu);
@@ -190,11 +194,16 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
             enableService.setChecked(true);
             mainlayout.setVisibility(View.VISIBLE);
             getActivity().startService(new Intent(getActivity(), ProfileService.class));
+            Log.d("HiepTHb", "selected position of profile " + Utils.getInt("active_prof", 0, getContext()));
             avaiProfile.setSelection(Utils.getInt("active_prof", 0, getContext()));
+            avaiProfile.setItemChecked(Utils.getInt("active_prof", 0, getContext()), true);
+
+            // avaiProfile.getSelectedView().setBackgroundResource(R);
         }
         enableService.setOnCheckedChangeListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 }
 
 
