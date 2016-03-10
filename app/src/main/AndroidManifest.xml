@@ -54,7 +54,7 @@
             android:label="@string/title_activity_view_log"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".LogViewActivity"
+            android:name=".AnalyzeActivity"
             android:label="@string/title_activity_log_view"
             android:theme="@style/AppTheme"></activity>
 

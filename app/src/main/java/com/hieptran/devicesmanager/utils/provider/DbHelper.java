@@ -2,8 +2,11 @@ package com.hieptran.devicesmanager.utils.provider;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 /**
  * Created by hieptran on 10/03/2016.
@@ -58,4 +61,78 @@ public class DbHelper extends SQLiteOpenHelper {
         cv.put("average_current", avg_cur);
         db.insert(table, null, cv);
     }
+    public ArrayList<String> getTablesName() {
+        ArrayList<String> output = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'",null);
+        while(c.moveToNext()) {
+            String s = c.getString(0);
+            if(s.equals("android_metadata"))
+            {
+                //System.out.println("Get Metadata");
+                continue;
+            }
+            else
+            {
+                output.add(s);
+            }
+        }
+        return output;
+    }
+
+    public ArrayList<Double> getAvgPower(String table) {
+        ArrayList<Double> output = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor c = db.rawQuery("SELECT average_power FROM "+table,null);
+        while(c.moveToNext()) {
+            double s = Double.parseDouble(c.getString(0).replace(",", "."));
+
+            output.add(s);
+
+
+        }
+        return output;
+    }
+    public ArrayList<Double> getBatConsumed(String table) {
+        ArrayList<Double> output = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor c = db.rawQuery("SELECT battery_consumed FROM "+table,null);
+        while(c.moveToNext()) {
+            double s = Double.parseDouble(c.getString(0).replace(",", "."));
+
+            output.add(s);
+
+        }
+        return output;
+    }
+    public ArrayList<Double> getAvgCur(String table) {
+        ArrayList<Double> output = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor c = db.rawQuery("SELECT average_current FROM "+table,null);
+        while(c.moveToNext()) {
+            double s = Double.parseDouble(c.getString(0).replace(",","."));
+
+                output.add(s);
+
+        }
+        return output;
+    }
+    public ArrayList<Double> getAvgVol(String table) {
+        ArrayList<Double> output = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor c = db.rawQuery("SELECT average_voltage FROM "+table,null);
+        while(c.moveToNext()) {
+            double s = Double.parseDouble(c.getString(0).replace(",", "."));
+
+            output.add(s);
+
+        }
+        return output;
+    }
+
 }

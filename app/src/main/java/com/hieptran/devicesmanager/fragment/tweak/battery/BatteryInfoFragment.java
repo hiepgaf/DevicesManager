@@ -27,11 +27,14 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hieptran.devicesmanager.AnalyzeActivity;
 import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.ViewLogActivity;
 import com.hieptran.devicesmanager.common.BlurBitmapHelper;
+import com.hieptran.devicesmanager.services.DumpLogService;
 import com.hieptran.devicesmanager.utils.Const;
 import com.hieptran.devicesmanager.utils.Utils;
+import com.hieptran.devicesmanager.utils.provider.DbHelper;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -57,6 +60,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     Bitmap b;
     View v;
     View blur_view;
+    private DbHelper dbHelper;
     private WaveLoadingView waveLevelView, realLv;
     private TextView lvText, mTemperatureText;
     private TextView voltageText;
@@ -65,7 +69,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     private TextView current_now_tv, voltage_now_tv;
     private android.os.Handler hand;
     private Button btRecord;
-    private boolean isRecorded = false;
+    private boolean isRecorded = true;
     private ArrayList<String> voltage_now_al, current_now_al, record_files_al;
     private ArrayAdapter<String> voltage_now_ad, current_now_ad, record_files_ad;
     private AlertDialog alert;
@@ -143,7 +147,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                             // voltage_now_ad.add("\t\t\t\t\t" + readVoltageNow() + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + readCurrentNow());
                             // voltage_now_ad.setNotifyOnChange(true);
                             //  lsRunningApp.add(listRunning());
-                            if (!isRecorded) {
+                          /*  if (!isRecorded) {
                                 btRecord.setText(getString(R.string.start_record));
                             } else {
                                 // count_time =0;
@@ -158,7 +162,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
 
                                 Log.d("HiepTHb", "avg cur now : " + vol_sum / time);
                                 current_now_ad.setNotifyOnChange(true);
-                            }
+                            }*/
 
                         }
                     });
@@ -173,22 +177,24 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     public void onClick(View v) {
         if (v == btRecord) {
             if (!isRecorded) {
-                updateRecordFileView();
+               // updateRecordFileView();
                 isRecorded = true;
-                btRecord.setBackgroundResource(R.drawable.bg_off);
-                btRecord.setText(getString(R.string.start_record));
-                mStartTimeRecord = new SimpleDateFormat("HHmmss").format(new Date(System.currentTimeMillis()));
-                mLogRecord.setStartTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
+                btRecord.setBackgroundResource(R.drawable.bg_on);
+                btRecord.setText("Start Record");
+                getActivity().stopService(new Intent(getActivity(), DumpLogService.class));
+               /* mStartTimeRecord = new SimpleDateFormat("HHmmss").format(new Date(System.currentTimeMillis()));
+                mLogRecord.setStartTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));*/
             } else {
-                updateRecordFileView();
+               // updateRecordFileView();
                 time = 0;
                 isRecorded = false;
-                mNotificationManager.cancel(RECORD_NOTIFICATION_ID);
-                btRecord.setBackgroundResource(R.drawable.bg_on);
-                btRecord.setText(result);
-                mLogRecord.setEndTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
+               // mNotificationManager.cancel(RECORD_NOTIFICATION_ID);
+                btRecord.setBackgroundResource(R.drawable.bg_off);
+                btRecord.setText("Stop Record");
+                getActivity().startService(new Intent(getActivity(), DumpLogService.class));
+              /*  mLogRecord.setEndTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
                 Utils.writeToSdcard(mStartTimeRecord + "_log.txt", mLogRecord.toString());
-                Log.d(TAG, "Result :\n" + mLogRecord.toString() + "\n currt" + System.currentTimeMillis());
+                Log.d(TAG, "Result :\n" + mLogRecord.toString() + "\n currt" + System.currentTimeMillis());*/
             }
         }
     }
@@ -206,7 +212,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
         blur_view = v.findViewById(R.id.blur_view);
         btRecord.setOnClickListener(this);
         totalPower = 3.7 * 2300;
-
+        dbHelper = new DbHelper(getContext());
         btRecord.setBackgroundResource(R.drawable.bg_on);
         lvRecordFile = (ListView) v.findViewById(R.id.lv_record_file);
         lvRecordFile.setOnItemClickListener(this);
@@ -215,10 +221,10 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
         current_now_al = new ArrayList<>();
         voltage_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, voltage_now_al);
         current_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, current_now_al);
-        record_files_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, record_files_al);
+        record_files_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dbHelper.getTablesName());
+        record_files_ad.setNotifyOnChange(true);
         lvRecordFile.setAdapter(record_files_ad);
-        updateRecordFileView();
-
+       // updateRecordFileView();
         mLogRecord = new LogVolAmp(mStartTimeRecord, mEndTimeRecord, voltage_now_al, current_now_al, listRunning());
         voltageText = (TextView) v.findViewById(R.id.bat_vol);
         try {
@@ -286,25 +292,28 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
 
     private void updateRecordFileView() {
         record_files_ad.clear();
-        File wearableOsDir = new File(WEARABLE_OS_PATH);
+      /*  File wearableOsDir = new File(WEARABLE_OS_PATH);
         if (!wearableOsDir.exists())
             wearableOsDir.mkdir();
         File[] files = wearableOsDir.listFiles();
         for (File file : files) {
             record_files_ad.add(file.getName());
             record_files_ad.setNotifyOnChange(true);
-        }
+        }*/
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+        Intent i = new Intent(getActivity(), AnalyzeActivity.class);
+        i.putExtra("TABLE_NAME",record_files_ad.getItem(position));
+        getActivity().startActivity(i);
 
-        final String path = Environment.getExternalStorageDirectory().toString();
+       /* final String path = Environment.getExternalStorageDirectory().toString();
         Uri uri = Uri.parse(path + File.separator + "WearableOS" + File.separator + record_files_ad.getItem(position));
         Toast.makeText(getContext(), path + File.separator + "WearableOS" + File.separator + record_files_ad.getItem(position), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getActivity(), ViewLogActivity.class);
         intent.putExtra("FILE_NAME", path + File.separator + "WearableOS" + File.separator + record_files_ad.getItem(position));
-        getActivity().startActivity(intent);
+        getActivity().startActivity(intent);*/
 
     }
 
