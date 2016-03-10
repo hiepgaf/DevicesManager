@@ -52,6 +52,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     public String mEndTimeRecord = "", mStartTimeRecord = "";
     double totalPower, currentPower;
     double realLevel;
+    String top_tile = "";
     int time;
     Bitmap b;
     View v;
@@ -59,6 +60,17 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     private WaveLoadingView waveLevelView, realLv;
     private TextView lvText, mTemperatureText;
     private TextView voltageText;
+    private TextView totalPw;
+    private ListView lvRecordFile;
+    private TextView current_now_tv, voltage_now_tv;
+    private android.os.Handler hand;
+    private Button btRecord;
+    private boolean isRecorded = false;
+    private ArrayList<String> voltage_now_al, current_now_al, record_files_al;
+    private ArrayAdapter<String> voltage_now_ad, current_now_ad, record_files_ad;
+    private AlertDialog alert;
+    private double vol_sum = 0, cur_sum = 0;
+    private int count_time = 0;
     private final BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context arg0, Intent intent) {
@@ -69,10 +81,12 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                     status == BatteryManager.BATTERY_STATUS_FULL;
             int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0);
             currentPower = Integer.valueOf(readVoltageNow()) * level * 2.3 / 1000;
+            count_time = Utils.getInt("time_record", 0, getContext());
+
             realLevel = (currentPower / totalPower);
             realLv.setProgressValue(100 - (int) (realLevel));
             realLv.setCenterTitle(String.format("%.2f", currentPower / 100) + " mWh\n");
-            realLv.setTopTitle(String.format("%.2f", realLevel) + " %");
+            //realLv.setTopTitle(String.format("%.2f", realLevel) + " %");
             if (!isCharging)
                 waveLevelView.setAmplitudeRatio(1);
             else waveLevelView.setAmplitudeRatio(50);
@@ -84,15 +98,6 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
 
         }
     };
-    private TextView totalPw;
-    private ListView lvRecordFile;
-    private TextView current_now_tv, voltage_now_tv;
-    private android.os.Handler hand;
-    private Button btRecord;
-    private boolean isRecorded = false;
-    private ArrayList<String> voltage_now_al, current_now_al, record_files_al;
-    private ArrayAdapter<String> voltage_now_ad, current_now_ad, record_files_ad;
-    private AlertDialog alert;
     private Runnable updateView = new Runnable() {
         @Override
         public void run() {
@@ -102,6 +107,23 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            count_time++;
+                            vol_sum += Double.valueOf(readVoltageNow());
+                            cur_sum += Double.valueOf(readCurrentNow());
+                          /*  top_tile = "Time: " + Utils.formatSeconds(count_time)+
+                                    " \n"+ "Average Power: "+ String.format("%.2f",vol_sum*cur_sum/count_time/count_time/1000/1000000) +
+                                    " mW\n" +
+                                    "Battery Consumed: "+ String.format("%.2f",Math.abs(cur_sum/60/1000/1000)) +" mAh" +
+                                    "(~"+String.format("%.1f",100*Math.abs(cur_sum/60/1000/1000)/2300)+"%)" ;*/
+
+                            top_tile = "Time: " + Utils.formatSeconds(count_time) +
+                                    " \n" + "Average Power: " + Utils.getString("average_power", "", getContext()) +
+                                    " mW\n" +
+                                    "Battery Consumed: " + Utils.getString("battery_consumed", "", getContext()) + " mAh" +
+                                    "(~" + Utils.getString("percent", "", getContext()) + "%)";
+
+                            totalPw.setText(top_tile);
+
                             Object mPowerProfile_ = null;
                             final String POWER_PROFILE_CLASS = "com.android.internal.os.PowerProfile";
                             try {
@@ -116,20 +138,25 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            current_now_tv.setText("Current now: " + readCurrentNow() + " uA");
-                            voltage_now_tv.setText("Voltage now: " + readVoltageNow() + " uV");
+                            current_now_tv.setText("Average Voltage: " + Utils.getString("average_voltage", "", getContext()) + " uV");
+                            voltage_now_tv.setText("Average Current: " + Utils.getString("average_current", "", getContext()) + " uA");
                             // voltage_now_ad.add("\t\t\t\t\t" + readVoltageNow() + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + readCurrentNow());
                             // voltage_now_ad.setNotifyOnChange(true);
                             //  lsRunningApp.add(listRunning());
                             if (!isRecorded) {
                                 btRecord.setText(getString(R.string.start_record));
                             } else {
+                                // count_time =0;
                                 result = Utils.formatSeconds(time++);
                                 btRecord.setText(result);
                                 showNotification(result);
                                 voltage_now_ad.add(readVoltageNow());
+
+                                Log.d("HiepTHb", "avg voltage now : " + vol_sum / time);
                                 voltage_now_ad.setNotifyOnChange(true);
                                 current_now_ad.add(readCurrentNow());
+
+                                Log.d("HiepTHb", "avg cur now : " + vol_sum / time);
                                 current_now_ad.setNotifyOnChange(true);
                             }
 
@@ -179,7 +206,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
         blur_view = v.findViewById(R.id.blur_view);
         btRecord.setOnClickListener(this);
         totalPower = 3.7 * 2300;
-        totalPw.setText(String.valueOf(totalPower) + " mWh");
+
         btRecord.setBackgroundResource(R.drawable.bg_on);
         lvRecordFile = (ListView) v.findViewById(R.id.lv_record_file);
         lvRecordFile.setOnItemClickListener(this);
@@ -238,7 +265,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     }
 
     private void showNotification(String time) {
-        Notification notification = new Notification(R.drawable.about_icon, "Record", System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.about_icon, "Recording", System.currentTimeMillis());
         mNotificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         RemoteViews notificationView = new RemoteViews(getContext().getPackageName(), R.layout.record_notification);
         notificationView.setTextViewText(R.id.title, getString(R.string.app_name));

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="3dp">
+    android:padding="1dp">
 
     <View
         android:id="@+id/blur_view"
@@ -27,7 +27,7 @@
             android:id="@+id/waveLoadingView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="3"
             app:mlv_borderWidth="1dp"
             app:mlv_shapeType="circle"
             app:mlv_titleCenterSize="12sp"
@@ -37,7 +37,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="7"
             android:orientation="vertical">
 
         <TextView
@@ -78,7 +78,7 @@
             android:id="@+id/reallv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="3"
             app:mlv_borderWidth="1dp"
             app:mlv_shapeType="circle"
             app:mlv_titleCenterSize="12sp"
@@ -89,7 +89,7 @@
 <LinearLayout
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_weight="5"
+    android:layout_weight="7"
     android:orientation="vertical">
         <TextView
             android:id="@+id/totalpower"

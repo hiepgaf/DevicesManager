@@ -8,7 +8,7 @@
             android:title="@string/nav_devices" />
     </item>
 
-    <item android:title="Thong tin chung">
+    <item android:title="">
         <menu>
             <item
                 android:id="@+id/nav_cpu_tw"
@@ -25,31 +25,13 @@
                 android:checkable="true"
                 android:icon="@drawable/ic_perm_device_information_2x"
                 android:title="@string/battery" />
-        </menu>
-    </item>
-    <item android:title="@string/tmp_str">
 
-        <menu>
             <item
                 android:id="@+id/nav_set_pr"
                 android:checkable="true"
                 android:icon="@drawable/ic_perm_device_information_2x"
                 android:title="Profile" />
-            <item
-                android:id="@+id/nav_bug_report_menu"
-                android:checkable="true"
-                android:icon="@drawable/ic_perm_device_information_2x"
-                android:title="@string/tmp_str" />
         </menu>
     </item>
-    <item android:title="@string/more">
 
-        <menu>
-            <item
-                android:id="@+id/nav_setting"
-                android:checkable="true"
-                android:icon="@drawable/ic_settings_applications_black_36dp"
-                android:title="@string/nav_setting" />
-        </menu>
-    </item>
 </menu>

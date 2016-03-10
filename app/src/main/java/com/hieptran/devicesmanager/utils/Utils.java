@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.common.root.RootUtils;
@@ -154,4 +155,12 @@ public class Utils implements Const {
         return time;
     }
 
+    public static String avgOfList(ArrayAdapter<String> input) {
+        double sum = 0;
+        for (int i = 0; i < input.getCount(); i++) {
+            sum += Double.valueOf(input.getItem(i));
+            return String.valueOf(sum / input.getCount());
+        }
+        return "";
+    }
 }
