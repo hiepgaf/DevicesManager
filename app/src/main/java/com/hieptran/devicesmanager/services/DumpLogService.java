@@ -30,7 +30,9 @@ public class DumpLogService extends Service implements Const {
     Notification notification;
     DbHelper mydb;
     LogRecord mLog;// = new LogRecord();
+    Thread t;
     private String table_name;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -89,7 +91,7 @@ public class DumpLogService extends Service implements Const {
                                 .setPriority(Notification.PRIORITY_MAX)
                                 .setStyle(new NotificationCompat.BigTextStyle().bigText(top_tile))
                                 .build();
-                        mNotificationManager.notify(1, notification);
+                        mNotificationManager.notify(309, notification);
                         Log.d("HiepTHb", "Test" + count_time);
                     }
                 } catch (Exception ex) {
@@ -97,14 +99,22 @@ public class DumpLogService extends Service implements Const {
                 }
             }
         };
-        new Thread(runable).start();
+        t = new Thread(runable);
+        t.start();
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mNotificationManager.cancel(1);
+        mNotificationManager.cancel(309);
+        t.interrupt();
+        Utils.saveInt("time_record", 0, getApplicationContext());
+        Utils.saveString("average_power", "", getApplicationContext());
+        Utils.saveString("battery_consumed", "", getApplicationContext());
+        Utils.saveString("average_voltage", "", getApplicationContext());
+        Utils.saveString("average_current", "", getApplicationContext());
+        Utils.saveString("percent", "", getApplicationContext());
     }
 
     @Nullable

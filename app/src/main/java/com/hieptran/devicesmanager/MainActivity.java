@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
 
     //constant for defining the time duration between the click that can be considered as double-tap
     static final int MAX_DURATION = 500;
+    public static Intent i;
     boolean pressAgain = true;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawer;
@@ -95,11 +96,16 @@ public class MainActivity extends AppCompatActivity
             super.setTheme(android.R.style.Theme_Material);
         }
 //For test
-        Intent i = new Intent(MainActivity.this, DumpLogService.class);
-        startService(i);
+        i = new Intent(MainActivity.this, DumpLogService.class);
+        // startService(i);
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(i);
+    }
 
     @Override
     public void onBackPressed() {

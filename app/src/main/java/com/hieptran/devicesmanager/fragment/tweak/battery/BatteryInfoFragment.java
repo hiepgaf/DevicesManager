@@ -9,13 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,21 +22,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hieptran.devicesmanager.AnalyzeActivity;
+import com.hieptran.devicesmanager.MainActivity;
 import com.hieptran.devicesmanager.R;
-import com.hieptran.devicesmanager.ViewLogActivity;
-import com.hieptran.devicesmanager.common.BlurBitmapHelper;
-import com.hieptran.devicesmanager.services.DumpLogService;
 import com.hieptran.devicesmanager.utils.Const;
 import com.hieptran.devicesmanager.utils.Utils;
 import com.hieptran.devicesmanager.utils.provider.DbHelper;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import me.itangqi.waveloadingview.WaveLoadingView;
 
@@ -60,6 +51,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     Bitmap b;
     View v;
     View blur_view;
+    boolean first_time = false;
     private DbHelper dbHelper;
     private WaveLoadingView waveLevelView, realLv;
     private TextView lvText, mTemperatureText;
@@ -111,46 +103,50 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            count_time++;
-                            vol_sum += Double.valueOf(readVoltageNow());
-                            cur_sum += Double.valueOf(readCurrentNow());
+
+                            top_tile = "Time: " + "N/A" +
+                                    " \n" + "Average Power: " + "N/A" +
+                                    " mW\n" +
+                                    "Battery Consumed: " + "N/A" + " mAh" +
+                                    "(~" + "%)";
+                            current_now_tv.setText("Average Voltage: " + "N/A" + " uV");
+                            voltage_now_tv.setText("Average Current: " + "N/A" + " uA");
+
+
+                            // voltage_now_ad.add("\t\t\t\t\t" + readVoltageNow() + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + readCurrentNow());
+                            // voltage_now_ad.setNotifyOnChange(true);
+                            //  lsRunningApp.add(listRunning());
+                            if (first_time) {
+                                if (!isRecorded) {
+                                    count_time++;
+                                    vol_sum += Double.valueOf(readVoltageNow());
+                                    cur_sum += Double.valueOf(readCurrentNow());
                           /*  top_tile = "Time: " + Utils.formatSeconds(count_time)+
                                     " \n"+ "Average Power: "+ String.format("%.2f",vol_sum*cur_sum/count_time/count_time/1000/1000000) +
                                     " mW\n" +
                                     "Battery Consumed: "+ String.format("%.2f",Math.abs(cur_sum/60/1000/1000)) +" mAh" +
                                     "(~"+String.format("%.1f",100*Math.abs(cur_sum/60/1000/1000)/2300)+"%)" ;*/
+                                    updateRecordFileView();
+                                    top_tile = "Time: " + Utils.formatSeconds(Utils.getInt("time_record", 0, getContext())) +
+                                            " \n" + "Average Power: " + Utils.getString("average_power", "", getContext()) +
+                                            " mW\n" +
+                                            "Battery Consumed: " + Utils.getString("battery_consumed", "", getContext()) + " mAh" +
+                                            "(~" + Utils.getString("percent", "", getContext()) + "%)";
+                                    current_now_tv.setText("Average Voltage: " + Utils.getString("average_voltage", "", getContext()) + " uV");
+                                    voltage_now_tv.setText("Average Current: " + Utils.getString("average_current", "", getContext()) + " uA");
+                                    // totalPw.setText(top_tile);
+                                    // btRecord.setText(getString(R.string.start_record));
+                                } else {
+                                    //btRecord.setText(("Stop record"));
 
-                            top_tile = "Time: " + Utils.formatSeconds(count_time) +
-                                    " \n" + "Average Power: " + Utils.getString("average_power", "", getContext()) +
-                                    " mW\n" +
-                                    "Battery Consumed: " + Utils.getString("battery_consumed", "", getContext()) + " mAh" +
-                                    "(~" + Utils.getString("percent", "", getContext()) + "%)";
-
-                            totalPw.setText(top_tile);
-
-                            Object mPowerProfile_ = null;
-                            final String POWER_PROFILE_CLASS = "com.android.internal.os.PowerProfile";
-                            try {
-                                mPowerProfile_ = Class.forName(POWER_PROFILE_CLASS)
-                                        .getConstructor(Context.class).newInstance(getContext());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                // batteryCapacity = (Double)Class.forName(POWER_PROFILE_CLASS).getMethod("getAveragePower", java.lang.String.class).invoke(mPowerProfile_, "battery.capacity");
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            current_now_tv.setText("Average Voltage: " + Utils.getString("average_voltage", "", getContext()) + " uV");
-                            voltage_now_tv.setText("Average Current: " + Utils.getString("average_current", "", getContext()) + " uA");
-                            // voltage_now_ad.add("\t\t\t\t\t" + readVoltageNow() + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + readCurrentNow());
-                            // voltage_now_ad.setNotifyOnChange(true);
-                            //  lsRunningApp.add(listRunning());
-                          /*  if (!isRecorded) {
-                                btRecord.setText(getString(R.string.start_record));
-                            } else {
-                                // count_time =0;
+                                    top_tile = "Time: " + "N/A" +
+                                            " \n" + "Average Power: " + "N/A" +
+                                            " mW\n" +
+                                            "Battery Consumed: " + "N/A" + " mAh" +
+                                            "(~" + "%)";
+                                    current_now_tv.setText("Average Voltage: " + "N/A" + " uV");
+                                    voltage_now_tv.setText("Average Current: " + "N/A" + " uA");
+                               /* // count_time =0;
                                 result = Utils.formatSeconds(time++);
                                 btRecord.setText(result);
                                 showNotification(result);
@@ -161,8 +157,10 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                                 current_now_ad.add(readCurrentNow());
 
                                 Log.d("HiepTHb", "avg cur now : " + vol_sum / time);
-                                current_now_ad.setNotifyOnChange(true);
-                            }*/
+                                current_now_ad.setNotifyOnChange(true);*/
+                                }
+                            }
+                            totalPw.setText(top_tile);
 
                         }
                     });
@@ -175,26 +173,27 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
 
     @Override
     public void onClick(View v) {
+        first_time = true;
         if (v == btRecord) {
             if (!isRecorded) {
-               // updateRecordFileView();
+                updateRecordFileView();
                 isRecorded = true;
                 btRecord.setBackgroundResource(R.drawable.bg_on);
                 btRecord.setText("Start Record");
-                getActivity().stopService(new Intent(getActivity(), DumpLogService.class));
+                getActivity().stopService(MainActivity.i);
                /* mStartTimeRecord = new SimpleDateFormat("HHmmss").format(new Date(System.currentTimeMillis()));
                 mLogRecord.setStartTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));*/
             } else {
-               // updateRecordFileView();
+                updateRecordFileView();
+                //   record_files_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dbHelper.getTablesName());
+                //  record_files_ad.setNotifyOnChange(true);
                 time = 0;
                 isRecorded = false;
                // mNotificationManager.cancel(RECORD_NOTIFICATION_ID);
                 btRecord.setBackgroundResource(R.drawable.bg_off);
                 btRecord.setText("Stop Record");
-                getActivity().startService(new Intent(getActivity(), DumpLogService.class));
-              /*  mLogRecord.setEndTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
-                Utils.writeToSdcard(mStartTimeRecord + "_log.txt", mLogRecord.toString());
-                Log.d(TAG, "Result :\n" + mLogRecord.toString() + "\n currt" + System.currentTimeMillis());*/
+                getActivity().startService(MainActivity.i);
+
             }
         }
     }
@@ -237,7 +236,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
         }
         hand = new android.os.Handler();
 
-        b = BlurBitmapHelper.blurBitmap(getActivity(), 0, 0, 1080, 1920);
+//        b = BlurBitmapHelper.blurBitmap(getActivity(), 0, 0, 1080, 1920);
 
         return v;
     }
@@ -292,6 +291,10 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
 
     private void updateRecordFileView() {
         record_files_ad.clear();
+        for (int i = 0; i < dbHelper.getTablesName().size(); i++) {
+            record_files_ad.add(dbHelper.getTablesName().get(i));
+            record_files_ad.setNotifyOnChange(true);
+        }
       /*  File wearableOsDir = new File(WEARABLE_OS_PATH);
         if (!wearableOsDir.exists())
             wearableOsDir.mkdir();
@@ -305,7 +308,8 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
         Intent i = new Intent(getActivity(), AnalyzeActivity.class);
-        i.putExtra("TABLE_NAME",record_files_ad.getItem(position));
+        i.putExtra("TABLE_NAME", record_files_ad.getItem(position));
+        AnalyzeActivity.REAL_TIME = position == record_files_ad.getCount() - 1;
         getActivity().startActivity(i);
 
        /* final String path = Environment.getExternalStorageDirectory().toString();

@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Thong tin chung">
-        <item
-            android:id="@+id/nav_devices_menu"
-            android:checkable="true"
-            android:icon="@drawable/ic_perm_device_information_2x"
-            android:title="@string/nav_devices" />
-    </item>
+    <item
+        android:id="@+id/nav_devices_menu"
+        android:checkable="true"
+        android:icon="@drawable/ic_perm_device_information_2x"
+        android:title="@string/nav_devices" />
 
-    <item android:title="">
-        <menu>
-            <item
-                android:id="@+id/nav_cpu_tw"
-                android:checkable="true"
-                android:icon="@drawable/ic_perm_device_information_2x"
-                android:title="@string/nav_cpu" />
-            <item
-                android:id="@+id/nav_governor_tw"
-                android:checkable="true"
-                android:icon="@drawable/ic_perm_device_information_2x"
-                android:title="@string/nav_gov" />
-            <item
-                android:id="@+id/nav_battery_tw"
-                android:checkable="true"
-                android:icon="@drawable/ic_perm_device_information_2x"
-                android:title="@string/battery" />
+    <item
+        android:id="@+id/nav_cpu_tw"
+        android:checkable="true"
+        android:icon="@drawable/ic_perm_device_information_2x"
+        android:title="@string/nav_cpu" />
+    <item
+        android:id="@+id/nav_governor_tw"
+        android:checkable="true"
+        android:icon="@drawable/ic_perm_device_information_2x"
+        android:title="@string/nav_gov" />
+    <item
+        android:id="@+id/nav_battery_tw"
+        android:checkable="true"
+        android:icon="@drawable/ic_perm_device_information_2x"
+        android:title="@string/battery" />
 
-            <item
-                android:id="@+id/nav_set_pr"
-                android:checkable="true"
-                android:icon="@drawable/ic_perm_device_information_2x"
-                android:title="Profile" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/nav_set_pr"
+        android:checkable="true"
+        android:icon="@drawable/ic_perm_device_information_2x"
+        android:title="Profile" />
 
 </menu>
