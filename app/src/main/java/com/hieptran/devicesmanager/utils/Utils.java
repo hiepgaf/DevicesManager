@@ -28,6 +28,8 @@ import java.util.TimeZone;
 public class Utils implements Const {
     //Provide changing theme
     public static boolean DARK = false;
+
+    //public static boolean
     //Show log
     public static void showLog(String msg) {
         Log.d(Const.TAG, msg);
@@ -74,15 +76,19 @@ public class Utils implements Const {
     }
 
     public static boolean existFile(String file) {
-        return Tools.existFile(file, true);
+        return Tools.existFile(file, false);
     }
 
     public static void writeFile(String path, String text, boolean append) {
         Tools.writeFile(path, text, append, true);
     }
 
-    public static String readFile(String file) {
-        return Tools.readFile(file, true);
+    public static String readFileRoot(String file) {
+        return Tools.readFile(file, false);
+    }
+
+    public static String readFileUnRooted(String file) {
+        return Tools.readFile(file, false);
     }
 
     public static int stringToInt(String string) {
@@ -162,5 +168,32 @@ public class Utils implements Const {
             return String.valueOf(sum / input.getCount());
         }
         return "";
+    }
+
+    public static String readFileUnRoot(String path) {
+      /*  String[] command = {"cat",path};
+
+        StringBuilder cmdReturn = new StringBuilder();
+
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            Process process = processBuilder.start();
+
+            InputStream inputStream = process.getInputStream();
+            int c;
+            while ((c = inputStream.read()) != -1) {
+                cmdReturn.append((char) c);
+            }
+
+
+            Log.d("HiepTHb",cmdReturn.toString());
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("HiepTHb", "Unable to execute top command");
+        }
+        return cmdReturn.toString();*/
+        return Tools.readFile(path, false);
     }
 }

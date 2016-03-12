@@ -1,21 +1,11 @@
 package com.hieptran.devicesmanager;
 
-import android.annotation.SuppressLint;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.hieptran.devicesmanager.utils.Utils;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,7 +28,7 @@ public class ViewLogActivity extends ActionBarActivity {
        // getSupportActionBar().show();
         mContentView = (TextView)findViewById(R.id.fullscreen_content);
         String path = getIntent().getStringExtra("FILE_NAME").toString();
-        //mContentView.setText(Utils.readFile(path));
+        //mContentView.setText(Utils.readFileRoot(path));
         try {
             File myFile = new File(path);
             FileInputStream fIn = new FileInputStream(myFile);

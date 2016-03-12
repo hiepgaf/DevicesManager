@@ -14,13 +14,11 @@ import java.util.List;
  * Created by hiepth on 29/01/2016.
  */
 public class IOScheduler implements Const {
-    public enum StorageType {
-        INTERNAL, EXTERNAL
-    }
     public static boolean hasExternalStorage() {
         return Utils.existFile(IO_EXTERNAL_READ_AHEAD)
                 || Utils.existFile(IO_EXTERNAL_SCHEDULER);
     }
+
     public static void setReadahead(StorageType type, int readahead, Context context) {
         CommandControl.runCommand(String.valueOf(readahead), type == StorageType.INTERNAL ? IO_INTERNAL_READ_AHEAD :
                 IO_EXTERNAL_READ_AHEAD, CommandControl.CommandType.GENERIC, context);
@@ -30,7 +28,7 @@ public class IOScheduler implements Const {
         String file = type == StorageType.INTERNAL ? IO_INTERNAL_READ_AHEAD
                 : IO_EXTERNAL_READ_AHEAD;
         if (Utils.existFile(file)) {
-            String values = Utils.readFile(file);
+            String values = Utils.readFileRoot(file);
             if (values != null) return Utils.stringToInt(values);
         }
         return 0;
@@ -45,7 +43,7 @@ public class IOScheduler implements Const {
         String file = type == StorageType.INTERNAL ? IO_INTERNAL_SCHEDULER
                 : IO_EXTERNAL_SCHEDULER;
         if (Utils.existFile(file)) {
-            String values = Utils.readFile(file);
+            String values = Utils.readFileRoot(file);
             if (values != null) {
                 String[] valueArray = values.split(" ");
                 String[] out = new String[valueArray.length];
@@ -63,7 +61,7 @@ public class IOScheduler implements Const {
         String file = type == StorageType.INTERNAL ? IO_INTERNAL_SCHEDULER
                 : IO_EXTERNAL_SCHEDULER;
         if (Utils.existFile(file)) {
-            String values = Utils.readFile(file);
+            String values = Utils.readFileRoot(file);
             if (values != null) {
                 String[] valueArray = values.split(" ");
 
@@ -73,5 +71,9 @@ public class IOScheduler implements Const {
             }
         }
         return "";
+    }
+
+    public enum StorageType {
+        INTERNAL, EXTERNAL
     }
 }

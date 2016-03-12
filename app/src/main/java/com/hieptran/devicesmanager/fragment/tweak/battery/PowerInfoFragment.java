@@ -1,10 +1,7 @@
 package com.hieptran.devicesmanager.fragment.tweak.battery;
 
 import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,14 +30,59 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by hieptran on 02/03/2016.
  */
 public class PowerInfoFragment extends Fragment implements Const{
+    int time;
+    double batteryCapacity;
     private TextView current_now_tv,voltage_now_tv;
     private ListView voltage_now_lv;
     private ArrayList<String> voltage_now_al;
     private ArrayAdapter<String> voltage_now_ad;
     private  android.os.Handler hand;
-    int time;
-    double batteryCapacity;
     private List<String> lsRunningApp;
+    private Runnable updateView = new Runnable() {
+        @Override
+        public void run() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Date date = new Date(1000 * (time++)); //260000 milliseconds
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+                            Object mPowerProfile_ = null;
+
+                            final String POWER_PROFILE_CLASS = "com.android.internal.os.PowerProfile";
+
+                            try {
+                                mPowerProfile_ = Class.forName(POWER_PROFILE_CLASS)
+                                        .getConstructor(Context.class).newInstance(getContext());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                batteryCapacity = (Double) Class.forName(POWER_PROFILE_CLASS).getMethod("getAveragePower", java.lang.String.class).invoke(mPowerProfile_, "battery.capacity");
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            String result = sdf.format(date);
+                            current_now_tv.setText("Current now: " + readCurrentNow() + "\t\t\t\t\t\t\t" + " Time: " + result);
+                            voltage_now_tv.setText("Voltage now: " + readVoltageNow() + "\t\t\t\t\t\t\t\t\t" + batteryCapacity + " mah");
+                            voltage_now_ad.add("\t\t\t\t\t" + readVoltageNow() + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + readCurrentNow());
+                            voltage_now_ad.setNotifyOnChange(true);
+                            lsRunningApp.add(listRunning());
+
+                        }
+                    });
+                }
+            }).start();
+            hand.postDelayed(updateView, 1000);
+        }
+
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,56 +127,14 @@ public class PowerInfoFragment extends Fragment implements Const{
 
         return v;
     }
+
     private String readCurrentNow() {
-        return Utils.readFile(BATTERY_CURRENT_NOW);
+        return Utils.readFileRoot(BATTERY_CURRENT_NOW);
     }
+
     private String readVoltageNow() {
-        return Utils.readFile(BATTERY_VOLTAGE_NOW);
+        return Utils.readFileRoot(BATTERY_VOLTAGE_NOW);
     }
-    private Runnable updateView = new Runnable() {
-        @Override
-        public void run() {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Date date = new Date(1000*(time++)); //260000 milliseconds
-
-                            SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
-                            Object mPowerProfile_ = null;
-
-                            final String POWER_PROFILE_CLASS = "com.android.internal.os.PowerProfile";
-
-                            try {
-                                mPowerProfile_ = Class.forName(POWER_PROFILE_CLASS)
-                                        .getConstructor(Context.class).newInstance(getContext());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            try {
-                                 batteryCapacity = (Double)Class.forName(POWER_PROFILE_CLASS).getMethod("getAveragePower", java.lang.String.class).invoke(mPowerProfile_, "battery.capacity");
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            String result = sdf.format(date);
-                            current_now_tv.setText("Current now: "+ readCurrentNow() +"\t\t\t\t\t\t\t"+ " Time: "+ result);
-                            voltage_now_tv.setText("Voltage now: " + readVoltageNow()+"\t\t\t\t\t\t\t\t\t"+batteryCapacity + " mah");
-                            voltage_now_ad.add("\t\t\t\t\t" + readVoltageNow() + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + readCurrentNow());
-                            voltage_now_ad.setNotifyOnChange(true);
-                            lsRunningApp.add(listRunning());
-
-                        }
-                    });
-                }
-            }).start();
-            hand.postDelayed(updateView, 1000);
-        }
-
-    };
 
     private String listRunning() {
         StringBuilder builder = new StringBuilder();

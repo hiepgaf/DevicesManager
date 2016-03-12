@@ -45,7 +45,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isAutoSmpScroffSingleCoreActive() {
-        return Utils.readFile(HOTPLUG_AUTOSMP_SCROFF_SINGLE_CORE).equals("1");
+        return Utils.readFileRoot(HOTPLUG_AUTOSMP_SCROFF_SINGLE_CORE).equals("1");
     }
 
     public static boolean hasAutoSmpScroffSingleCore() {
@@ -57,7 +57,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAutoSmpMinCpus() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_AUTOSMP_MIN_CPUS));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_AUTOSMP_MIN_CPUS));
     }
 
     public static boolean hasAutoSmpMinCpus() {
@@ -69,7 +69,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAutoSmpMaxCpus() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_AUTOSMP_MAX_CPUS));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_AUTOSMP_MAX_CPUS));
     }
 
     public static boolean hasAutoSmpMaxCpus() {
@@ -81,7 +81,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAutoSmpDelay() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_AUTOSMP_DELAY));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_AUTOSMP_DELAY));
     }
 
     public static boolean hasAutoSmpDelay() {
@@ -93,7 +93,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAutoSmpCycleUp() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_AUTOSMP_CYCLE_UP));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_AUTOSMP_CYCLE_UP));
     }
 
     public static boolean hasAutoSmpCycleUp() {
@@ -105,7 +105,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAutoSmpCycleDown() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_AUTOSMP_CYCLE_DOWN));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_AUTOSMP_CYCLE_DOWN));
     }
 
     public static boolean hasAutoSmpCycleDown() {
@@ -117,7 +117,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAutoSmpCpufreqUp() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_AUTOSMP_CPUFREQ_UP));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_AUTOSMP_CPUFREQ_UP));
     }
 
     public static boolean hasAutoSmpCpufreqUp() {
@@ -129,7 +129,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAutoSmpCpufreqDown() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_AUTOSMP_CPUFREQ_DOWN));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_AUTOSMP_CPUFREQ_DOWN));
     }
 
     public static boolean hasAutoSmpCpufreqDown() {
@@ -141,7 +141,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isAutoSmpActive() {
-        return Utils.readFile(HOTPLUG_AUTOSMP_ENABLE).equals("Y");
+        return Utils.readFileRoot(HOTPLUG_AUTOSMP_ENABLE).equals("Y");
     }
 
     public static boolean hasAutoSmpEnable() {
@@ -158,7 +158,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getZenDecisionBatThresholdIgnore() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_ZEN_DECISION_BAT_THRESHOLD_IGNORE));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_ZEN_DECISION_BAT_THRESHOLD_IGNORE));
     }
 
     public static boolean hasZenDecisionBatThresholdIgnore() {
@@ -170,7 +170,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getZenDecisionWakeWaitTime() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_ZEN_DECISION_WAKE_WAIT_TIME));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_ZEN_DECISION_WAKE_WAIT_TIME));
     }
 
     public static boolean hasZenDecisionWakeWaitTime() {
@@ -182,7 +182,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isZenDecisionActive() {
-        return Utils.readFile(HOTPLUG_ZEN_DECISION_ENABLE).equals("1");
+        return Utils.readFileRoot(HOTPLUG_ZEN_DECISION_ENABLE).equals("1");
     }
 
     public static boolean hasZenDecisionEnable() {
@@ -198,7 +198,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isThunderPlugTouchBoostActive() {
-        return Utils.readFile(HOTPLUG_THUNDER_PLUG_TOUCH_BOOST).equals("1");
+        return Utils.readFileRoot(HOTPLUG_THUNDER_PLUG_TOUCH_BOOST).equals("1");
     }
 
     public static boolean hasThunderPlugTouchBoost() {
@@ -210,7 +210,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getThunderPlugLoadThreshold() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_THUNDER_PLUG_LOAD_THRESHOLD));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_THUNDER_PLUG_LOAD_THRESHOLD));
     }
 
     public static boolean hasThunderPlugLoadThreshold() {
@@ -222,7 +222,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getThunderPlugSamplingRate() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_THUNDER_PLUG_SAMPLING_RATE));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_THUNDER_PLUG_SAMPLING_RATE));
     }
 
     public static boolean hasThunderPlugSamplingRate() {
@@ -234,7 +234,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getThunderPlugEnduranceLevel() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_THUNDER_PLUG_ENDURANCE_LEVEL));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_THUNDER_PLUG_ENDURANCE_LEVEL));
     }
 
     public static boolean hasThunderPlugEnduranceLevel() {
@@ -246,7 +246,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getThunderPlugSuspendCpus() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_THUNDER_PLUG_SUSPEND_CPUS));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_THUNDER_PLUG_SUSPEND_CPUS));
     }
 
     public static boolean hasThunderPlugSuspendCpus() {
@@ -258,7 +258,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isThunderPlugActive() {
-        return Utils.readFile(HOTPLUG_THUNDER_PLUG_ENABLE).equals("1");
+        return Utils.readFileRoot(HOTPLUG_THUNDER_PLUG_ENABLE).equals("1");
     }
 
     public static boolean hasThunderPlugEnable() {
@@ -274,7 +274,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAlucardHotplugCpuUpRate() {
-        return Utils.stringToInt(Utils.readFile(ALUCARD_HOTPLUG_CPU_UP_RATE));
+        return Utils.stringToInt(Utils.readFileRoot(ALUCARD_HOTPLUG_CPU_UP_RATE));
     }
 
     public static boolean hasAlucardHotplugCpuUpRate() {
@@ -286,7 +286,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAlucardHotplugCpuDownRate() {
-        return Utils.stringToInt(Utils.readFile(ALUCARD_HOTPLUG_CPU_DOWN_RATE));
+        return Utils.stringToInt(Utils.readFileRoot(ALUCARD_HOTPLUG_CPU_DOWN_RATE));
     }
 
     public static boolean hasAlucardHotplugCpuDownRate() {
@@ -298,7 +298,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAlucardHotplugMaxCoresLimitSleep() {
-        return Utils.stringToInt(Utils.readFile(ALUCARD_HOTPLUG_MAX_CORES_LIMIT_SLEEP));
+        return Utils.stringToInt(Utils.readFileRoot(ALUCARD_HOTPLUG_MAX_CORES_LIMIT_SLEEP));
     }
 
     public static boolean hasAlucardHotplugMaxCoresLimitSleep() {
@@ -310,7 +310,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAlucardHotplugMaxCoresLimit() {
-        return Utils.stringToInt(Utils.readFile(ALUCARD_HOTPLUG_MAX_CORES_LIMIT));
+        return Utils.stringToInt(Utils.readFileRoot(ALUCARD_HOTPLUG_MAX_CORES_LIMIT));
     }
 
     public static boolean hasAlucardHotplugMaxCoresLimit() {
@@ -322,7 +322,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAlucardHotplugMinCpusOnline() {
-        return Utils.stringToInt(Utils.readFile(ALUCARD_HOTPLUG_MIN_CPUS_ONLINE));
+        return Utils.stringToInt(Utils.readFileRoot(ALUCARD_HOTPLUG_MIN_CPUS_ONLINE));
     }
 
     public static boolean hasAlucardHotplugMinCpusOnline() {
@@ -334,7 +334,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isAlucardHotplugSuspendActive() {
-        return Utils.readFile(ALUCARD_HOTPLUG_SUSPEND).equals("1");
+        return Utils.readFileRoot(ALUCARD_HOTPLUG_SUSPEND).equals("1");
     }
 
     public static boolean hasAlucardHotplugSuspend() {
@@ -346,7 +346,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getAlucardHotplugSamplingRate() {
-        return Utils.stringToInt(Utils.readFile(ALUCARD_HOTPLUG_SAMPLING_RATE));
+        return Utils.stringToInt(Utils.readFileRoot(ALUCARD_HOTPLUG_SAMPLING_RATE));
     }
 
     public static boolean hasAlucardHotplugSamplingRate() {
@@ -358,7 +358,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isAlucardHotplugHpIoIsBusyActive() {
-        return Utils.readFile(ALUCARD_HOTPLUG_HP_IO_IS_BUSY).equals("1");
+        return Utils.readFileRoot(ALUCARD_HOTPLUG_HP_IO_IS_BUSY).equals("1");
     }
 
     public static boolean hasAlucardHotplugHpIoIsBusy() {
@@ -370,7 +370,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isAlucardHotplugActive() {
-        return Utils.readFile(ALUCARD_HOTPLUG_ENABLE).equals("1");
+        return Utils.readFileRoot(ALUCARD_HOTPLUG_ENABLE).equals("1");
     }
 
     public static boolean hasAlucardHotplugEnable() {
@@ -386,7 +386,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMBHotplugPause() {
-        return Utils.stringToInt(Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_PAUSE));
+        return Utils.stringToInt(Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_PAUSE));
     }
 
     public static boolean hasMBHotplugPause() {
@@ -398,7 +398,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMBHotplugDelay() {
-        return Utils.stringToInt(Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_DELAY));
+        return Utils.stringToInt(Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_DELAY));
     }
 
     public static boolean hasMBHotplugDelay() {
@@ -410,7 +410,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMBHotplugStartDelay() {
-        return Utils.stringToInt(Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_STARTDELAY));
+        return Utils.stringToInt(Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_STARTDELAY));
     }
 
     public static boolean hasMBHotplugStartDelay() {
@@ -423,7 +423,7 @@ public class CPUHotplug implements Const {
 
     public static List<Integer> getMBHotplugBoostFreqs() {
         List<Integer> list = new ArrayList<>();
-        for (String freq : Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_BOOST_FREQS).split(" "))
+        for (String freq : Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_BOOST_FREQS).split(" "))
             list.add(Utils.stringToInt(freq));
         return list;
     }
@@ -437,7 +437,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMBHotplugCpusBoosted() {
-        return Utils.stringToInt(Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_CPUS_BOOSTED));
+        return Utils.stringToInt(Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_CPUS_BOOSTED));
     }
 
     public static boolean hasMBHotplugCpusBoosted() {
@@ -449,7 +449,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMBHotplugBoostTime() {
-        return Utils.stringToInt(Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_BOOST_TIME));
+        return Utils.stringToInt(Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_BOOST_TIME));
     }
 
     public static boolean hasMBHotplugBoostTime() {
@@ -461,7 +461,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isMBHotplugBoostActive() {
-        return Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_BOOST_ENABLED).equals("1");
+        return Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_BOOST_ENABLED).equals("1");
     }
 
     public static boolean hasMBHotplugBoostEnable() {
@@ -473,7 +473,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMBHotplugIdleFreq() {
-        return Utils.stringToInt(Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_IDLE_FREQ));
+        return Utils.stringToInt(Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_IDLE_FREQ));
     }
 
     public static boolean hasMBHotplugIdleFreq() {
@@ -485,7 +485,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMBHotplugMaxCpusOnlineSusp() {
-        return Utils.stringToInt(Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_CPUS_ONLINE_SUSP));
+        return Utils.stringToInt(Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_CPUS_ONLINE_SUSP));
     }
 
     public static boolean hasMBHotplugMaxCpusOnlineSusp() {
@@ -497,7 +497,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMBHotplugMaxCpus() {
-        return Utils.stringToInt(Utils.readFile(MB_HOTPLUG_MAX_CPUS_FILE));
+        return Utils.stringToInt(Utils.readFileRoot(MB_HOTPLUG_MAX_CPUS_FILE));
     }
 
     public static boolean hasMBHotplugMaxCpus() {
@@ -513,7 +513,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMBHotplugMinCpus() {
-        return Utils.stringToInt(Utils.readFile(MB_HOTPLUG_MIN_CPUS_FILE));
+        return Utils.stringToInt(Utils.readFileRoot(MB_HOTPLUG_MIN_CPUS_FILE));
     }
 
     public static boolean hasMBHotplugMinCpus() {
@@ -529,7 +529,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isMBHotplugScroffSingleCoreActive() {
-        return Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_SCROFF_SINGLE_CORE).equals("1");
+        return Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_SCROFF_SINGLE_CORE).equals("1");
     }
 
     public static boolean hasMBHotplugScroffSingleCore() {
@@ -541,7 +541,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isMBHotplugActive() {
-        return Utils.readFile(MB_HOTPLUG_FILE + "/" + MB_ENABLED).equals("1");
+        return Utils.readFileRoot(MB_HOTPLUG_FILE + "/" + MB_ENABLED).equals("1");
     }
 
     public static boolean hasMBGHotplugEnable() {
@@ -570,7 +570,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugSuspendFreq() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_SUSPEND_FREQ));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_SUSPEND_FREQ));
     }
 
     public static boolean hasMakoHotplugSuspendFreq() {
@@ -582,7 +582,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugTimer() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_TIMER));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_TIMER));
     }
 
     public static boolean hasMakoHotplugTimer() {
@@ -594,7 +594,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugMinCoresOnline() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_MIN_CORES_ONLINE));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_MIN_CORES_ONLINE));
     }
 
     public static boolean hasMakoHotplugMinCoresOnline() {
@@ -606,7 +606,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugMinTimeCpuOnline() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_MIN_TIME_CPU_ONLINE));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_MIN_TIME_CPU_ONLINE));
     }
 
     public static boolean hasMakoHotplugMinTimeCpuOnline() {
@@ -618,7 +618,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugMaxLoadCounter() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_MAX_LOAD_COUNTER));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_MAX_LOAD_COUNTER));
     }
 
     public static boolean hasMakoHotplugMaxLoadCounter() {
@@ -630,7 +630,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugLoadThreshold() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_LOAD_THRESHOLD));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_LOAD_THRESHOLD));
     }
 
     public static boolean hasMakoHotplugLoadThreshold() {
@@ -642,7 +642,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugHighLoadCounter() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_HIGH_LOAD_COUNTER));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_HIGH_LOAD_COUNTER));
     }
 
     public static boolean hasMakoHotplugHighLoadCounter() {
@@ -654,7 +654,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugFirstLevel() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_FIRST_LEVEL));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_FIRST_LEVEL));
     }
 
     public static boolean hasMakoHotplugFirstLevel() {
@@ -666,7 +666,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugCpuFreqUnplugLimit() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_CPUFREQ_UNPLUG_LIMIT));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_CPUFREQ_UNPLUG_LIMIT));
     }
 
     public static boolean hasMakoHotplugCpuFreqUnplugLimit() {
@@ -678,7 +678,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMakoHotplugCoresOnTouch() {
-        return Utils.stringToInt(Utils.readFile(MAKO_HOTPLUG_CORES_ON_TOUCH));
+        return Utils.stringToInt(Utils.readFileRoot(MAKO_HOTPLUG_CORES_ON_TOUCH));
     }
 
     public static boolean hasMakoHotplugCoresOnTouch() {
@@ -690,7 +690,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isMakoHotplugActive() {
-        return Utils.readFile(MAKO_HOTPLUG_ENABLED).equals("1");
+        return Utils.readFileRoot(MAKO_HOTPLUG_ENABLED).equals("1");
     }
 
     public static boolean hasMakoHotplugEnable() {
@@ -706,7 +706,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugSuspendDeferTime() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_SUSPEND_DEFER_TIME));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_SUSPEND_DEFER_TIME));
     }
 
     public static boolean hasMsmHotplugSuspendDeferTime() {
@@ -718,7 +718,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugSuspendFreq() {
-        return Utils.stringToInt(Utils.readFile(MSM_HOTPLUG_SUSPEND_FREQ_FILE));
+        return Utils.stringToInt(Utils.readFileRoot(MSM_HOTPLUG_SUSPEND_FREQ_FILE));
     }
 
     public static boolean hasMsmHotplugSuspendFreq() {
@@ -735,7 +735,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugSuspendMaxCpus() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_SUSPEND_MAX_CPUS));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_SUSPEND_MAX_CPUS));
     }
 
     public static boolean hasMsmHotplugSuspendMaxCpus() {
@@ -747,7 +747,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isMsmHotplugIoIsBusyActive() {
-        return Utils.readFile(MSM_HOTPLUG_IO_IS_BUSY_FILE).equals("1");
+        return Utils.readFileRoot(MSM_HOTPLUG_IO_IS_BUSY_FILE).equals("1");
     }
 
     public static boolean hasMsmHotplugIoIsBusy() {
@@ -763,7 +763,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugOfflineLoad() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_OFFLINE_LOAD));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_OFFLINE_LOAD));
     }
 
     public static boolean hasMsmHotplugOfflineLoad() {
@@ -775,7 +775,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugFastLaneMinFreq() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_FAST_LANE_MIN_FREQ));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_FAST_LANE_MIN_FREQ));
     }
 
     public static boolean hasMsmHotplugFastLaneMinFreq() {
@@ -787,7 +787,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugFastLaneLoad() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_FAST_LANE_LOAD));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_FAST_LANE_LOAD));
     }
 
     public static boolean hasMsmHotplugFastLaneLoad() {
@@ -799,7 +799,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugUpdateRate() {
-        return Utils.stringToInt(Utils.readFile(MSM_HOTPLUG_UPDATE_RATE_FILE));
+        return Utils.stringToInt(Utils.readFileRoot(MSM_HOTPLUG_UPDATE_RATE_FILE));
     }
 
     public static boolean hasMsmHotplugUpdateRate() {
@@ -815,7 +815,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugHistorySize() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_HISTORY_SIZE));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_HISTORY_SIZE));
     }
 
     public static boolean hasMsmHotplugHistorySize() {
@@ -827,7 +827,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugDownLockDuration() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_DOWN_LOCK_DURATION));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_DOWN_LOCK_DURATION));
     }
 
     public static boolean hasMsmHotplugDownLockDuration() {
@@ -839,7 +839,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugBoostLockDuration() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_BOOST_LOCK_DURATION));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_BOOST_LOCK_DURATION));
     }
 
     public static boolean hasMsmHotplugBoostLockDuration() {
@@ -851,7 +851,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugMaxCpusOnlineSusp() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_MAX_CPUS_ONLINE_SUSP));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_MAX_CPUS_ONLINE_SUSP));
     }
 
     public static boolean hasMsmHotplugMaxCpusOnlineSusp() {
@@ -863,7 +863,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugCpusBoosted() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_CPUS_BOOSTED));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_CPUS_BOOSTED));
     }
 
     public static boolean hasMsmHotplugCpusBoosted() {
@@ -875,7 +875,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugMaxCpusOnline() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_MAX_CPUS_ONLINE));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_MAX_CPUS_ONLINE));
     }
 
     public static boolean hasMsmHotplugMaxCpusOnline() {
@@ -887,7 +887,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getMsmHotplugMinCpusOnline() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_MSM_MIN_CPUS_ONLINE));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_MSM_MIN_CPUS_ONLINE));
     }
 
     public static boolean hasMsmHotplugMinCpusOnline() {
@@ -899,7 +899,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isMsmHotplugDebugMaskActive() {
-        return Utils.readFile(HOTPLUG_MSM_DEBUG_MASK).equals("1");
+        return Utils.readFileRoot(HOTPLUG_MSM_DEBUG_MASK).equals("1");
     }
 
     public static boolean hasMsmHotplugDebugMask() {
@@ -911,7 +911,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isMsmHotplugActive() {
-        return Utils.readFile(MSM_HOTPLUG_ENABLE_FILE).equals("1");
+        return Utils.readFileRoot(MSM_HOTPLUG_ENABLE_FILE).equals("1");
     }
 
     public static boolean hasMsmHotplugEnable() {
@@ -930,7 +930,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getBluPlugDownTimerCnt() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_BLU_PLUG_DOWN_TIMER_CNT));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_BLU_PLUG_DOWN_TIMER_CNT));
     }
 
     public static boolean hasBluPlugDownTimerCnt() {
@@ -942,7 +942,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getBluPlugUpTimerCnt() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_BLU_PLUG_UP_TIMER_CNT));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_BLU_PLUG_UP_TIMER_CNT));
     }
 
     public static boolean hasBluPlugUpTimerCnt() {
@@ -954,7 +954,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getBluPlugUpThreshold() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_BLU_PLUG_UP_THRESHOLD));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_BLU_PLUG_UP_THRESHOLD));
     }
 
     public static boolean hasBluPlugUpThreshold() {
@@ -967,7 +967,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getBluPlugMaxFreqScreenOff() {
-        String value = Utils.readFile(HOTPLUG_BLU_PLUG_MAX_FREQ_SCREEN_OFF);
+        String value = Utils.readFileRoot(HOTPLUG_BLU_PLUG_MAX_FREQ_SCREEN_OFF);
         if (value.equals("0")) return 0;
         return CPU.getFreqs().indexOf(Utils.stringToInt(value)) + 1;
     }
@@ -981,7 +981,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getBluPlugMaxCoresScreenOff() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_BLU_PLUG_MAX_CORES_SCREEN_OFF));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_BLU_PLUG_MAX_CORES_SCREEN_OFF));
     }
 
     public static boolean hasBluPlugMaxCoresScreenOff() {
@@ -993,7 +993,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getBluPlugMaxOnline() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_BLU_PLUG_MAX_ONLINE));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_BLU_PLUG_MAX_ONLINE));
     }
 
     public static boolean hasBluPlugMaxOnline() {
@@ -1005,7 +1005,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getBluPlugMinOnline() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_BLU_PLUG_MIN_ONLINE));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_BLU_PLUG_MIN_ONLINE));
     }
 
     public static boolean hasBluPlugMinOnline() {
@@ -1017,7 +1017,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isBluPlugPowersaverModeActive() {
-        return Utils.readFile(HOTPLUG_BLU_PLUG_POWERSAVER_MODE).equals("Y");
+        return Utils.readFileRoot(HOTPLUG_BLU_PLUG_POWERSAVER_MODE).equals("Y");
     }
 
     public static boolean hasBluPlugPowersaverMode() {
@@ -1029,7 +1029,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isBluPlugActive() {
-        return Utils.readFile(HOTPLUG_BLU_PLUG_ENABLE).equals("1");
+        return Utils.readFileRoot(HOTPLUG_BLU_PLUG_ENABLE).equals("1");
     }
 
     public static boolean hasBluPlugEnable() {
@@ -1045,7 +1045,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getIntelliPlugFShift() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_INTELLI_PLUG_5_FSHIFT));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_FSHIFT));
     }
 
     public static boolean hasIntelliPlugFShift() {
@@ -1057,7 +1057,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getIntelliPlugDownLockDuration() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_INTELLI_PLUG_5_DOWN_LOCK_DURATION));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_DOWN_LOCK_DURATION));
     }
 
     public static boolean hasIntelliPlugDownLockDuration() {
@@ -1069,7 +1069,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getIntelliPlugBoostLockDuration() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_INTELLI_PLUG_5_BOOST_LOCK_DURATION));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_BOOST_LOCK_DURATION));
     }
 
     public static boolean hasIntelliPlugBoostLockDuration() {
@@ -1081,7 +1081,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getIntelliPlugDeferSampling() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_INTELLI_PLUG_5_DEFER_SAMPLING));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_DEFER_SAMPLING));
     }
 
     public static boolean hasIntelliPlugDeferSampling() {
@@ -1093,7 +1093,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getIntelliPlugSuspendDeferTime() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_INTELLI_PLUG_5_SUSPEND_DEFER_TIME));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_SUSPEND_DEFER_TIME));
     }
 
     public static boolean hasIntelliPlugSuspendDeferTime() {
@@ -1105,7 +1105,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getIntelliPlugMaxCpusOnlineSusp() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_INTELLI_PLUG_5_MAX_CPUS_ONLINE_SUSP));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_MAX_CPUS_ONLINE_SUSP));
     }
 
     public static boolean hasIntelliPlugMaxCpusOnlineSusp() {
@@ -1117,7 +1117,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getIntelliPlugMaxCpusOnline() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_INTELLI_PLUG_5_MAX_CPUS_ONLINE));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_MAX_CPUS_ONLINE));
     }
 
     public static boolean hasIntelliPlugMaxCpusOnline() {
@@ -1129,7 +1129,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getIntelliPlugMinCpusOnline() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_INTELLI_PLUG_5_MIN_CPUS_ONLINE));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_MIN_CPUS_ONLINE));
     }
 
     public static boolean hasIntelliPlugMinCpusOnline() {
@@ -1141,7 +1141,7 @@ public class CPUHotplug implements Const {
     }
 
     public static int getIntelliPlugCpusBoosted() {
-        return Utils.stringToInt(Utils.readFile(HOTPLUG_INTELLI_PLUG_5_CPUS_BOOSTED));
+        return Utils.stringToInt(Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_CPUS_BOOSTED));
     }
 
     public static boolean hasIntelliPlugCpusBoosted() {
@@ -1153,7 +1153,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isIntelliPlugSuspendActive() {
-        return Utils.readFile(HOTPLUG_INTELLI_PLUG_5_SUSPEND).equals("1");
+        return Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_SUSPEND).equals("1");
     }
 
     public static boolean hasIntelliPlugSuspend() {
@@ -1165,7 +1165,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isIntelliPlugDebugActive() {
-        return Utils.readFile(HOTPLUG_INTELLI_PLUG_5_DEBUG).equals("1");
+        return Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_5_DEBUG).equals("1");
     }
 
     public static boolean hasIntelliPlugDebug() {
@@ -1184,7 +1184,7 @@ public class CPUHotplug implements Const {
         String file = HOTPLUG_INTELLI_PLUG_SCREEN_OFF_MAX;
         if (TYPE == INTELLIPLUG_TYPE.INTELLIPLUG_5) file = HOTPLUG_INTELLI_PLUG_5_SCREEN_OFF_MAX;
 
-        String value = Utils.readFile(file);
+        String value = Utils.readFileRoot(file);
         if (value.equals("4294967295") // 4294967295 is 32-Bit max unsigned integer
                 || value.equals("0")) return 0;
         return CPU.getFreqs().indexOf(Utils.stringToInt(value)) + 1;
@@ -1206,7 +1206,7 @@ public class CPUHotplug implements Const {
     public static int getIntelliPlugThresold() {
         String file = HOTPLUG_INTELLI_PLUG_THRESHOLD;
         if (TYPE == INTELLIPLUG_TYPE.INTELLIPLUG_5) file = HOTPLUG_INTELLI_PLUG_5_THRESHOLD;
-        return Utils.stringToInt(Utils.readFile(file));
+        return Utils.stringToInt(Utils.readFileRoot(file));
     }
 
     public static boolean hasIntelliPlugThresold() {
@@ -1224,7 +1224,7 @@ public class CPUHotplug implements Const {
     public static int getIntelliPlugHysteresis() {
         String file = HOTPLUG_INTELLI_PLUG_HYSTERESIS;
         if (TYPE == INTELLIPLUG_TYPE.INTELLIPLUG_5) file = HOTPLUG_INTELLI_PLUG_5_HYSTERESIS;
-        return Utils.stringToInt(Utils.readFile(file));
+        return Utils.stringToInt(Utils.readFileRoot(file));
     }
 
     public static boolean hasIntelliPlugHysteresis() {
@@ -1238,7 +1238,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isIntelliPlugTouchBoostActive() {
-        return Utils.readFile(HOTPLUG_INTELLI_PLUG_TOUCH_BOOST).equals("1");
+        return Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_TOUCH_BOOST).equals("1");
     }
 
     public static boolean hasIntelliPlugTouchBoost() {
@@ -1250,7 +1250,7 @@ public class CPUHotplug implements Const {
     }
 
     public static boolean isIntelliPlugEcoActive() {
-        return Utils.readFile(HOTPLUG_INTELLI_PLUG_ECO).equals("1");
+        return Utils.readFileRoot(HOTPLUG_INTELLI_PLUG_ECO).equals("1");
     }
 
     public static boolean hasIntelliPlugEco() {
@@ -1266,7 +1266,7 @@ public class CPUHotplug implements Const {
     public static int getIntelliPlugProfile() {
         String file = HOTPLUG_INTELLI_PLUG_PROFILE;
         if (TYPE == INTELLIPLUG_TYPE.INTELLIPLUG_5) file = HOTPLUG_INTELLI_PLUG_5_PROFILE;
-        return Utils.stringToInt(Utils.readFile(file));
+        return Utils.stringToInt(Utils.readFileRoot(file));
     }
 
     public static List<String> getIntelliPlugProfileMenu(Context context) {
@@ -1301,7 +1301,7 @@ public class CPUHotplug implements Const {
     public static boolean isIntelliPlugActive() {
         String file = HOTPLUG_INTELLI_PLUG_ENABLE;
         if (TYPE == INTELLIPLUG_TYPE.INTELLIPLUG_5) file = HOTPLUG_INTELLI_PLUG_5_ENABLE;
-        return Utils.readFile(file).equals("1");
+        return Utils.readFileRoot(file).equals("1");
     }
 
     public static boolean hasIntelliPlugEnable() {

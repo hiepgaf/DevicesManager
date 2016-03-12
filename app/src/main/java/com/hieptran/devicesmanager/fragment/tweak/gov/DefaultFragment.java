@@ -135,7 +135,7 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
         if (path != null) {
             List<String> files = new RootFile(path).list();
             for (final String file : files) {
-                final String value = Utils.readFile(path + "/" + file);
+                final String value = Utils.readFileRoot(path + "/" + file);
                 if (value != null && !value.isEmpty() && !value.contains("\n")) {
                     LinearLayout gov_itemt = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.gov_item, main_vertical_view, false);
                     TextView lables = (TextView) gov_itemt.findViewById(R.id.lable_gov_items);

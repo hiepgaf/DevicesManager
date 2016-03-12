@@ -125,11 +125,15 @@ public class DumpLogService extends Service implements Const {
 
 
     private String readCurrentNow() {
-        return Utils.readFile(BATTERY_CURRENT_NOW);
+        if (Utils.getBoolean("rooted", true, getApplicationContext()))
+            return Utils.readFileRoot(BATTERY_CURRENT_NOW);
+        else return Utils.readFileUnRoot(BATTERY_CURRENT_NOW);
     }
 
     private String readVoltageNow() {
-        return Utils.readFile(BATTERY_VOLTAGE_NOW);
+        if (Utils.getBoolean("rooted", true, getApplicationContext()))
+            return Utils.readFileRoot(BATTERY_VOLTAGE_NOW);
+        else return Utils.readFileUnRoot(BATTERY_VOLTAGE_NOW);
     }
 
 }

@@ -215,34 +215,35 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... params) {
-            //init handler
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    hand = new android.os.Handler();
-                }
-            });
+
             // Check root access and busybox installation
-            if (RootUtils.rooted()) hasRoot = RootUtils.rootAccess();
+            //  Toast.makeText(MainActivity.this,"Device rooted",Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, "Device unrooted", Toast.LENGTH_LONG).show();
+            hasRoot = RootUtils.rootAccess();
 
             return null;
         }
 
-        public final Handler getHandler() {
-            return hand;
-        }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if (hasRoot) {
+            // if (hasRoot) {
                // mSflashDialog.dismiss();
                 mSplashView.finish();
                 mAdView.removeAllViews();
                 setInterface();
-                return;
+
+            //  }
+            if (hasRoot) {
+                Toast.makeText(MainActivity.this, "Device rooted", Toast.LENGTH_LONG).show();
+                Utils.saveBoolean("rooted", true, getApplicationContext());
+            } else {
+                Toast.makeText(MainActivity.this, "Device unrooted", Toast.LENGTH_LONG).show();
+                Utils.saveBoolean("rooted", false, getApplicationContext());
             }
+            return;
 
         }
     }

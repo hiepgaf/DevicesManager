@@ -13,6 +13,7 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
             int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0);
             currentPower = Integer.valueOf(readVoltageNow()) * level * 2.3 / 1000;
             count_time = Utils.getInt("time_record", 0, getContext());
-
+            Log.d("HiepTHb", "Test     " + Utils.readFileUnRoot(BATTERY_VOLTAGE_NOW) + "        ---    " + Utils.getBoolean("rooted", false, getContext()));
             realLevel = (currentPower / totalPower);
             realLv.setProgressValue(100 - (int) (realLevel));
             realLv.setCenterTitle(String.format("%.2f", currentPower / 100) + " mWh\n");
@@ -242,11 +243,15 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     }
 
     private String readCurrentNow() {
-        return Utils.readFile(BATTERY_CURRENT_NOW);
+        if (Utils.getBoolean("rooted", true, getContext()))
+            return Utils.readFileRoot(BATTERY_CURRENT_NOW);
+        else return Utils.readFileUnRoot(BATTERY_CURRENT_NOW);
     }
 
     private String readVoltageNow() {
-        return Utils.readFile(BATTERY_VOLTAGE_NOW);
+        if (Utils.getBoolean("rooted", true, getContext()))
+            return Utils.readFileRoot(BATTERY_VOLTAGE_NOW);
+        else return Utils.readFileUnRoot(BATTERY_VOLTAGE_NOW);
     }
 
     @Override

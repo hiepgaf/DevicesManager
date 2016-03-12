@@ -33,7 +33,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by willi on 02.12.14.
+ * Created by hieptran on 02.12.16.
  */
 public class CPU implements Const {
 
@@ -56,7 +56,7 @@ public class CPU implements Const {
     }
 
     public static boolean isCpuBoostWakeupActive() {
-        return Utils.readFile(CPU_BOOST_WAKEUP).equals("Y");
+        return Utils.readFileRoot(CPU_BOOST_WAKEUP).equals("Y");
     }
 
     public static boolean hasCpuBoostWakeup() {
@@ -68,7 +68,7 @@ public class CPU implements Const {
     }
 
     public static boolean isCpuBoostHotplugActive() {
-        return Utils.readFile(CPU_BOOST_HOTPLUG).equals("Y");
+        return Utils.readFileRoot(CPU_BOOST_HOTPLUG).equals("Y");
     }
 
     public static boolean hasCpuBoostHotplug() {
@@ -80,7 +80,7 @@ public class CPU implements Const {
     }
 
     public static int getCpuBootInputMs() {
-        return Utils.stringToInt(Utils.readFile(CPU_BOOST_INPUT_MS));
+        return Utils.stringToInt(Utils.readFileRoot(CPU_BOOST_INPUT_MS));
     }
 
     public static boolean hasCpuBoostInputMs() {
@@ -88,7 +88,7 @@ public class CPU implements Const {
     }
 
     public static void setCpuBoostInputFreq(int value, int core, Context context) {
-        if (Utils.readFile(CPU_BOOST_INPUT_BOOST_FREQ).contains(":"))
+        if (Utils.readFileRoot(CPU_BOOST_INPUT_BOOST_FREQ).contains(":"))
             CommandControl.runCommand(core + ":" + value, CPU_BOOST_INPUT_BOOST_FREQ, CommandControl.CommandType.GENERIC, context);
         else
             CommandControl.runCommand(String.valueOf(value), CPU_BOOST_INPUT_BOOST_FREQ, CommandControl.CommandType.GENERIC, context);
@@ -96,7 +96,7 @@ public class CPU implements Const {
 
     public static List<Integer> getCpuBootInputFreq() {
         List<Integer> list = new ArrayList<>();
-        String value = Utils.readFile(CPU_BOOST_INPUT_BOOST_FREQ);
+        String value = Utils.readFileRoot(CPU_BOOST_INPUT_BOOST_FREQ);
         for (String core : value.split(" ")) {
             if (core.contains(":")) core = core.split(":")[1];
             if (core.equals("0")) list.add(0);
@@ -114,7 +114,7 @@ public class CPU implements Const {
     }
 
     public static int getCpuBootSyncThreshold() {
-        String value = Utils.readFile(CPU_BOOST_SYNC_THRESHOLD);
+        String value = Utils.readFileRoot(CPU_BOOST_SYNC_THRESHOLD);
         if (value.equals("0")) return 0;
         return CPU.getFreqs().indexOf(Utils.stringToInt(value)) + 1;
     }
@@ -128,7 +128,7 @@ public class CPU implements Const {
     }
 
     public static int getCpuBootMs() {
-        return Utils.stringToInt(Utils.readFile(CPU_BOOST_MS));
+        return Utils.stringToInt(Utils.readFileRoot(CPU_BOOST_MS));
     }
 
     public static boolean hasCpuBoostMs() {
@@ -140,7 +140,7 @@ public class CPU implements Const {
     }
 
     public static boolean isCpuBoostDebugMaskActive() {
-        return Utils.readFile(CPU_BOOST_DEBUG_MASK).equals("1");
+        return Utils.readFileRoot(CPU_BOOST_DEBUG_MASK).equals("1");
     }
 
     public static boolean hasCpuBoostDebugMask() {
@@ -154,7 +154,7 @@ public class CPU implements Const {
     }
 
     public static boolean isCpuBoostActive() {
-        String value = Utils.readFile(CPU_BOOST_ENABLE_FILE);
+        String value = Utils.readFileRoot(CPU_BOOST_ENABLE_FILE);
         return value.equals("1") || value.equals("Y");
     }
 
@@ -173,12 +173,12 @@ public class CPU implements Const {
     }
 
     public static String getCpuQuietCurGovernor() {
-        return Utils.readFile(CPU_QUIET_CURRENT_GOVERNOR);
+        return Utils.readFileRoot(CPU_QUIET_CURRENT_GOVERNOR);
     }
 
     public static List<String> getCpuQuietAvailableGovernors() {
         if (mCpuQuietAvailableGovernors == null) {
-            String[] governors = Utils.readFile(CPU_QUIET_AVAILABLE_GOVERNORS).split(" ");
+            String[] governors = Utils.readFileRoot(CPU_QUIET_AVAILABLE_GOVERNORS).split(" ");
             if (governors.length > 0) {
                 mCpuQuietAvailableGovernors = new String[governors.length];
                 System.arraycopy(governors, 0, mCpuQuietAvailableGovernors, 0, mCpuQuietAvailableGovernors.length);
@@ -190,7 +190,7 @@ public class CPU implements Const {
 
     public static boolean hasCpuQuietGovernors() {
         return Utils.existFile(CPU_QUIET_AVAILABLE_GOVERNORS) && Utils.existFile(CPU_QUIET_CURRENT_GOVERNOR)
-                && !Utils.readFile(CPU_QUIET_AVAILABLE_GOVERNORS).equals("none");
+                && !Utils.readFileRoot(CPU_QUIET_AVAILABLE_GOVERNORS).equals("none");
     }
 
     public static void activateCpuQuiet(boolean active, Context context) {
@@ -198,7 +198,7 @@ public class CPU implements Const {
     }
 
     public static boolean isCpuQuietActive() {
-        return Utils.readFile(CPU_QUIET_ENABLE).equals("1");
+        return Utils.readFileRoot(CPU_QUIET_ENABLE).equals("1");
     }
 
     public static boolean hasCpuQuietEnable() {
@@ -214,12 +214,12 @@ public class CPU implements Const {
     }
 
     public static String getCurrentCFSScheduler() {
-        return Utils.readFile(CPU_CURRENT_CFS_SCHEDULER);
+        return Utils.readFileRoot(CPU_CURRENT_CFS_SCHEDULER);
     }
 
     public static List<String> getAvailableCFSSchedulers() {
         if (mAvailableCFSSchedulers == null)
-            mAvailableCFSSchedulers = Utils.readFile(CPU_AVAILABLE_CFS_SCHEDULERS).split(" ");
+            mAvailableCFSSchedulers = Utils.readFileRoot(CPU_AVAILABLE_CFS_SCHEDULERS).split(" ");
         return new ArrayList<>(Arrays.asList(mAvailableCFSSchedulers));
     }
 
@@ -238,7 +238,7 @@ public class CPU implements Const {
     }
 
     public static int getCurMcPowerSaving() {
-        return Utils.stringToInt(Utils.readFile(CPU_MC_POWER_SAVING));
+        return Utils.stringToInt(Utils.readFileRoot(CPU_MC_POWER_SAVING));
     }
 
     public static boolean hasMcPowerSaving() {
@@ -251,7 +251,7 @@ public class CPU implements Const {
     }
 
     public static boolean isPowerSavingWqActive() {
-        String value = Utils.readFile(CPU_WQ_POWER_SAVING);
+        String value = Utils.readFileRoot(CPU_WQ_POWER_SAVING);
         return value.equals("Y");
     }
 
@@ -266,7 +266,7 @@ public class CPU implements Const {
     public static List<String> getAvailableGovernors(int core) {
         if (mAvailableGovernors == null) mAvailableGovernors = new String[getCoreCount()][];
         if (mAvailableGovernors[core] == null) {
-            String value = Utils.readFile(CPU_AVAILABLE_GOVERNORS);
+            String value = Utils.readFileRoot(CPU_AVAILABLE_GOVERNORS);
             if (value != null) mAvailableGovernors[core] = value.split(" ");
         }
         if (mAvailableGovernors[core] == null) return null;
@@ -290,7 +290,7 @@ public class CPU implements Const {
             while (!Utils.existFile(String.format(CPU_SCALING_GOVERNOR, core)))
                 activateCore(core, true, null);
         if (Utils.existFile(String.format(CPU_SCALING_GOVERNOR, core))) {
-            String value = Utils.readFile(String.format(CPU_SCALING_GOVERNOR, core));
+            String value = Utils.readFileRoot(String.format(CPU_SCALING_GOVERNOR, core));
             if (value != null) return value;
         }
         return "";
@@ -315,7 +315,7 @@ public class CPU implements Const {
                     } else file = String.format(CPU_TIME_STATE_2, 0);
                 }
                 String values;
-                if ((values = Utils.readFile(file)) != null) {
+                if ((values = Utils.readFileRoot(file)) != null) {
                     String[] valueArray = values.split("\\r?\\n");
                     mFreqs[core] = new Integer[valueArray.length];
                     for (int i = 0; i < mFreqs[core].length; i++)
@@ -327,7 +327,7 @@ public class CPU implements Const {
                         activateCore(core, true, null);
                 }
                 String values;
-                if ((values = Utils.readFile(String.format(CPU_AVAILABLE_FREQS, core))) != null) {
+                if ((values = Utils.readFileRoot(String.format(CPU_AVAILABLE_FREQS, core))) != null) {
                     String[] valueArray = values.split(" ");
                     mFreqs[core] = new Integer[valueArray.length];
                     for (int i = 0; i < mFreqs[core].length; i++)
@@ -357,7 +357,7 @@ public class CPU implements Const {
             while (!Utils.existFile(String.format(CPU_MAX_SCREEN_OFF_FREQ, core)))
                 activateCore(core, true, null);
         if (Utils.existFile(String.format(CPU_MAX_SCREEN_OFF_FREQ, core))) {
-            String value = Utils.readFile(String.format(CPU_MAX_SCREEN_OFF_FREQ, core));
+            String value = Utils.readFileRoot(String.format(CPU_MAX_SCREEN_OFF_FREQ, core));
             if (value != null) return Utils.stringToInt(value);
         }
         return 0;
@@ -385,7 +385,7 @@ public class CPU implements Const {
         if (forceRead && core > 0) while (!Utils.existFile(String.format(CPU_MIN_FREQ, core)))
             activateCore(core, true, null);
         if (Utils.existFile(String.format(CPU_MIN_FREQ, core))) {
-            String value = Utils.readFile(String.format(CPU_MIN_FREQ, core));
+            String value = Utils.readFileRoot(String.format(CPU_MIN_FREQ, core));
             Log.d("HiepTHb", "getMinFreq " + String.format(CPU_MIN_FREQ, core));
             if (value != null) return Utils.stringToInt(value);
         }
@@ -398,7 +398,7 @@ public class CPU implements Const {
 
     public static void setMaxFreq(CommandControl.CommandType command, int freq, Context context) {
         if (command == CommandControl.CommandType.CPU && Utils.existFile(CPU_MSM_CPUFREQ_LIMIT)
-                && freq > Utils.stringToInt(Utils.readFile(CPU_MSM_CPUFREQ_LIMIT)))
+                && freq > Utils.stringToInt(Utils.readFileRoot(CPU_MSM_CPUFREQ_LIMIT)))
             CommandControl.runCommand(String.valueOf(freq), CPU_MSM_CPUFREQ_LIMIT, CommandControl.CommandType.GENERIC, context);
         if (Utils.existFile(String.format(CPU_ENABLE_OC, 0)))
             CommandControl.runCommand("1", CPU_ENABLE_OC, CommandControl.CommandType.CPU, context);
@@ -421,11 +421,11 @@ public class CPU implements Const {
                 activateCore(core, true, null);
 
         if (Utils.existFile(String.format(CPU_MAX_FREQ_KT, core))) {
-            String value = Utils.readFile(String.format(CPU_MAX_FREQ_KT, core));
+            String value = Utils.readFileRoot(String.format(CPU_MAX_FREQ_KT, core));
             if (value != null) return Utils.stringToInt(value);
         }
         if (Utils.existFile(String.format(CPU_MAX_FREQ, core))) {
-            String value = Utils.readFile(String.format(CPU_MAX_FREQ, core));
+            String value = Utils.readFileRoot(String.format(CPU_MAX_FREQ, core));
             if (value != null) return Utils.stringToInt(value);
         }
         return 0;
@@ -433,7 +433,7 @@ public class CPU implements Const {
 
     public static int getCurFreq(int core) {
         if (Utils.existFile(String.format(CPU_CUR_FREQ, core))) {
-            String value = Utils.readFile(String.format(CPU_CUR_FREQ, core));
+            String value = Utils.readFileRoot(String.format(CPU_CUR_FREQ, core));
             if (value != null) return Utils.stringToInt(value);
         }
         return 0;
@@ -502,7 +502,7 @@ public class CPU implements Const {
     }
 
     /* public static String getTemp() {
-         double temp = Utils.stringToLong(Utils.readFile(TEMP_FILE));
+         double temp = Utils.stringToLong(Utils.readFileRoot(TEMP_FILE));
          if (temp > 1000) temp /= 1000;
          else if (temp > 200) temp /= 10;
          return Utils.formatCelsius(temp) + " " + Utils.celsiusToFahrenheit(temp);
@@ -510,7 +510,7 @@ public class CPU implements Const {
  */
     public static boolean hasTemp() {
         if (Utils.existFile(CPU_TEMP_ZONE1)) {
-            int temp = Utils.stringToInt(Utils.readFile(CPU_TEMP_ZONE1));
+            int temp = Utils.stringToInt(Utils.readFileRoot(CPU_TEMP_ZONE1));
             if (temp > -1 && temp < 1000000) {
                 TEMP_FILE = CPU_TEMP_ZONE1;
                 return true;

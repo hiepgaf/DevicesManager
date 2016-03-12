@@ -19,7 +19,7 @@ public class CPUVoltage implements Const{
     private static String[] mCpuFreqs;
 
     public static List<String> getVoltages() {
-        String value = Utils.readFile(CPU_VOLTAGE_FILE);
+        String value = Utils.readFileRoot(CPU_VOLTAGE_FILE);
         if(value != null) {
             String[] lines;
             //Bo dau cach cua output
@@ -67,7 +67,7 @@ public class CPUVoltage implements Const{
 
     public static List<String> getFreqs() {
         if (mCpuFreqs == null) {
-            String value = Utils.readFile(CPU_VOLTAGE_FILE);
+            String value = Utils.readFileRoot(CPU_VOLTAGE_FILE);
             if (value != null) {
                 String[] lines;
                 value = value.replace(" ", "");
@@ -112,7 +112,7 @@ public class CPUVoltage implements Const{
     }
 
     public static boolean isOverrideVminActive() {
-        return Utils.readFile(CPU_OVERRIDE_VMIN).equals("1");
+        return Utils.readFileRoot(CPU_OVERRIDE_VMIN).equals("1");
     }
 
     public static boolean hasOverrideVmin() {
