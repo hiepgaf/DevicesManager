@@ -76,7 +76,7 @@ public class Utils implements Const {
     }
 
     public static boolean existFile(String file) {
-        return Tools.existFile(file, false);
+        return Tools.existFile(file, true);
     }
 
     public static void writeFile(String path, String text, boolean append) {
@@ -84,7 +84,7 @@ public class Utils implements Const {
     }
 
     public static String readFileRoot(String file) {
-        return Tools.readFile(file, false);
+        return Tools.readFile(file, true);
     }
 
     public static String readFileUnRooted(String file) {

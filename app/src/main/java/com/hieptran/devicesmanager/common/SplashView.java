@@ -159,15 +159,16 @@ public class SplashView extends View {
 
                 if(splashTime < 500){
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                    canvas.drawText("", getWidth() / 2, getHeight() / 2, textPaint);
                     canvas.drawText(getResources().getString(R.string.waiting_for_init) +" .", getWidth() / 2, getHeight() / 2, textPaint);
                 }
                 else if(splashTime >= 500 && splashTime < 700 ){
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
+                    canvas.drawText("", getWidth() / 2, getHeight() / 2, textPaint);
                     canvas.drawText(getResources().getString(R.string.waiting_for_init)+ " ..", getWidth() / 2, getHeight() / 2, textPaint);
                 }else if (splashTime >= 700){
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
+                    canvas.drawText("", getWidth() / 2, getHeight() / 2, textPaint);
                     canvas.drawText(getResources().getString(R.string.waiting_for_init)+ " ...", getWidth() / 2, getHeight() / 2, textPaint);
                 }
                 //splashTime = splashTime + 100;
