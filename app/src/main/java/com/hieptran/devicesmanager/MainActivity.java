@@ -91,6 +91,9 @@ public class MainActivity extends AppCompatActivity
         mSplashView = (SplashView) findViewById(R.id.splash_view);
         new Task().execute();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //http://stackoverflow.com/questions/31394265/navigation-drawer-item-icon-not-showing-original-colour
+        navigationView.setItemIconTintList(null);
+
         navigationView.setNavigationItemSelectedListener(this);
         if (Utils.DARK) {
             super.setTheme(android.R.style.Theme_Material);
