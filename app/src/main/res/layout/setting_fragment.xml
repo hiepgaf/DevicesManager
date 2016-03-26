@@ -2,31 +2,59 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:slideswitch="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/RelativeLayout01"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="@dimen/card_padding">
+
+    <LinearLayout
+        style="@style/header_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/description_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/set_on_boot_lable" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchcompat_view"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="start"
-            android:text="DARK THEME" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0"
+            android:paddingEnd="1dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:paddingStart="1dp" />
+    </LinearLayout>
 
-        <com.leaking.slideswitch.SlideSwitch
-            android:id="@+id/switch_dark"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            slideswitch:shape="circle"
-            android:layout_alignParentRight="true"
 
-            slideswitch:themeColor="#f200aa96" >
-        </com.leaking.slideswitch.SlideSwitch>
-    </RelativeLayout>
+    <LinearLayout
+        style="@style/header_style"
 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Force English" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchcompat_view_lang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0"
+            android:paddingEnd="1dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:paddingStart="1dp" />
+    </LinearLayout>
 </LinearLayout>

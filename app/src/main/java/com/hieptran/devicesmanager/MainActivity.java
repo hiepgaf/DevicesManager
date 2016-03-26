@@ -25,6 +25,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.hieptran.devicesmanager.common.SplashView;
 import com.hieptran.devicesmanager.common.root.RootUtils;
+import com.hieptran.devicesmanager.fragment.others.SettingFragment;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.GOVTweakFragment;
@@ -172,8 +173,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_set_pr) {
             Fragment setting = new ProfileFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
-
-
+            setTitle(getString(R.string.profile_summary));
+        } else if (id == R.id.nav_setting) {
+            Fragment setting = new SettingFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
+            setTitle(getString(R.string.nav_setting));
         }
 
         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -240,10 +244,10 @@ public class MainActivity extends AppCompatActivity
 
             //  }
             if (hasRoot) {
-                Toast.makeText(MainActivity.this, "Device rooted", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Root Mode", Toast.LENGTH_LONG).show();
                 Utils.saveBoolean("rooted", true, getApplicationContext());
             } else {
-                Toast.makeText(MainActivity.this, "Device unrooted", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "NonRoot Mode", Toast.LENGTH_LONG).show();
                 Utils.saveBoolean("rooted", false, getApplicationContext());
             }
             return;
