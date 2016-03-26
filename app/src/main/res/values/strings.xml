@@ -230,4 +230,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_log_view">LogViewActivity</string>
+
+    <!-- WakeLock -->
+    <string name="wake_lock_title">Wake Lock</string>
 </resources>

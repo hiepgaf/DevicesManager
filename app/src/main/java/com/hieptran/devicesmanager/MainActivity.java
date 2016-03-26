@@ -31,6 +31,7 @@ import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.GOVTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.battery.BatteryInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.profile.ProfileFragment;
+import com.hieptran.devicesmanager.fragment.tweak.wakelock.WakeLockFragment;
 import com.hieptran.devicesmanager.services.DumpLogService;
 import com.hieptran.devicesmanager.utils.Utils;
 
@@ -174,6 +175,10 @@ public class MainActivity extends AppCompatActivity
             Fragment setting = new ProfileFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.profile_summary));
+        } else if (id == R.id.nav_wakelock) {
+            Fragment setting = new WakeLockFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
+            setTitle(getString(R.string.wake_lock_title));
         } else if (id == R.id.nav_setting) {
             Fragment setting = new SettingFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
