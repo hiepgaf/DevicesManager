@@ -3,6 +3,7 @@ package com.hieptran.devicesmanager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,13 +20,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.hieptran.devicesmanager.common.SampleDialogFragment;
 import com.hieptran.devicesmanager.common.SplashView;
 import com.hieptran.devicesmanager.common.root.RootUtils;
+import com.hieptran.devicesmanager.fragment.AboutFragment;
 import com.hieptran.devicesmanager.fragment.others.SettingFragment;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
@@ -53,7 +57,17 @@ public class MainActivity extends AppCompatActivity
     AdView mAdView;
     AdRequest adRequest;
     private ProgressDialog progressDialog;
-
+    TextView tv;
+    String warning = "#include <std_disclaimer.h>\n" +
+            "/*\n" +
+            " * Your warranty is now void.\n" +
+            " *\n" +
+            " * I am not responsible for bricked devices, dead SD cards,\n" +
+            " * thermonuclear war, or you getting fired because the alarm app failed. Please\n" +
+            " * do some research if you have any concerns about features included in this ROM\n" +
+            " * before flashing it! YOU are choosing to make these modifications, and if\n" +
+            " * you point the finger at me for messing up your device, I will laugh at you.\n" +
+            " */";
     ///Test
     //variable for counting two successive up-down events
     int clickCount = 0;
@@ -64,7 +78,8 @@ public class MainActivity extends AppCompatActivity
     //private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
     MaterialDialog mSflashDialog;
     private InterstitialAd mInterstitialAd;
-
+    SampleDialogFragment fragment;
+   // Typeface tf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +90,10 @@ public class MainActivity extends AppCompatActivity
         mInterstitialAd = new InterstitialAd(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.waiting_for_init));
+        //tf = Typeface.createFromAsset(getAssets(),"fonts/cour.ttf");
+       // tv = (TextView) findViewById(R.id.warningmsg);
+       // tv.setTypeface(tf);
+       // tv.setText(warning);
         // Defined in res/values/strings.xml
         mInterstitialAd.setAdUnitId(getString(R.string.splash_banner_));
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
@@ -94,6 +113,14 @@ public class MainActivity extends AppCompatActivity
             //getSupportActionBar().hide();
             setSupportActionBar(toolbar);
         }
+         fragment
+                = SampleDialogFragment.newInstance(
+                5,
+                5,
+                false,
+                false,
+                "",getString(R.string.waiting_for_init)
+                );
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
      //   mSplashView = (SplashView) findViewById(R.id.splash_view);
         new Task().execute();
@@ -108,7 +135,9 @@ public class MainActivity extends AppCompatActivity
 //For test
         i = new Intent(MainActivity.this, DumpLogService.class);
         // startService(i);
-
+        Fragment setting = new AboutFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
+        setTitle("About");
     }
 
     @Override
@@ -232,6 +261,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPreExecute() {
+
+           // fragment.show(getFragmentManager(), "blur_sample");
             progressDialog.show();
             super.onPreExecute();
         }
@@ -250,7 +281,9 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+//            fragment.dismiss();
             progressDialog.dismiss();
+
             // if (hasRoot) {
                // mSflashDialog.dismiss();
               //  mSplashView.finish();

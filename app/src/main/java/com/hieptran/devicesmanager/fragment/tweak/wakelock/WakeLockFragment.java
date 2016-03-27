@@ -1,18 +1,26 @@
 package com.hieptran.devicesmanager.fragment.tweak.wakelock;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ListViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.hieptran.commonlibs.andoid.common.contrib.Util;
@@ -22,32 +30,39 @@ import com.example.hieptran.commonlibs.android.common.privateapiproxies.StatElem
 import com.example.hieptran.commonlibs.android.common.privateapiproxies.Wakelock;
 import com.example.hieptran.commonlibs.android.common.utils.DateUtils;
 import com.hieptran.devicesmanager.R;
+import com.hieptran.devicesmanager.common.root.CommandControl;
 import com.hieptran.devicesmanager.utils.Utils;
+import com.hieptran.devicesmanager.utils.tweak.CPU;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
+import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
+
 /**
  * Created by HiepTran on 3/26/2016.
  */
-public class WakeLockFragment extends Fragment {
+public class WakeLockFragment extends Fragment implements AdapterView.OnItemClickListener{
     private ListViewCompat mWakeLockListView;
     private WakelockAdapter mWakeLockAdapter;
     private ProgressDialog mProgressDialog;
     private ArrayList<NativeKernelWakelock> mWakeupSource,mWakeupSourceFinal;
+    static Context mContext;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.wakelocks_fragment,container,false);
         mWakeLockListView = (ListViewCompat) v.findViewById(R.id.wakelock_lv);
+        mWakeLockListView.setOnItemClickListener(this);
         mWakeLockListView.setAdapter(mWakeLockAdapter);
         mProgressDialog = new ProgressDialog(getContext());
         mProgressDialog.setMessage("Getting Data");
         mProgressDialog.setCanceledOnTouchOutside(false);
         new CustomAsync().execute();
-      //  Log.d("HiepTHb", "");
+        mContext = getContext();
+              //  Log.d("HiepTHb", "");
         return v;
     }
     private void updateData() {
@@ -57,7 +72,7 @@ public class WakeLockFragment extends Fragment {
            //     return;
             mWakeupSourceFinal.add(mWakeupSource.get(i));// = new WakelockAdapter(mWakeupSource);
            // mWakeLockAdapter.add(mWakeupSource.get(i).getName());
-            Log.d("HiepTHb1", WakeupSources.parseWakeupSources(getContext()).get(i).getName()+"-"+WakeupSources.parseWakeupSources(getContext()).get(i).getTtlTime() +"");
+         //   Log.d("HiepTHb1", WakeupSources.parseWakeupSources(getContext()).get(i).getName()+"-"+WakeupSources.parseWakeupSources(getContext()).get(i).getTtlTime() +"");
         }
        // mWakeLockAdapter.setNotifyOnChange(true);
     }
@@ -98,6 +113,20 @@ public class WakeLockFragment extends Fragment {
             return null;
         }
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        ShowTextDialog  fragment
+                = ShowTextDialog.newInstance(
+                5,
+                5,
+                false,
+                false,
+                mWakeupSource.get(position).getName(),mWakeupSource.get(position).toString());
+        fragment.show(getActivity().getFragmentManager(),"blur");
+    }
+
     class WakelockAdapter extends BaseAdapter {
         private TextView mLable, mValue;
 
@@ -153,6 +182,141 @@ public class WakeLockFragment extends Fragment {
         @Override
         public void notifyDataSetChanged() {
             super.notifyDataSetChanged();
+        }
+    }
+    static class ShowTextDialog extends BlurDialogFragment {
+
+        /**
+         * Bundle key used to start the blur dialog with a given scale factor (float).
+         */
+        private static final String BUNDLE_KEY_DOWN_SCALE_FACTOR = "bundle_key_down_scale_factor";
+
+        /**
+         * Bundle key used to start the blur dialog with a given blur radius (int).
+         */
+        private static final String BUNDLE_KEY_BLUR_RADIUS = "bundle_key_blur_radius";
+
+        /**
+         * Bundle key used to start the blur dialog with a given dimming effect policy.
+         */
+        private static final String BUNDLE_KEY_DIMMING = "bundle_key_dimming_effect";
+
+        /**
+         * Bundle key used to start the blur dialog with a given debug policy.
+         */
+        private static final String BUNDLE_KEY_DEBUG = "bundle_key_debug_effect";
+
+        private int mRadius;
+        private float mDownScaleFactor;
+        private boolean mDimming;
+        private boolean mDebug;
+        static String mLable = "", mValue = "";
+        static int mCores;
+
+        /**
+         * Retrieve a new instance of the sample fragment.
+         *
+         * @param radius          blur radius.
+         * @param downScaleFactor down scale factor.
+         * @param dimming         dimming effect.
+         * @param debug           debug policy.
+         * @return well instantiated fragment.
+         */
+        public static ShowTextDialog newInstance(int radius,
+                                                 float downScaleFactor,
+                                                 boolean dimming,
+                                                 boolean debug,
+                                                 String file, String value) {
+            ShowTextDialog fragment = new ShowTextDialog();
+            Bundle args = new Bundle();
+
+            mLable = file;
+            mValue = value;
+            args.putInt(
+                    BUNDLE_KEY_BLUR_RADIUS,
+                    radius
+            );
+            args.putFloat(
+                    BUNDLE_KEY_DOWN_SCALE_FACTOR,
+                    downScaleFactor
+            );
+            args.putBoolean(
+                    BUNDLE_KEY_DIMMING,
+                    dimming
+            );
+            args.putBoolean(
+                    BUNDLE_KEY_DEBUG,
+                    debug
+            );
+
+            fragment.setArguments(args);
+
+            return fragment;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+
+            Bundle args = getArguments();
+            mRadius = args.getInt(BUNDLE_KEY_BLUR_RADIUS);
+            mDownScaleFactor = args.getFloat(BUNDLE_KEY_DOWN_SCALE_FACTOR);
+            mDimming = args.getBoolean(BUNDLE_KEY_DIMMING);
+            mDebug = args.getBoolean(BUNDLE_KEY_DEBUG);
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.textview_diaglog,null);
+
+
+            final TextView editText = (TextView) layout.findViewById(R.id.context_msg);
+            final TextView mTextView = (TextView) layout.findViewById(R.id.header_dialog);
+            mTextView.setText(mLable);
+            editText.setText(mValue);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setView(layout)
+                  .setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          dismiss();
+
+                      }
+                  });
+
+            return builder.create();
+        }
+
+        @Override
+        protected boolean isDebugEnable() {
+            return mDebug;
+        }
+
+        @Override
+        protected boolean isDimmingEnable() {
+            return mDimming;
+        }
+
+        @Override
+        protected boolean isActionBarBlurred() {
+            return true;
+        }
+
+        @Override
+        protected float getDownScaleFactor() {
+            return mDownScaleFactor;
+        }
+
+        @Override
+        protected int getBlurRadius() {
+            return mRadius;
         }
     }
 }
