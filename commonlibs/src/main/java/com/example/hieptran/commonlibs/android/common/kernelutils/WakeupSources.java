@@ -64,7 +64,7 @@ public class WakeupSources extends Wakelocks {
     //private static String FILE_PATH = "/sdcard/wakeup_sources.txt";
 
     public static ArrayList<StatElement> parseWakeupSources(Context context) {
-        Log.i(TAG, "Parsing " + FILE_PATH);
+      //  Log.i(TAG, "Parsing " + FILE_PATH);
 
         String delimiter = String.valueOf('\t');
         delimiter = delimiter + "+";

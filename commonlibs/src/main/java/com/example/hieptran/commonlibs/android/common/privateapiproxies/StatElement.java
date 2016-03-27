@@ -115,7 +115,7 @@ public abstract class StatElement implements Serializable {
      */
     @Override
     public String toString() {
-        return m_uidInfo.toString();
+        return m_uidInfo.customToString();
     }
 
     /**

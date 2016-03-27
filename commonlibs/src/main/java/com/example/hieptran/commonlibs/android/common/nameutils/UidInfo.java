@@ -114,5 +114,9 @@ public class UidInfo {
                 + ", m_uidUniqueName=" + m_uidUniqueName + "]";
     }
 
-
+    public String customToString() {
+        return "m_uid=" + m_uid + "\n m_uidName=" + m_uidName
+                + "\n m_uidNamePackage=" + m_uidNamePackage
+                + "\n m_uidUniqueName=" + m_uidUniqueName;
+    }
 }
