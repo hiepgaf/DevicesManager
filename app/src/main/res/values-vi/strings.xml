@@ -40,7 +40,7 @@
     <string name="offline">Đã tắt</string>
     <string name="waiting_for_init">Chờ để thiết lập...</string>
     <string name="action_settings">Thiết lập</string>
-    <string name="set_on_boot_lable">Áp dụng</string>
+    <string name="set_on_boot_lable">Áp dụng khi boot</string>
     <string name="max_cpu_freqs">Tần số CPU lớn nhất:\t\t</string>
     <string name="nav_setting">Thiết lập</string>
     <string name="min_cpu_freq">Tần số CPU nhỏ nhất: \t\t</string>
