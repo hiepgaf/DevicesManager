@@ -59,7 +59,7 @@ public class CPUFragment extends Fragment {
                                     } else {
                                         mUsageCircle.setWaveColor(getResources().getColor(R.color.colorPrimary));
                                         mUsageCircle.setBorderColor(R.color.color_primary);
-                                        mUsageCircle.setCenterTitleColor(Color.BLACK);
+                                        mUsageCircle.setCenterTitleColor(Color.WHITE);
                                     }
 
                                     mUsageCircle.setProgressValue(Math.round(100 - usage[0]));
@@ -110,14 +110,20 @@ public class CPUFragment extends Fragment {
         @Override
         public void init(Bundle savedInstanceState) {
             super.init(savedInstanceState);
-            if(CPU.isBigCluster()) {
-                setTabsColor(Color.GRAY);
-                addFragment(new ViewPagerItemCommon(new GeneralFragment(0), "Litte"));
-                addFragment(new ViewPagerItemCommon(new GeneralFragment(4), "Big"));
-            } else {
-                showTabs(false);
-                addFragment(new ViewPagerItemCommon(new GeneralFragment(0), getString(R.string.default_core)));
-            }
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(CPU.isBigCluster()) {
+                        setTabsColor(Color.GRAY);
+                        addFragment(new ViewPagerItemCommon(new GeneralFragment(0), "Litte"));
+                        addFragment(new ViewPagerItemCommon(new GeneralFragment(4), "Big"));
+                    } else {
+                        showTabs(false);
+                        addFragment(new ViewPagerItemCommon(new GeneralFragment(0), getString(R.string.default_core)));
+                    }
+                }
+            });
+
         }
     }
 }

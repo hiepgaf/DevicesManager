@@ -88,7 +88,7 @@ public class CircleChart extends View {
         canvas.drawArc(mRectF, 0, 360, false, mPaintBackground);
         float offset = 360 / (float) mMax;
         if (mProgress < 75) {
-            mPaintCircle.setColor(getResources().getColor(R.color.color_primary));
+            mPaintCircle.setColor(getResources().getColor(R.color.color_primary_light));
         } else
             mPaintCircle.setColor(Color.RED);
 

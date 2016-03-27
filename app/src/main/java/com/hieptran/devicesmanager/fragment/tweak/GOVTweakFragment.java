@@ -27,6 +27,9 @@ public class GOVTweakFragment extends ViewPagerFragment {
         @Override
         public void init(Bundle savedInstanceState) {
             super.init(savedInstanceState);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
             String default_title = getString(R.string.tunning);
             if (CPU.isBigCluster()) {
                 default_title = getString(R.string.litter_core_title);
@@ -34,10 +37,14 @@ public class GOVTweakFragment extends ViewPagerFragment {
             addFragment(new ViewPagerItemCommon(new DefaultFragment(0), default_title));
             showTabs(false);
             if (CPU.isBigCluster()) {
-                addFragment(new ViewPagerItemCommon(new DefaultFragment(4), getString(R.string.big_core_title)));
-                showTabs(true);
-            }
 
+                        addFragment(new ViewPagerItemCommon(new DefaultFragment(4), getString(R.string.big_core_title)));
+                        showTabs(true);
+                    }
+
+
+            }
+            });
         }
     }
 }

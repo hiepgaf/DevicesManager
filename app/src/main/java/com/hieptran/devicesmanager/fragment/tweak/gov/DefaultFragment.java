@@ -1,11 +1,13 @@
 package com.hieptran.devicesmanager.fragment.tweak.gov;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.ListViewCompat;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,8 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -29,6 +33,7 @@ import com.hieptran.devicesmanager.utils.Const;
 import com.hieptran.devicesmanager.utils.Utils;
 import com.hieptran.devicesmanager.utils.tweak.CPU;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.drakeet.materialdialog.MaterialDialog;
@@ -36,7 +41,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 /**
  * Created by hieptran on 11/01/2016.
  */
-public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSelectedListener {
+public class DefaultFragment extends Fragment implements Const, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener{
     protected boolean inhibit_spinner = true;
     LinearLayout main_vertical_view;
     MenuItem item_refresh;
@@ -49,6 +54,14 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
     private List<String> ls_avai_gov;
     private ArrayAdapter<String> adap_avai_gov;
     private int mState = 0;
+    private ListViewCompat mListView;
+    private ArrayList<String> mLableList, mValueList;
+    private GovernorAdapter mGovAdapter;
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        showDialog(path + "/" + mLableList.get(position), mValueList.get(position));
+    }
 
     public DefaultFragment(int core) {
         mCores = core;
@@ -60,15 +73,26 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
         View v = inflater.inflate(R.layout.gov_tw, container, false);
         tv_current_gov = (TextView) v.findViewById(R.id.current_gov);
         avai_gov = (Spinner) v.findViewById(R.id.available_gov_spinner);
-        main_vertical_view = (LinearLayout) v.findViewById(R.id.main_vertical_view);
+        //  main_vertical_view = (LinearLayout) v.findViewById(R.id.main_vertical_view);
         ls_avai_gov = CPU.getAvailableGovernors(mCores);
         adap_avai_gov = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, ls_avai_gov);
         avai_gov.setAdapter(adap_avai_gov);
+        mLableList = new ArrayList<>();
+        mValueList = new ArrayList<>();
+        mListView = (ListViewCompat) v.findViewById(R.id.lv_main);
+        mListView.setOnItemClickListener(this);
         mSflashDialog = new MaterialDialog(getContext());
         adap_avai_gov.setNotifyOnChange(true);
         avai_gov.setOnItemSelectedListener(this);
-        setStaticView();
-        updateView();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setStaticView();
+                //  updateView();
+                UpdateView2();
+            }
+        });
+
         hand = new Handler();
         return v;
     }
@@ -87,6 +111,34 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
         Log.d("HiepTHb", "setStaticView: " + "_current_gov " + _current_gov + " ls_avai_gov.indexOf " + ls_avai_gov.indexOf(_current_gov));
     }
 
+    private void UpdateView2() {
+        mLableList.clear();
+        mValueList.clear();
+        final String path = getPath();
+        if (path != null) {
+            List<String> files = new RootFile(path).list();
+            for (final String file : files) {
+                final String value = Utils.readFileRoot(path + "/" + file);
+                if (value != null && !value.isEmpty() && !value.contains("\n")) {
+
+                    mLableList.add(file.toString());
+                    mValueList.add(value.toString());
+
+                }
+            }
+        }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mGovAdapter = new GovernorAdapter(mLableList, mValueList);
+                mListView.setAdapter(mGovAdapter);
+                Log.d("HiepTHb", "UpdateView2" + mGovAdapter.getCount());
+                mGovAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         //avai_gov.setSelection(ls_avai_gov.indexOf(_current_gov));
@@ -94,6 +146,7 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
         if (inhibit_spinner) {
             inhibit_spinner = false;
             CPU.setGovernor(adap_avai_gov.getItem(position), getActivity());
@@ -108,7 +161,8 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
                             mState = 1;
                             setStaticView();
                             getActivity().invalidateOptionsMenu();
-                            updateView();
+                            //   updateView();
+                            UpdateView2();
                             mSflashDialog.dismiss();
 
                         }
@@ -128,10 +182,10 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
 
         }
     }
-
+    final String path = getPath();
     private void updateView() {
         main_vertical_view.removeAllViews();
-        final String path = getPath();
+        //final String path = getPath();
         if (path != null) {
             List<String> files = new RootFile(path).list();
             for (final String file : files) {
@@ -203,7 +257,8 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
                     Log.d("HiepTHb", "BigCore - set param");
                     CommandControl.runCommand(editText.getText().toString(), file, CommandControl.CommandType.GENERIC, getActivity());
                 }
-                updateView();
+                // updateView();
+                UpdateView2();
             }
         }).show();
     }
@@ -224,9 +279,67 @@ public class DefaultFragment extends Fragment implements Const, Spinner.OnItemSe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item == item_refresh) updateView();
+        if (item == item_refresh)// updateView();
+            UpdateView2();
 
         return super.onOptionsItemSelected(item);
 
+    }
+
+    class GovernorAdapter extends BaseAdapter {
+        private TextView mLable, mValue;
+        final String path = getPath();
+        private ArrayList<String> mLableList, mValueList;
+        String lable, value;
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) getContext().
+                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View gov_itemt = inflater.inflate(R.layout.gov_item, null);
+            mLable = (TextView) gov_itemt.findViewById(R.id.lable_gov_items);
+            mValue = (TextView) gov_itemt.findViewById(R.id.value_gov_items);
+            lable = mLableList.get(position);
+            value = mValueList.get(position);
+            mLable.setText(lable);
+            mValue.setText(value);
+            return gov_itemt;
+        }
+
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return mLableList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+
+        public GovernorAdapter(ArrayList<String> lable, ArrayList<String> value) {
+            //super(context, resource, objects);
+            this.mLableList = lable;
+            this.mValueList = value;
+        }
+        public String getLable(int i) {
+            return mLableList.get(i);
+        }
+        public String getValue(int i) {
+            return mValueList.get(i);
+        }
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+        }
     }
 }

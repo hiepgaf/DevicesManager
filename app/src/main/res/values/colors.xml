@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF1a64d7</color>
+    <color name="colorPrimary">#37474f</color>
     <color name="colorPrimaryDark">#FF0000</color>
-    <color name="colorAccent">#FF0000</color>
+    <color name="colorAccent">#161218</color>
     <color name="semi_transparent">#26000000</color>
 
-    <color name="color_primary">#ff1a64d7</color>
+    <color name="color_primary">#37474f</color>
     <color name="color_primary_dark">#FF0000</color>
     <color name="color_primary_light">#ff1a64d7</color>
 
@@ -58,4 +58,7 @@
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="main_background">#b0bec5</color>
+    <color name="header_background">#546e7a</color>
+    <color name="item_header_bg">#90a4ae</color>
 </resources>

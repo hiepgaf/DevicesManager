@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_gov_tunning"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <LinearLayout
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/main_background">
+
+    <TextView
+        android:id="@+id/header_title"
+        style="@style/header_style"
+        android:text="@string/basic_title" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1">
+
+        <TableRow android:padding="5dp">
+
+            <TextView
+                android:text="@string/current_gov"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/current_gov"
+                android:text="@string/tmp_str"
+                android:textSize="16sp"
+                android:textStyle="italic" />
+        </TableRow>
+
+        <TableRow android:padding="5dp">
+
+            <TextView
+                android:text="@string/avai_governor"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Spinner android:id="@+id/available_gov_spinner" />
+        </TableRow>
+
+    </TableLayout>
+
+
+    <TextView
+        android:id="@+id/header_title"
+        style="@style/header_style"
+        android:text="@string/advance_title" />
+
+    <android.support.v7.widget.ListViewCompat
+        android:id="@+id/lv_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:listSelector="@color/main_background"></android.support.v7.widget.ListViewCompat>
+    <!--<LinearLayout
+        android:id="@+id/main_vertical_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>-->
+</LinearLayout>
 
-        <TextView
-            android:id="@+id/header_title"
-            style="@style/header_style"
-            android:text="@string/basic_title" />
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0,1">
-
-            <TableRow android:padding="5dp">
-
-                <TextView
-                    android:text="@string/current_gov"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/current_gov"
-                    android:text="@string/tmp_str"
-                    android:textSize="16sp"
-                    android:textStyle="italic" />
-            </TableRow>
-
-            <TableRow android:padding="5dp">
-
-                <TextView
-                    android:text="@string/avai_governor"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <Spinner android:id="@+id/available_gov_spinner" />
-            </TableRow>
-
-        </TableLayout>
-
-
-        <TextView
-            android:id="@+id/header_title"
-            style="@style/header_style"
-            android:text="@string/advance_title" />
-
-        <LinearLayout
-            android:id="@+id/main_vertical_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
-    </LinearLayout>
-
-</ScrollView>
