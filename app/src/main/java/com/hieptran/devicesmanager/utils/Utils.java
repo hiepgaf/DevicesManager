@@ -160,6 +160,13 @@ public class Utils implements Const {
         String time = df.format(new Date(seconds*1000));
         return time;
     }
+    public static String formatSeconds(long seconds) {
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        df.setTimeZone(tz);
+        String time = df.format(new Date(seconds*1000));
+        return time;
+    }
 
     public static String avgOfList(ArrayAdapter<String> input) {
         double sum = 0;

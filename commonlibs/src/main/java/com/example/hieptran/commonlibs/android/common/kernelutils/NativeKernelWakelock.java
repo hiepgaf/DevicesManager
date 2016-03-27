@@ -310,18 +310,18 @@ public class NativeKernelWakelock extends StatElement implements Comparable<Nati
      */
     @Override
     public String toString() {
-        return getName() + " ["
-                + "m_name=" + m_name + ", "
-                + "m_count=" + m_count + ", "
-                + "m_expire_count=" + m_expireCount + ", "
-                + "m_wake_count=" + m_wakeCount + ", "
-                + "m_active_since=" + m_activeSince + ", "
-                + "m_total_time=" + m_ttlTime + ", "
-                + "m_sleep_time=" + m_sleepTime + ", "
-                + "m_max_time=" + m_maxTime + ", "
-                + "m_last_change=" + m_lastChange + ", "
+        return
+                 "m_name=" + m_name + "\n "
+                + "m_count=" + m_count + "\n "
+                + "m_expire_count=" + m_expireCount + "\n "
+                + "m_wake_count=" + m_wakeCount + "\n "
+                + "m_active_since=" + m_activeSince + "\n "
+                + "m_total_time=" + m_ttlTime + "\n "
+                + "m_sleep_time=" + m_sleepTime + "\n "
+                + "m_max_time=" + m_maxTime + "\n "
+                + "m_last_change=" + m_lastChange + "\n "
 
-                + "]";
+               ;
     }
 
     /**

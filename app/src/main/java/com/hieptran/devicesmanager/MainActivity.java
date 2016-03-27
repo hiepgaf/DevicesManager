@@ -1,5 +1,6 @@
 package com.hieptran.devicesmanager;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity
     Handler hand;
     AdView mAdView;
     AdRequest adRequest;
+    private ProgressDialog progressDialog;
+
     ///Test
     //variable for counting two successive up-down events
     int clickCount = 0;
@@ -70,6 +73,8 @@ public class MainActivity extends AppCompatActivity
         mAdView = (AdView) findViewById(R.id.adView);
         adRequest = new AdRequest.Builder().build();
         mInterstitialAd = new InterstitialAd(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.waiting_for_init));
         // Defined in res/values/strings.xml
         mInterstitialAd.setAdUnitId(getString(R.string.splash_banner_));
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
@@ -90,7 +95,7 @@ public class MainActivity extends AppCompatActivity
             setSupportActionBar(toolbar);
         }
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mSplashView = (SplashView) findViewById(R.id.splash_view);
+     //   mSplashView = (SplashView) findViewById(R.id.splash_view);
         new Task().execute();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         //http://stackoverflow.com/questions/31394265/navigation-drawer-item-icon-not-showing-original-colour
@@ -226,8 +231,13 @@ public class MainActivity extends AppCompatActivity
         private boolean hasRoot;
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected void onPreExecute() {
+            progressDialog.show();
+            super.onPreExecute();
+        }
 
+        @Override
+        protected Void doInBackground(Void... params) {
             // Check root access and busybox installation
             //  Toast.makeText(MainActivity.this,"Device rooted",Toast.LENGTH_LONG).show();
 //                Toast.makeText(MainActivity.this, "Device unrooted", Toast.LENGTH_LONG).show();
@@ -240,10 +250,10 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
+            progressDialog.dismiss();
             // if (hasRoot) {
                // mSflashDialog.dismiss();
-                mSplashView.finish();
+              //  mSplashView.finish();
                 mAdView.removeAllViews();
                 setInterface();
 

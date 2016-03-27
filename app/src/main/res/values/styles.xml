@@ -42,7 +42,6 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_primary</item>
-        <item name="android:background">@color/main_background</item>
         <item name="android:textColorPrimary">@color/textcolor_light</item>
     </style>
     <!-- Base application theme. -->
@@ -53,7 +52,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="android:background">@color/main_background</item>
         <item name="android:windowActionBarOverlay">false</item>
     </style>
 

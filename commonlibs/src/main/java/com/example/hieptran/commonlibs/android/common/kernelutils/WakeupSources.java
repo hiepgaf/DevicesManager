@@ -62,13 +62,22 @@ public class WakeupSources extends Wakelocks {
     private final static String TAG = "WakeupSources";
     private static String FILE_PATH = "/sys/kernel/debug/wakeup_sources";
     //private static String FILE_PATH = "/sdcard/wakeup_sources.txt";
-
-    public static ArrayList<StatElement> parseWakeupSources(Context context) {
+    static  String[] data;// = rows.get(i);
+    static String name;// = data[0].trim();                        // name
+    static  int count;// = Integer.valueOf(data[1]);                // active_count
+    static  int expire_count;// = Integer.valueOf(data[4]);        // expire_count
+    static int wake_count;// = Integer.valueOf(data[3]);            // wakeup_count
+    static long active_since;// = Long.valueOf(data[5]);            // active_since
+    static long total_time;// = Long.valueOf(data[6]);            // total_time
+    static long sleep_time;// = Long.valueOf(data[9]);            // prevent_suspend_time
+    static long max_time;// = Long.valueOf(data[7]);                // max_time
+    static long last_change;// = Long.valueOf(data[8]);            // last_change
+    public static ArrayList<NativeKernelWakelock> parseWakeupSources(Context context) {
       //  Log.i(TAG, "Parsing " + FILE_PATH);
 
         String delimiter = String.valueOf('\t');
         delimiter = delimiter + "+";
-        ArrayList<StatElement> myRet = new ArrayList<StatElement>();
+        ArrayList<NativeKernelWakelock> myRet = new ArrayList<NativeKernelWakelock>();
         // format
         // new [name	active_count	event_count		wakeup_count	expire_count	active_since	total_time	max_time	last_change	prevent_suspend_time]
         ArrayList<String[]> rows = parseDelimitedFile(FILE_PATH, delimiter);
@@ -83,16 +92,16 @@ public class WakeupSources extends Wakelocks {
         for (int i = 1; i < rows.size(); i++) {
             try {
                 // times in file are milliseconds
-                String[] data = rows.get(i);
-                String name = data[0].trim();                        // name
-                int count = Integer.valueOf(data[1]);                // active_count
-                int expire_count = Integer.valueOf(data[4]);        // expire_count
-                int wake_count = Integer.valueOf(data[3]);            // wakeup_count
-                long active_since = Long.valueOf(data[5]);            // active_since
-                long total_time = Long.valueOf(data[6]);            // total_time
-                long sleep_time = Long.valueOf(data[9]);            // prevent_suspend_time
-                long max_time = Long.valueOf(data[7]);                // max_time
-                long last_change = Long.valueOf(data[8]);            // last_change
+                data = rows.get(i);
+                 name = data[0].trim();                        // name
+                 count = Integer.valueOf(data[1]);                // active_count
+                 expire_count = Integer.valueOf(data[4]);        // expire_count
+                 wake_count = Integer.valueOf(data[3]);            // wakeup_count
+                 active_since = Long.valueOf(data[5]);            // active_since
+                 total_time = Long.valueOf(data[6]);            // total_time
+                 sleep_time = Long.valueOf(data[9]);            // prevent_suspend_time
+                 max_time = Long.valueOf(data[7]);                // max_time
+                 last_change = Long.valueOf(data[8]);            // last_change
 
                 // post-processing of eventX-YYYY processes
                 String details = "";
@@ -142,8 +151,8 @@ public class WakeupSources extends Wakelocks {
                         }
                     }
                 }
-                if (CommonLogSettings.DEBUG) {
-                    Log.d(TAG, "Native Kernel wakelock parsed"
+             /*   if (CommonLogSettings.DEBUG) {*/
+                    Log.d("HiepTHb", "Native Kernel wakelock parsed"
                             + " name=" + name
                             + " details=" + details
                             + " count=" + count
@@ -155,7 +164,7 @@ public class WakeupSources extends Wakelocks {
                             + " max_time=" + max_time
                             + "last_change=" + last_change
                             + "ms_since_boot=" + msSinceBoot);
-                }
+             //   }
                 NativeKernelWakelock wl = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     // on L sleep time is always 0 so use total time instead
@@ -198,4 +207,5 @@ public class WakeupSources extends Wakelocks {
         }
         return exists;
     }
+
 }
