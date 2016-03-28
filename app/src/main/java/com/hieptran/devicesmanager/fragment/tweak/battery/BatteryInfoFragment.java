@@ -232,8 +232,8 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
         } catch (NullPointerException ignored) {
         }
         if (Utils.DARK) {
-            waveLevelView.setWaveColor(R.color.color_primary_dark);
-            realLv.setWaveColor(R.color.color_primary_dark);
+          //  waveLevelView.setWaveColor(R.color.color_primary_dark);
+          //  realLv.setWaveColor(R.color.color_primary_dark);
         }
         hand = new android.os.Handler();
 

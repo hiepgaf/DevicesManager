@@ -123,7 +123,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         mainlayout.setVisibility(View.GONE);
         //setViewAndChildrenEnabled(mainlayout,false);
         avaiProfile.setOnItemClickListener(this);
-        avaiProfile.setSelector(R.color.color_primary);
+      //  avaiProfile.setSelector(R.color.color_primary);
        // enableService = (SwitchCompat) v.findViewById(R.id.start_profile_service);
         //enableService.setOnCheckedChangeListener(this);
         lsProfile = new ArrayList<>();

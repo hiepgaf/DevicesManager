@@ -1,5 +1,6 @@
 package com.hieptran.devicesmanager;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity
     MaterialDialog mSflashDialog;
     private InterstitialAd mInterstitialAd;
     SampleDialogFragment fragment;
+    Activity mActivity;
    // Typeface tf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity
         mInterstitialAd = new InterstitialAd(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.waiting_for_init));
+        mActivity = this;
         //tf = Typeface.createFromAsset(getAssets(),"fonts/cour.ttf");
        // tv = (TextView) findViewById(R.id.warningmsg);
        // tv.setTypeface(tf);
@@ -108,7 +111,7 @@ public class MainActivity extends AppCompatActivity
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+           // window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         } else {
             //getSupportActionBar().hide();
             setSupportActionBar(toolbar);
@@ -118,7 +121,7 @@ public class MainActivity extends AppCompatActivity
                 5,
                 5,
                 false,
-                false,
+                true,
                 "",getString(R.string.waiting_for_init)
                 );
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -129,8 +132,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setItemIconTintList(null);
 
         navigationView.setNavigationItemSelectedListener(this);
-        if (Utils.DARK) {
-            super.setTheme(android.R.style.Theme_Material);
+        if (Utils.getBoolean("dark_theme",false,this)) {
+            Log.d("HiepTHb","Nhay vao day");
+            super.setTheme(R.style.AppBaseThemeDark);
+           // getWindow().getDecorView().getRootView().setBackgroundColor(getResources().getColor(R.color.black));
         }
 //For test
         i = new Intent(MainActivity.this, DumpLogService.class);
@@ -261,8 +266,9 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPreExecute() {
-
-           // fragment.show(getFragmentManager(), "blur_sample");
+        //    fragment.show(getFragmentManager(), "blur_sample");
+        //    fragment.setmType(1);
+            Utils.setFullscreen(mActivity);
             progressDialog.show();
             super.onPreExecute();
         }
@@ -281,14 +287,17 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-//            fragment.dismiss();
-            progressDialog.dismiss();
+            Utils.exitFullscreen(mActivity);
+          //  fragment.setDismiss();
+          progressDialog.dismiss();
 
             // if (hasRoot) {
                // mSflashDialog.dismiss();
               //  mSplashView.finish();
                 mAdView.removeAllViews();
                 setInterface();
+            //fragment.onDestroyView();
+           // fragment.dismissAllowingStateLoss();
 
             //  }
             if (hasRoot) {

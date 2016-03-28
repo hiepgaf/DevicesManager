@@ -32,7 +32,7 @@
             app:mlv_shapeType="circle"
             app:mlv_titleCenterSize="12sp"
             app:mlv_waveAmplitude="50"
-            app:mlv_waveColor="@color/color_primary" />
+            app:mlv_waveColor="@color/cpu_usage_lower_bg_dark" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -84,7 +84,7 @@
             app:mlv_titleCenterSize="12sp"
             app:mlv_titleTopSize="12sp"
             app:mlv_waveAmplitude="50"
-            app:mlv_waveColor="@color/color_primary" />
+            app:mlv_waveColor="@color/cpu_usage_lower_bg_dark" />
 
 <LinearLayout
     android:layout_width="0dp"

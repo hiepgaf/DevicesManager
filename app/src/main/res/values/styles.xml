@@ -39,38 +39,27 @@
     </style>
     <!-- Base application theme. -->
     <style name="AppBaseThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
+        <!--<item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_primary</item>
-        <item name="android:textColorPrimary">@color/textcolor_light</item>
-    </style>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:textColorPrimary">@color/textcolor_dark</item>-->
     </style>
 
     <style name="AppBaseThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
+       <!-- <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:background">#263238</item>
         <item name="colorAccent">@color/color_primary</item>
-        <item name="android:textColorPrimary">@color/textcolor_dark</item>
+        <item name="android:textColorPrimary">@color/white</item>-->
     </style>
 
     <style name="AppThemeLight" parent="AppBaseThemeLight" />
 
     <style name="AppThemeDark" parent="AppBaseThemeDark" />
 
-    <style name="AppThemeActionBarLight" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
+   <!-- <style name="AppThemeActionBarLight" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/color_primary_light</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_primary</item>
+        <item name="colorAccent">@color/color_primary_dark</item>
         <item name="android:textColorPrimary">@color/textcolor_light</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
@@ -82,7 +71,7 @@
         <item name="android:textColorPrimary">@color/textcolor_dark</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
-
+-->
     <style name="WhiteAccent">
         <item name="colorControlActivated">@color/white</item>
         <item name="colorAccent">@color/white</item>

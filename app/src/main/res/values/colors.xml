@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#37474f</color>
-    <color name="colorPrimaryDark">#FF0000</color>
+  <!--  <color name="colorPrimary">#ff1a64d7</color>
+    <color name="colorPrimaryDark">#ff1a64d7</color>
+    <color name="colorAccent">#161218</color>
+    <color name="semi_transparent">#26000000</color>-->
+   <!-- <color name="colorPrimary">@color/color_primary</color>
+    <color name="colorPrimaryDark">@color/color_primary_dark</color>
     <color name="colorAccent">#161218</color>
     <color name="semi_transparent">#26000000</color>
+    <color name="color_primary">#2962FF</color>
+    <color name="color_primary_dark">#2962FF</color>
+    <color name="color_primary_light">#1565C0</color>-->
+   <!-- <color name="color_primary">#37474f</color>
+    <color name="color_primary_dark">#37474f</color>
+    <color name="color_primary_light">#ff1a64d7</color>-->
 
-    <color name="color_primary">#37474f</color>
-    <color name="color_primary_dark">#FF0000</color>
-    <color name="color_primary_light">#ff1a64d7</color>
+    <!--<color name="color_primary_">#2962FF</color>
+    <color name="color_primary_dark_">#1565C0</color>
+    <color name="color_primary_light_">#1565C0</color>
 
     <color name="statusbar_color">@color/color_primary_dark</color>
-    <color name="actionbar_color">@color/color_primary</color>
+    <color name="actionbar_color">@color/color_primary</color>-->
 
     <color name="fab_normal">@color/white</color>
     <color name="fab_pressed">#E6E6E6</color>
@@ -27,7 +37,7 @@
 
     <color name="circlebar_background_light">@color/textcolor_light</color>
     <color name="circlebar_background_dark">@color/textcolor_dark</color>
-    <color name="circlebar_text">@color/color_primary</color>
+   <!-- <color name="circlebar_text">@color/color_primary</color>-->
 
     <color name="divider_background_light">#DDDDDD</color>
     <color name="divider_background_dark">#323232</color>
@@ -58,7 +68,6 @@
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
 
     <color name="black_overlay">#66000000</color>
-    <color name="main_background">#b0bec5</color>
-    <color name="header_background">#546e7a</color>
-    <color name="item_header_bg">#90a4ae</color>
+    <color name="header_background">#1E88E5</color>
+    <color name="item_header_bg">#1E88E5</color>
 </resources>

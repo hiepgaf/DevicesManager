@@ -6,5 +6,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/wakelock_lv"
-    android:listSelector="@color/main_background"></android.support.v7.widget.ListViewCompat>
+   ></android.support.v7.widget.ListViewCompat>
 </LinearLayout>

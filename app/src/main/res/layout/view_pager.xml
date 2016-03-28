@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+<!--
+    android:background="@color/colorPrimary"
+-->
     <io.karim.MaterialTabs
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/colorPrimary"
+
         app:mtSameWeightTabs="true"
         app:mtTextAllCaps="true" />
 

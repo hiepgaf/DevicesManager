@@ -92,10 +92,9 @@ public class ViewPagerFragment extends CommonFragment {
 
                     mTabs.setTextColorSelected(getResources().getColor(R.color.white));
                     mTabs.setTextColorUnselected(getResources().getColor(R.color.textcolor_dark));
-                    if (getCount() > 1)
-                        mTabs.setIndicatorColor(getResources().getColor(R.color.white));
-                    else
-                        mTabs.setIndicatorColor(getResources().getColor(R.color.color_primary));
+     //               if (getCount() > 1)
+///                    else
+                       // mTabs.setIndicatorColor(getResources().getColor(R.color.co));
                     mTabs.setViewPager(mViewPager);
                 } catch (IllegalStateException e) {
                     e.printStackTrace();

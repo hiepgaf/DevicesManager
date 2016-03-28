@@ -15,7 +15,7 @@
         android:id="@+id/apply_on_boot_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/color_primary_light"
+        android:background="@color/cpu_usage_lower_bg_dark"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:paddingEnd="16dp"

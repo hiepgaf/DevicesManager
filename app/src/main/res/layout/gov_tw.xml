@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="@color/main_background">
+    >
 
     <TextView
         android:id="@+id/header_title"
@@ -54,7 +54,7 @@
         android:id="@+id/lv_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:listSelector="@color/main_background"></android.support.v7.widget.ListViewCompat>
+        ></android.support.v7.widget.ListViewCompat>
     <!--<LinearLayout
         android:id="@+id/main_vertical_view"
         android:layout_width="match_parent"

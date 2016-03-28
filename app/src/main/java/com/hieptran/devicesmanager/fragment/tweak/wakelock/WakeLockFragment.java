@@ -30,6 +30,7 @@ import com.example.hieptran.commonlibs.android.common.privateapiproxies.StatElem
 import com.example.hieptran.commonlibs.android.common.privateapiproxies.Wakelock;
 import com.example.hieptran.commonlibs.android.common.utils.DateUtils;
 import com.hieptran.devicesmanager.R;
+import com.hieptran.devicesmanager.common.SampleDialogFragment;
 import com.hieptran.devicesmanager.common.root.CommandControl;
 import com.hieptran.devicesmanager.utils.Utils;
 import com.hieptran.devicesmanager.utils.tweak.CPU;
@@ -50,6 +51,7 @@ public class WakeLockFragment extends Fragment implements AdapterView.OnItemClic
     private ProgressDialog mProgressDialog;
     private ArrayList<NativeKernelWakelock> mWakeupSource,mWakeupSourceFinal;
     static Context mContext;
+    SampleDialogFragment fragment;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +59,17 @@ public class WakeLockFragment extends Fragment implements AdapterView.OnItemClic
         mWakeLockListView = (ListViewCompat) v.findViewById(R.id.wakelock_lv);
         mWakeLockListView.setOnItemClickListener(this);
         mWakeLockListView.setAdapter(mWakeLockAdapter);
+
+        fragment
+                = SampleDialogFragment.newInstance(
+                5,
+                5,
+                false,
+                false,
+                "", getString(R.string.getting_data)
+        );
+
+
         mProgressDialog = new ProgressDialog(getContext());
         mProgressDialog.setMessage("Getting Data");
         mProgressDialog.setCanceledOnTouchOutside(false);
@@ -79,14 +92,15 @@ public class WakeLockFragment extends Fragment implements AdapterView.OnItemClic
     class CustomAsync extends AsyncTask<Void,String,Void> {
         @Override
         protected void onPreExecute() {
-
-            mProgressDialog.show();
+            fragment.show(getActivity().getFragmentManager(), "blur_sample");
+            fragment.setmType(0);
             super.onPreExecute();
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mProgressDialog.dismiss();
+            fragment.setDismiss();
+          //  mProgressDialog.dismiss();
             mWakeLockListView.setAdapter(mWakeLockAdapter);
 
             mWakeLockAdapter.notifyDataSetChanged();
@@ -123,7 +137,7 @@ public class WakeLockFragment extends Fragment implements AdapterView.OnItemClic
                 5,
                 false,
                 false,
-                mWakeupSource.get(position).getName(),mWakeupSource.get(position).toString());
+                mWakeupSourceFinal.get(position).getName(),mWakeupSourceFinal.get(position).toString());
         fragment.show(getActivity().getFragmentManager(),"blur");
     }
 

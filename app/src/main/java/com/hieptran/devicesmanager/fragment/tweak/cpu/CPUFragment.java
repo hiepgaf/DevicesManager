@@ -57,8 +57,8 @@ public class CPUFragment extends Fragment {
                                         mUsageCircle.setBorderColor(Color.RED);
                                         mUsageCircle.setCenterTitleColor(Color.WHITE);
                                     } else {
-                                        mUsageCircle.setWaveColor(getResources().getColor(R.color.colorPrimary));
-                                        mUsageCircle.setBorderColor(R.color.color_primary);
+                                     //   mUsageCircle.setWaveColor(getResources().getColor(R.color.colorPrimary));
+                                     //   mUsageCircle.setBorderColor(R.color.color_primary);
                                         mUsageCircle.setCenterTitleColor(Color.WHITE);
                                     }
 

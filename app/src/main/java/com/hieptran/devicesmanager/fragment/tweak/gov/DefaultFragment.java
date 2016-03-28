@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.hieptran.commonlibs.andoid.common.contrib.Util;
 import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.common.root.CommandControl;
 import com.hieptran.devicesmanager.common.root.RootFile;
@@ -58,12 +60,14 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
     private ArrayAdapter<String> adap_avai_gov;
     private int mState = 0;
     static  private ListViewCompat mListView;
-   static  private ArrayList<String> mLableList, mValueList;
+    static  private ArrayList<String> mLableList, mValueList;
     static private GovernorAdapter mGovAdapter;
     static Context mContext;
+    static Activity mActivity;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showDialog(mLableItem,path + "/" + mLableList.get(position), mValueList.get(position));
+        showDialog(mLableList.get(position),path + "/" + mLableList.get(position), mValueList.get(position));
+        Utils.setFullscreen(getActivity());
     }
 
     public DefaultFragment(int core) {
@@ -81,6 +85,7 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
         adap_avai_gov = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, ls_avai_gov);
         avai_gov.setAdapter(adap_avai_gov);
         mContext = getContext();
+        mActivity = getActivity();
         mLableList = new ArrayList<>();
         mValueList = new ArrayList<>();
         mListView = (ListViewCompat) v.findViewById(R.id.lv_main);
@@ -125,7 +130,7 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
             List<String> files = new RootFile(path).list();
             for (final String file : files) {
                 final String value = Utils.readFileRoot(path + "/" + file);
-                mLableItem = file.toString();
+
                 if (value != null && !value.isEmpty() && !value.contains("\n")) {
 
                     mLableList.add(file.toString());
@@ -470,6 +475,7 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
                     .setNegativeButton(getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Utils.exitFullscreen(mActivity);
                             dismiss();
                         }
                     }).setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
@@ -486,8 +492,11 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
                     UpdateView2();
                 }
             });
-
-            return builder.create();
+           // builder.create().getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+           // builder.create().getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+            AlertDialog mDialog = builder.create();
+            mDialog.setCanceledOnTouchOutside(false);
+            return mDialog;
         }
 
         @Override

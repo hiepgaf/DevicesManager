@@ -233,4 +233,5 @@
 
     <!-- WakeLock -->
     <string name="wake_lock_title">Wake Lock</string>
+    <string name="getting_data">Getting Data</string>
 </resources>
