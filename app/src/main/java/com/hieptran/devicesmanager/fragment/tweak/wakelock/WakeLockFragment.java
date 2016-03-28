@@ -133,8 +133,8 @@ public class WakeLockFragment extends Fragment implements AdapterView.OnItemClic
 
         ShowTextDialog  fragment
                 = ShowTextDialog.newInstance(
-                5,
-                5,
+                3,
+                3,
                 false,
                 false,
                 mWakeupSourceFinal.get(position).getName(),mWakeupSourceFinal.get(position).toString());
