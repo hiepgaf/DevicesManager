@@ -3,7 +3,9 @@ package com.hieptran.devicesmanager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -40,6 +42,8 @@ import com.hieptran.devicesmanager.fragment.tweak.profile.ProfileFragment;
 import com.hieptran.devicesmanager.fragment.tweak.wakelock.WakeLockFragment;
 import com.hieptran.devicesmanager.services.DumpLogService;
 import com.hieptran.devicesmanager.utils.Utils;
+
+import java.util.Locale;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -85,26 +89,40 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String languageToLoad="vi";
+        if(Utils.getBoolean("force_eng",false,this)) {
+            languageToLoad  = "en"; // your language
+
+        }
+        if (Utils.getBoolean("dark_theme",false,this)) {
+            Log.d("HiepTHb", "Nhay vao day");
+            super.setTheme(R.style.AppBaseThemeDark);
+            // navigationView.setItemBackgroundResource(R.drawable.nav_text_item_bg);
+            // getWindow().getDecorView().getRootView().setBackgroundColor(getResources().getColor(R.color.black));
+        } else
+        super.setTheme(R.style.AppBaseThemeLight);
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_main);
+
+
+
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mAdView = (AdView) findViewById(R.id.adView);
-        adRequest = new AdRequest.Builder().build();
-        mInterstitialAd = new InterstitialAd(this);
+
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.waiting_for_init));
         mActivity = this;
         //tf = Typeface.createFromAsset(getAssets(),"fonts/cour.ttf");
-       // tv = (TextView) findViewById(R.id.warningmsg);
-       // tv.setTypeface(tf);
-       // tv.setText(warning);
+        // tv = (TextView) findViewById(R.id.warningmsg);
+        // tv.setTypeface(tf);
+        // tv.setText(warning);
         // Defined in res/values/strings.xml
-        mInterstitialAd.setAdUnitId(getString(R.string.splash_banner_));
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        } else {
-            Toast.makeText(this, "Ad did not load", Toast.LENGTH_SHORT).show();
-            //startGame();
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setSupportActionBar(toolbar);
@@ -116,6 +134,7 @@ public class MainActivity extends AppCompatActivity
             //getSupportActionBar().hide();
             setSupportActionBar(toolbar);
         }
+
          fragment
                 = SampleDialogFragment.newInstance(
                 5,
@@ -128,15 +147,50 @@ public class MainActivity extends AppCompatActivity
      //   mSplashView = (SplashView) findViewById(R.id.splash_view);
         new Task().execute();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        int[][] state = new int[][] {
+                new int[] { }, // disabled
+                new int[] {android.R.attr.state_checked}, // enabled
+                new int[] {android.R.attr.state_checked}, // unchecked
+                new int[] {android.R.attr.state_pressed}  // pressed
+
+        };
+
+        int[] color = new int[] {
+                Color.WHITE,
+                Color.RED,
+                Color.RED,
+                Color.RED
+        };
+
+        ColorStateList csl = new ColorStateList(state, color);
+        if (Utils.getBoolean("dark_theme",false,this)) {
+            Log.d("HiepTHb", "Nhay vao day");
+            navigationView.setBackgroundColor(Color.parseColor("#404040"));
+            // super.setTheme(R.style.AppBaseThemeDark);
+          //  navigationView.setItemTextColor(csl);
+            // getWindow().getDecorView().getRootView().setBackgroundColor(getResources().getColor(R.color.black));
+        }
+        else {
+
+        }
+//        mAdView = (AdView) findViewById(R.id.adView);
+//        adRequest = new AdRequest.Builder().build();
+//        mAdView.loadAd(adRequest);
+//        mInterstitialAd = new InterstitialAd(this);
+//        mInterstitialAd.setAdUnitId(getString(R.string.splash_banner_));
+//
+//        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+//            mInterstitialAd.show();
+//        } else {
+//            Toast.makeText(this, "Ad did not load", Toast.LENGTH_SHORT).show();
+//            //startGame();
+//        }
         //http://stackoverflow.com/questions/31394265/navigation-drawer-item-icon-not-showing-original-colour
         navigationView.setItemIconTintList(null);
 
         navigationView.setNavigationItemSelectedListener(this);
-        if (Utils.getBoolean("dark_theme",false,this)) {
-            Log.d("HiepTHb","Nhay vao day");
-            super.setTheme(R.style.AppBaseThemeDark);
-           // getWindow().getDecorView().getRootView().setBackgroundColor(getResources().getColor(R.color.black));
-        }
+
 //For test
         i = new Intent(MainActivity.this, DumpLogService.class);
         // startService(i);
@@ -235,13 +289,12 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onDrawerClosed(View view) {
                     invalidateOptionsMenu();
-                    mAdView.removeAllViews();
+                   // mAdView.removeAllViews();
                 }
 
                 @Override
                 public void onDrawerOpened(View drawerView) {
                     invalidateOptionsMenu();
-                    mAdView.loadAd(adRequest);
 
                 }
             };
@@ -294,8 +347,7 @@ public class MainActivity extends AppCompatActivity
             // if (hasRoot) {
                // mSflashDialog.dismiss();
               //  mSplashView.finish();
-                mAdView.removeAllViews();
-                setInterface();
+            setInterface();
             //fragment.onDestroyView();
            // fragment.dismissAllowingStateLoss();
 

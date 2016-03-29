@@ -284,6 +284,11 @@ public class GeneralFragment extends Fragment implements SeekBar.OnSeekBarChange
         tvmax = (TextView) view_max.findViewById(R.id.slider_bar_text);
         mSliderFreqs_max = (ComboSeekBar) view_max.findViewById(R.id.freqs_slider_bar);
         mSliderFreqs_min = (ComboSeekBar) view_min.findViewById(R.id.freqs_slider_bar);
+
+//            mSliderFreqs_max.setColor(R.color.black);
+//            mSliderFreqs_min.setColor(R.color.black);
+
+
         tvmin = (TextView) view_min.findViewById(R.id.slider_bar_text);
         default_setFreqView(mCore);
         layout.addView(view_max);
