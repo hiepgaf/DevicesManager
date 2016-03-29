@@ -8,7 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.hieptran.devicesmanager.R;
 
 /**
@@ -16,6 +20,8 @@ import com.hieptran.devicesmanager.R;
  */
 public class AboutFragment extends Fragment{
     TextView tv;
+    AdView mAdView;
+    AdRequest adRequest;
     String warning = "#include <std_disclaimer.h>\n" +
             "/*\n" +
             " * Your warranty is now void.\n" +
@@ -31,9 +37,21 @@ public class AboutFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.about, container, false);
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/cour.ttf");
-         tv = (TextView) v.findViewById(R.id.warningmsg);
-         tv.setTypeface(tf);
-         tv.setText(warning);
+        mAdView = (AdView) v.findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        InterstitialAd   mInterstitialAd = new InterstitialAd(getActivity());
+        mInterstitialAd.setAdUnitId(getString(R.string.splash_banner_));
+
+        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Toast.makeText(getActivity(), "Ad did not load", Toast.LENGTH_SHORT).show();
+            //startGame();
+        }
+//         tv = (TextView) v.findViewById(R.id.warningmsg);
+//         tv.setTypeface(tf);
+//         tv.setText(warning);
         return v;
     }
 }

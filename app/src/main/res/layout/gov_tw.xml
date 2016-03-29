@@ -20,7 +20,7 @@
 
         <TableRow android:padding="5dp">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:text="@string/current_gov"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -34,7 +34,7 @@
 
         <TableRow android:padding="5dp">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:text="@string/avai_governor"
                 android:textSize="20sp"
                 android:textStyle="bold" />

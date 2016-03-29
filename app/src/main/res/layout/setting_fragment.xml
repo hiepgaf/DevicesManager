@@ -18,7 +18,7 @@
             android:layout_weight="1"
             android:text="@string/set_on_boot_lable" />
 
-        <android.support.v7.widget.SwitchCompat
+        <Switch
             android:id="@+id/switchcompat_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:layout_weight="1"
             android:text="Force English" />
 
-        <android.support.v7.widget.SwitchCompat
+        <Switch
             android:id="@+id/switchcompat_view_lang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             android:layout_weight="1"
             android:text="Dark Theme" />
 
-        <android.support.v7.widget.SwitchCompat
+        <Switch
             android:id="@+id/switch_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
