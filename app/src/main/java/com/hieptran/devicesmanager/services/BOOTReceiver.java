@@ -14,9 +14,9 @@ public class BOOTReceiver extends BroadcastReceiver implements Const {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent i = new Intent(context, DumpLogService.class);
+      /*  Intent i = new Intent(context, DumpLogService.class);
         if(Utils.getBoolean("set_on_boot",false,context));
-        context.startService(i);
+        context.startService(i);*/
 
     }
 
