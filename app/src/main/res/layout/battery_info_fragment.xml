@@ -32,7 +32,7 @@
             app:mlv_shapeType="circle"
             app:mlv_titleCenterSize="12sp"
             app:mlv_waveAmplitude="50"
-            app:mlv_waveColor="@color/cpu_usage_lower_bg_dark" />
+            app:mlv_waveColor="@color/color_primary" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -84,7 +84,7 @@
             app:mlv_titleCenterSize="12sp"
             app:mlv_titleTopSize="12sp"
             app:mlv_waveAmplitude="50"
-            app:mlv_waveColor="@color/cpu_usage_lower_bg_dark" />
+            app:mlv_waveColor="@color/color_primary" />
 
 <LinearLayout
     android:layout_width="0dp"
@@ -118,19 +118,36 @@
             android:textSize="12sp"/>
 </LinearLayout>
     </LinearLayout>
-    <Button
-        android:id="@+id/bt_start_record"
-        android:layout_width="180dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Start Record"
-        android:textColor="@android:color/white"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:layout_margin="1dp"
+        >
+        <Button
+            android:id="@+id/bt_start_record"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_margin="2dp"
+            android:text="Start Record"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+        <Button
+            android:id="@+id/bt_show_popup"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_margin="2dp"
+            android:text="Popup"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
 
-        android:textSize="13sp" />
+    </LinearLayout>
+
     <TextView
         style="@style/header_style"
         android:text="Log files" />
@@ -138,7 +155,7 @@
         android:id="@+id/lv_record_file"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="3"
         android:dividerHeight="1px"></ListView>
 
 

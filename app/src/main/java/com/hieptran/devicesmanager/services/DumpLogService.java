@@ -81,8 +81,8 @@ public class DumpLogService extends Service implements Const {
                         Utils.saveString("average_voltage", "" + String.format("%.2f", vol_sum / count_time), getApplicationContext());
                         Utils.saveString("average_current", String.format("%.2f", cur_sum / count_time), getApplicationContext());
                         Utils.saveString("percent", percent, getApplicationContext());
-                        mydb.doPutRecord(table_name, count_time, avg_power, battery_consumed, avg_voltage, avg_current);
-                        notification = new NotificationCompat.Builder(con)
+//                        mydb.doPutRecord(table_name, count_time, avg_power, battery_consumed, avg_voltage, avg_current); Bugs
+                    /*    notification = new NotificationCompat.Builder(con)
                                 .setSmallIcon(R.drawable.about_icon)
                                 .setContentTitle("Device Manager")
                                 .setContentText(top_tile)
@@ -91,8 +91,8 @@ public class DumpLogService extends Service implements Const {
                                 .setPriority(Notification.PRIORITY_MAX)
                                 .setStyle(new NotificationCompat.BigTextStyle().bigText(top_tile))
                                 .build();
-                        mNotificationManager.notify(309, notification);
-                        Log.d("HiepTHb", "Test" + count_time);
+                        mNotificationManager.notify(309, notification);*/
+                        //Log.d("HiepTHb", "Test" + count_time);
                     }
                 } catch (Exception ex) {
                     Log.d("HiepTHb", "--" + ex.getMessage());
@@ -107,7 +107,7 @@ public class DumpLogService extends Service implements Const {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mNotificationManager.cancel(309);
+    //    mNotificationManager.cancel(309);
         t.interrupt();
         Utils.saveInt("time_record", 0, getApplicationContext());
         Utils.saveString("average_power", "", getApplicationContext());

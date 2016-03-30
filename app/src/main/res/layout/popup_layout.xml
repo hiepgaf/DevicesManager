@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/layout_main"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_shadow_white"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+<com.hieptran.devicesmanager.common.CircleChart
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    android:id="@+id/level_popup"
+
+    android:layout_gravity="center"
+    />
+    <!--   <me.itangqi.waveloadingview.WaveLoadingView
+           android:id="@+id/reallv"
+           android:layout_width="100dp"
+           android:layout_height="100dp"
+           app:mlv_borderWidth="1dp"
+           app:mlv_shapeType="circle"
+           app:mlv_titleCenterSize="12sp"
+           app:mlv_titleTopSize="12sp"
+           app:mlv_waveAmplitude="50"
+           app:mlv_waveColor="@color/color_primary" />-->
+
+
+
+        <TextView
+            android:id="@+id/totalpower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cpu_load"
+            android:textColor="@android:color/black"
+            android:textSize="13sp" />
+
+
+    </LinearLayout>
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/close_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/color_primary"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="CLOSE" />
+</LinearLayout>
