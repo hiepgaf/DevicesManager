@@ -34,6 +34,11 @@
         android:checkable="true"
         android:icon="@drawable/batteryguru"
         android:title="Profile" />
+        <item
+            android:id="@+id/nav_rom_t"
+            android:checkable="true"
+            android:icon="@drawable/batteryguru"
+            android:title="ROM T" />
     </group>
     <group
 

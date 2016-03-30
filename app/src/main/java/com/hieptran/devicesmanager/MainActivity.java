@@ -39,16 +39,22 @@ import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.GOVTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.battery.BatteryInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.profile.ProfileFragment;
+import com.hieptran.devicesmanager.fragment.tweak.rom.StatusbarFragment;
 import com.hieptran.devicesmanager.fragment.tweak.wakelock.WakeLockFragment;
 import com.hieptran.devicesmanager.services.DumpLogService;
 import com.hieptran.devicesmanager.utils.Utils;
 
 import java.util.Locale;
 
+import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import me.drakeet.materialdialog.MaterialDialog;
 
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IXposedHookLoadPackage{
 
     //constant for defining the time duration between the click that can be considered as double-tap
     static final int MAX_DURATION = 500;
@@ -272,7 +278,12 @@ public class MainActivity extends AppCompatActivity
             Fragment setting = new WakeLockFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.wake_lock_title));
-        } else if (id == R.id.nav_setting) {
+        }else if (id == R.id.nav_rom_t) {
+            Fragment setting = new StatusbarFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
+            setTitle(getString(R.string.wake_lock_title));
+        }
+        else if (id == R.id.nav_setting) {
             Fragment setting = new SettingFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.nav_setting));
@@ -363,5 +374,22 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+    @Override
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
+        if (!loadPackageParam.packageName.equals("com.android.systemui"))
+            return;
+        findAndHookMethod("com.android.systemui.statusbar.policy.Clock", loadPackageParam.classLoader, "updateClock", new XC_MethodHook() {
 
-}
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    Log.d("HiepTHB","set STTT");
+                    TextView tv = (TextView) param.thisObject;
+                    String text = tv.getText().toString();
+                    tv.setText(text + " :)");
+                    tv.setTextColor(Color.RED);
+                }
+            });
+
+        }
+    }
+
