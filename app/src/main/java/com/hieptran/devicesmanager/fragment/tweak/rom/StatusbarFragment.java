@@ -37,7 +37,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class StatusbarFragment extends Fragment implements IXposedHookLoadPackage,IXposedHookInitPackageResources, AdapterView.OnItemSelectedListener{
     Spinner mSpinnerClockPos;
     protected boolean inhibit_spinner = true;
-
+    InitPackageResourcesParam initPackageResourcesParam;
     ArrayAdapter<String> mArrayAdapterClockPos;
     @Nullable
     @Override
@@ -49,8 +49,9 @@ public class StatusbarFragment extends Fragment implements IXposedHookLoadPackag
         mArrayAdapterClockPos.add("Center");
         mArrayAdapterClockPos.add("Right");
         mSpinnerClockPos.setAdapter(mArrayAdapterClockPos);
-
-        Toast.makeText(getContext(), Utils.getInt("clock_pos",1, getContext())+"-",Toast.LENGTH_LONG).show();
+        mArrayAdapterClockPos.setNotifyOnChange(true);
+        Utils.saveInt("clock_pos", 0, getContext());
+        mSpinnerClockPos.setOnItemSelectedListener(this);
         return v;
     }
 
@@ -76,14 +77,10 @@ public class StatusbarFragment extends Fragment implements IXposedHookLoadPackag
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (inhibit_spinner) {
-            inhibit_spinner = false;
-            type = Utils.getInt("clock_pos",1, getContext());
-            //CPU.setGovernor(adap_avai_gov.getItem(position), getActivity());
-
-        } else {
-            Utils.saveInt("clock_pos", position, getContext());
+        Toast.makeText(getContext(), ""+Utils.getInt("clock_pos", 1, getContext()),Toast.LENGTH_LONG).show();
+            Utils.saveInt("clock_pos", 0, getContext());
             type = position;
+
 
 //            mSflashDialog = new MaterialDialog(getContext())
 //                    .setTitle("Set Governor")
@@ -112,7 +109,7 @@ public class StatusbarFragment extends Fragment implements IXposedHookLoadPackag
 //            else
 //                CPU.setGovernor(CommandControl.CommandType.CPU_LITTLE, adap_avai_gov.getItem(position), getActivity());
 
-        }
+
     }
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -124,7 +121,8 @@ public class StatusbarFragment extends Fragment implements IXposedHookLoadPackag
 int type=1;
     @Override
     public void handleInitPackageResources(InitPackageResourcesParam initPackageResourcesParam) throws Throwable {
-        ClockPosition.initPackageResources(initPackageResourcesParam, type);
+
+        ClockPosition.initPackageResources(initPackageResourcesParam,  Utils.getInt("clock_pos", 1, getContext()));
     }
 }
 

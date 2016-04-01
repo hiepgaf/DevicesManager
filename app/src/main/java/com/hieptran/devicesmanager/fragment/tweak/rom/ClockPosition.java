@@ -172,7 +172,7 @@ public class ClockPosition {
                 mLayoutClock.setVisibility(View.VISIBLE);
                 break;
                 default:
-                    mClock.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+                    mClock.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                     mClock.setLayoutParams(new LinearLayout.LayoutParams(
                             LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
                     mClock.setPadding(mClockOriginalPaddingLeft, 0, 0, 0);
