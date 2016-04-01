@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -26,11 +27,14 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hieptran.commonlibs.andoid.common.contrib.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.hieptran.devicesmanager.common.SampleDialogFragment;
 import com.hieptran.devicesmanager.common.SplashView;
+import com.hieptran.devicesmanager.common.blur.navidrawer.BlurActionBarDrawerToggle;
+import com.hieptran.devicesmanager.common.blur.navidrawer.BlurDrawerLayout;
 import com.hieptran.devicesmanager.common.root.RootUtils;
 import com.hieptran.devicesmanager.fragment.AboutFragment;
 import com.hieptran.devicesmanager.fragment.others.SettingFragment;
@@ -62,40 +66,20 @@ public class MainActivity extends AppCompatActivity
     boolean pressAgain = true;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawer;
+    BlurActionBarDrawerToggle blur_toogle;
+    BlurDrawerLayout blur_drawer;
     Toolbar toolbar;
-    SplashView mSplashView;
-    Handler hand;
-    AdView mAdView;
-    AdRequest adRequest;
     private ProgressDialog progressDialog;
-    TextView tv;
-    String warning = "#include <std_disclaimer.h>\n" +
-            "/*\n" +
-            " * Your warranty is now void.\n" +
-            " *\n" +
-            " * I am not responsible for bricked devices, dead SD cards,\n" +
-            " * thermonuclear war, or you getting fired because the alarm app failed. Please\n" +
-            " * do some research if you have any concerns about features included in this ROM\n" +
-            " * before flashing it! YOU are choosing to make these modifications, and if\n" +
-            " * you point the finger at me for messing up your device, I will laugh at you.\n" +
-            " */";
-    ///Test
-    //variable for counting two successive up-down events
-    int clickCount = 0;
-    //variable for storing the time of first click
-    long startTime;
-    //variable for calculating the total time
-    long duration;
-    //private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
-    MaterialDialog mSflashDialog;
-    private InterstitialAd mInterstitialAd;
     SampleDialogFragment fragment;
     Activity mActivity;
+    private boolean isBlurred;
    // Typeface tf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String languageToLoad="vi";
+        Utils.saveBoolean("blur_navi",true,this);
+        isBlurred= Utils.getBoolean("blur_navi",false,this);
         if(Utils.getBoolean("force_eng",false,this)) {
             languageToLoad  = "en"; // your language
 
@@ -113,7 +97,15 @@ public class MainActivity extends AppCompatActivity
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
-        setContentView(R.layout.activity_main);
+
+
+        if(Utils.getBoolean("blur_navi",false,this)) {
+            setContentView(R.layout.activity_main_blur);
+            blur_drawer = (BlurDrawerLayout) findViewById(R.id.drawer_layout);
+        } else {
+            setContentView(R.layout.activity_main);
+            drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        }
 
 
 
@@ -149,7 +141,7 @@ public class MainActivity extends AppCompatActivity
                 true,
                 "",getString(R.string.waiting_for_init)
                 );
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
      //   mSplashView = (SplashView) findViewById(R.id.splash_view);
         new Task().execute();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -172,26 +164,17 @@ public class MainActivity extends AppCompatActivity
         ColorStateList csl = new ColorStateList(state, color);
         if (Utils.getBoolean("dark_theme",false,this)) {
             Log.d("HiepTHb", "Nhay vao day");
-            navigationView.setBackgroundColor(Color.parseColor("#404040"));
-            // super.setTheme(R.style.AppBaseThemeDark);
-          //  navigationView.setItemTextColor(csl);
-            // getWindow().getDecorView().getRootView().setBackgroundColor(getResources().getColor(R.color.black));
+            if(isBlurred)
+            navigationView.setBackgroundColor(Color.parseColor("#99404040"));
+            else             navigationView.setBackgroundColor(Color.parseColor("#404040"));
+
         }
         else {
 
+            if(isBlurred)
+                navigationView.setBackgroundColor(Color.parseColor("#99f5f5f5"));
+            else             navigationView.setBackgroundColor(Color.parseColor("#f5f5f5"));
         }
-//        mAdView = (AdView) findViewById(R.id.adView);
-//        adRequest = new AdRequest.Builder().build();
-//        mAdView.loadAd(adRequest);
-//        mInterstitialAd = new InterstitialAd(this);
-//        mInterstitialAd.setAdUnitId(getString(R.string.splash_banner_));
-//
-//        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-//            mInterstitialAd.show();
-//        } else {
-//            Toast.makeText(this, "Ad did not load", Toast.LENGTH_SHORT).show();
-//            //startGame();
-//        }
         //http://stackoverflow.com/questions/31394265/navigation-drawer-item-icon-not-showing-original-colour
         navigationView.setItemIconTintList(null);
 
@@ -214,24 +197,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         Log.d("HiepTHb", "onBackPressed");
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-            pressAgain = false;
-            Toast.makeText(this, "press back again to leave", Toast.LENGTH_LONG).show();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);
-                        pressAgain = true;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        } else {
-            super.onBackPressed();
-        }
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//            pressAgain = false;
+//            Toast.makeText(this, "press back again to leave", Toast.LENGTH_LONG).show();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(2000);
+//                        pressAgain = true;
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+//        } else {
+//            super.onBackPressed();
+//        }
 
     }
 
@@ -240,6 +223,9 @@ public class MainActivity extends AppCompatActivity
         super.onConfigurationChanged(newConfig);
         /*if (mScrimInsetsFrameLayout != null)
             mScrimInsetsFrameLayout.setLayoutParams(getDrawerParams());*/
+        if(Utils.getBoolean("blur_navi",false,this)) {
+            if(blur_toogle!=null) blur_toogle.onConfigurationChanged(newConfig);
+        } else
         if (toggle != null) toggle.onConfigurationChanged(newConfig);
     }
 
@@ -290,7 +276,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+       if(isBlurred) blur_drawer.closeDrawer(GravityCompat.START);
+        else
+           drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -319,6 +307,34 @@ public class MainActivity extends AppCompatActivity
             });
         }
     }
+
+
+    private void setInterfaceBlur() {
+        if (blur_drawer != null) {
+            blur_toogle = new BlurActionBarDrawerToggle(this, blur_drawer, toolbar, 0, 0) {
+                @Override
+                public void onDrawerClosed(View view) {
+                    invalidateOptionsMenu();
+                    // mAdView.removeAllViews();
+                }
+
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    invalidateOptionsMenu();
+
+                }
+            };
+            blur_drawer.setDrawerListener(blur_toogle);
+
+            blur_drawer.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (blur_toogle != null) blur_toogle.syncState();
+                }
+            });
+        }
+    }
+
 
     public interface OnBackButtonListener {
         boolean onBackPressed();
@@ -358,6 +374,9 @@ public class MainActivity extends AppCompatActivity
             // if (hasRoot) {
                // mSflashDialog.dismiss();
               //  mSplashView.finish();
+            if(Utils.getBoolean("blur_navi",false,getApplicationContext())){
+                setInterfaceBlur();
+            } else
             setInterface();
             //fragment.onDestroyView();
            // fragment.dismissAllowingStateLoss();
