@@ -33,7 +33,7 @@
         android:id="@+id/nav_set_pr"
         android:checkable="true"
         android:icon="@drawable/batteryguru"
-        android:title="Profile" />
+        android:title="@string/profile_title" />
         <item
             android:id="@+id/nav_rom_t"
             android:checkable="true"
