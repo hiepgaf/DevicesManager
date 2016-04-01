@@ -234,4 +234,12 @@
     <!-- WakeLock -->
     <string name="wake_lock_title">Wake Lock</string>
     <string name="getting_data">Getting Data</string>
+    <string name="force_english">Force English</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="blur_effect">Blur Effect</string>
+    <string name="general_setting">Basic Settings</string>
+    <string name="rom_tweak">Rom Tweak</string>
+    <string name="profile_title">Profile</string>
+
+
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lb.material_preferences_library.custom_preferences.Preference xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.lb.material_preferences_library.custom_preferences.CheckBoxPreference
+        android:key="checkbox_on_boot"
+        android:defaultValue="false"
+        android:title="@string/set_on_boot_lable"
+        android:summary="Enable DumpLog Service on boot event"
+       />
+    <com.lb.material_preferences_library.custom_preferences.CheckBoxPreference
+        android:key="checkbox_for_eng"
+        android:defaultValue="false"
+        android:title="@string/set_on_boot_lable"
+        android:summary="Force English Language"
+
+        />
+    <com.lb.material_preferences_library.custom_preferences.CheckBoxPreference
+        android:key="checkbox_dark_theme"
+        android:defaultValue="false"
+        android:title="@string/set_on_boot_lable"
+        android:summary="Set DarkUI"
+
+        />
+</com.lb.material_preferences_library.custom_preferences.Preference>

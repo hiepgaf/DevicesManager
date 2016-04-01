@@ -59,6 +59,10 @@
             android:name=".AnalyzeActivity"
             android:label="@string/title_activity_log_view"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/nav_setting"
+            android:theme="@style/AppTheme"></activity>
 
         <service android:name=".services.DumpLogService"></service>
         <service android:name=".services.PopupService"></service>

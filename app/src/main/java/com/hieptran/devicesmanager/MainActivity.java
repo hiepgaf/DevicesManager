@@ -59,9 +59,6 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IXposedHookLoadPackage{
-
-    //constant for defining the time duration between the click that can be considered as double-tap
-    static final int MAX_DURATION = 500;
     public static Intent i;
     boolean pressAgain = true;
     ActionBarDrawerToggle toggle;
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String languageToLoad="vi";
-        Utils.saveBoolean("blur_navi",true,this);
+       // Utils.saveBoolean("blur_navi",true,this);
         isBlurred= Utils.getBoolean("blur_navi",false,this);
         if(Utils.getBoolean("force_eng",false,this)) {
             languageToLoad  = "en"; // your language
@@ -259,7 +256,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_set_pr) {
             Fragment setting = new ProfileFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
-            setTitle(getString(R.string.profile_summary));
+            setTitle(getString(R.string.profile_title));
         } else if (id == R.id.nav_wakelock) {
             Fragment setting = new WakeLockFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
@@ -267,7 +264,7 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.nav_rom_t) {
             Fragment setting = new StatusbarFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
-            setTitle(getString(R.string.wake_lock_title));
+            setTitle(getString(R.string.rom_tweak));
         }
         else if (id == R.id.nav_setting) {
             Fragment setting = new SettingFragment();

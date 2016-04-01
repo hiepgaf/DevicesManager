@@ -67,4 +67,10 @@
     <string name="pause">Dừng</string>
     <string name="edit">Sửa</string>
     <string name="delete">Xóa</string>
+    <string name="blur_effect">Hiệu ứng mờ</string>
+    <string name="dark_theme">Giao diện tối</string>
+    <string name="force_english">Áp dụng Tiếng Anh</string>
+    <string name="general_setting">Thiết lập cơ bản</string>
+    <string name="rom_tweak">Tùy biến ROM</string>
+    <string name="profile_title">Cấu hình</string>
 </resources>

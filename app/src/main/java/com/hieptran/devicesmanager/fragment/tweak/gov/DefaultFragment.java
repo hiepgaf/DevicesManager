@@ -323,6 +323,9 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
             LayoutInflater inflater = (LayoutInflater) getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View gov_itemt = inflater.inflate(R.layout.gov_item, null);
+            if(!Utils.getBoolean("dark_theme",false,mContext))
+                gov_itemt.setBackgroundResource(R.drawable.bg_shadow_white);
+            else             gov_itemt.setBackgroundResource(R.drawable.bg_shadow_);
             mLable = (TextView) gov_itemt.findViewById(R.id.lable_gov_items);
             mValue = (TextView) gov_itemt.findViewById(R.id.value_gov_items);
             lable = mLableList.get(position);

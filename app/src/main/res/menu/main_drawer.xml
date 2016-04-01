@@ -38,7 +38,7 @@
             android:id="@+id/nav_rom_t"
             android:checkable="true"
             android:icon="@drawable/batteryguru"
-            android:title="ROM T" />
+            android:title="@string/rom_tweak" />
     </group>
     <group
 
