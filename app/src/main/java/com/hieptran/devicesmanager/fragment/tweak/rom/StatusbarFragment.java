@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.common.root.CommandControl;
@@ -48,6 +49,8 @@ public class StatusbarFragment extends Fragment implements IXposedHookLoadPackag
         mArrayAdapterClockPos.add("Center");
         mArrayAdapterClockPos.add("Right");
         mSpinnerClockPos.setAdapter(mArrayAdapterClockPos);
+
+        Toast.makeText(getContext(), Utils.getInt("clock_pos",1, getContext())+"-",Toast.LENGTH_LONG).show();
         return v;
     }
 
@@ -75,7 +78,7 @@ public class StatusbarFragment extends Fragment implements IXposedHookLoadPackag
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (inhibit_spinner) {
             inhibit_spinner = false;
-            type = Utils.getInt("clock_pos", 2, getContext());
+            type = Utils.getInt("clock_pos",1, getContext());
             //CPU.setGovernor(adap_avai_gov.getItem(position), getActivity());
 
         } else {
@@ -118,7 +121,7 @@ public class StatusbarFragment extends Fragment implements IXposedHookLoadPackag
 
         }
 
-int type;
+int type=1;
     @Override
     public void handleInitPackageResources(InitPackageResourcesParam initPackageResourcesParam) throws Throwable {
         ClockPosition.initPackageResources(initPackageResourcesParam, type);
