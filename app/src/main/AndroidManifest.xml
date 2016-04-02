@@ -66,7 +66,7 @@
 
         <service android:name=".services.DumpLogService"></service>
         <service android:name=".services.PopupService"></service>
-        <meta-data
+       <!-- <meta-data
             android:name="xposedmodule"
             android:value="true" />
         <meta-data
@@ -74,7 +74,7 @@
             android:value="Easy example which makes the status bar clock red and adds a smiley" />
         <meta-data
             android:name="xposedminversion"
-            android:value="30" />
+            android:value="30" />-->
     </application>
 
 </manifest>
