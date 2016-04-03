@@ -45,13 +45,15 @@ public class StatusbarFragment extends Fragment implements IXposedHookLoadPackag
         View v = inflater.inflate(R.layout.rom_tweak_fragment, container, false);
         mSpinnerClockPos = (Spinner) v.findViewById(R.id.clock_pos);
         mArrayAdapterClockPos = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, new ArrayList<String>());
+        mSpinnerClockPos.setOnItemSelectedListener(this);
+
         mArrayAdapterClockPos.add("Left");
         mArrayAdapterClockPos.add("Center");
         mArrayAdapterClockPos.add("Right");
         mSpinnerClockPos.setAdapter(mArrayAdapterClockPos);
         mArrayAdapterClockPos.setNotifyOnChange(true);
-        Utils.saveInt("clock_pos", 0, getContext());
-        mSpinnerClockPos.setOnItemSelectedListener(this);
+        Utils.saveInt("clock_pos", 1, getContext());
+        Toast.makeText(getContext(), ""+Utils.getInt("clock_pos", 1, getContext()),Toast.LENGTH_LONG).show();
         return v;
     }
 
@@ -77,8 +79,8 @@ public class StatusbarFragment extends Fragment implements IXposedHookLoadPackag
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getContext(), ""+Utils.getInt("clock_pos", 1, getContext()),Toast.LENGTH_LONG).show();
-            Utils.saveInt("clock_pos", 0, getContext());
+       // Toast.makeText(getContext(), ""+Utils.getInt("clock_pos", 1, getContext()),Toast.LENGTH_LONG).show();
+            Utils.saveInt("clock_pos", position, getContext());
             type = position;
 
 
