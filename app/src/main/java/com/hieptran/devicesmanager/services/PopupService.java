@@ -57,7 +57,7 @@ public class PopupService extends Service {
     @Override
     public void onStart(Intent intent, int startId)
     {
-        registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+       // registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         super.onStart(intent, startId);
     }
 
@@ -80,7 +80,6 @@ public class PopupService extends Service {
         mCircleChartLevel = (CircleChart) mViewMain.findViewById(R.id.level_popup);
         mCircleChartLevel.setMax(100);
 
-        mCircleChartLevel.setProgress(Utils.getInt("level_popup", 0, getApplicationContext()));
 
        /* mInfo.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -125,7 +124,7 @@ public class PopupService extends Service {
                     mViewMain.setY(mCurrentY);
                     Log.d("HiepTHb", "MOVE");*/
                     WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                            WindowManager.LayoutParams.WRAP_CONTENT,
+                           mW,
                             WindowManager.LayoutParams.WRAP_CONTENT,
                             mCurrentX, mCurrentY,
                             WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -134,8 +133,8 @@ public class PopupService extends Service {
                             PixelFormat.TRANSLUCENT);
                     //params.gravity = Gravity.BOTTOM|Gravity.LEFT|Gravity.CENTER|Gravity.TOP|Gravity.RIGHT;
                     wm.updateViewLayout(v, params);
-                    Log.d("HiepTHb", "mViewMain.sau()" + mLastX);
-                    Log.d("HiepTHb", "mViewMain.sau()" + mLastY);
+                   // Log.d("HiepTHb", "mViewMain.sau()" + mLastX);
+                   // Log.d("HiepTHb", "mViewMain.sau()" + mLastY);
                     //   mViewMain.update(mCurrentX, mCurrentY, -1, -1);
                 } else if (action == MotionEvent.ACTION_UP) {
                     mCurrentX = (int) mLastX;
@@ -153,8 +152,10 @@ public class PopupService extends Service {
                     Log.d("HiepTHb", "mViewMain.mCurrentX()" + mCurrentX);
                     Log.d("HiepTHb", "mViewMain.mCurrentY()" +mCurrentY);*/
 //mViewMain.invalidate();
-                    Log.d("HiepTHb", "mViewMain.getX()" + v.getX());
-                    Log.d("HiepTHb", "mViewMain.getY()" + v.getY());
+                    Log.d("HiepTHb", "mViewMain.getLeft()" + v.getLeft());
+                    Log.d("HiepTHb", "mViewMain.getRight()" + v.getRight());
+                    Log.d("HiepTHb", "mViewMain.getTop()" + v.getTop());
+                    Log.d("HiepTHb", "mViewMain.getBottom()" + v.getBottom());
                     //return true;
                 }
                 //   return gestureDetector.onTouchEvent(event);
@@ -235,6 +236,7 @@ public class PopupService extends Service {
                     mInfo.post(new Runnable() {
                         @Override
                         public void run() {
+                            mCircleChartLevel.setProgress(Utils.getInt("level_popup", 0, getApplicationContext()));
 
                             mInfo.setText(Utils.getString("info_popup", "----", getApplicationContext()));
                         }
