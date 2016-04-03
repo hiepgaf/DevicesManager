@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -56,11 +57,10 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     boolean first_time = false;
     private DbHelper dbHelper;
     private WaveLoadingView waveLevelView, realLv;
-    private TextView lvText, mTemperatureText;
+    private TextView  mNowValueText;
     private TextView voltageText;
     private TextView totalPw;
     private ListView lvRecordFile;
-    private TextView current_now_tv, voltage_now_tv;
     private android.os.Handler hand;
     private Button btRecord;
     private boolean isRecorded = true;
@@ -94,8 +94,19 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
 
             //  waveLevelView.setWaveColor(Color.GREEN);
             waveLevelView.setCenterTitle(level + " %");
+            waveLevelView.setCenterTitleSize(18.0f);
+            if(Utils.getBoolean("dark_theme",false,getContext())) {
+                waveLevelView.setCenterTitleColor(Color.WHITE);
+                realLv.setCenterTitleColor(Color.WHITE);
 
-            voltageText.setText("Battery Voltage " + voltage + "    mV");
+            }
+            else {
+                realLv.setCenterTitleColor(Color.BLACK);
+
+                waveLevelView.setCenterTitleColor(Color.BLACK);
+            }
+
+            voltageText.setText("Battery Voltage: " + voltage + " mV");
             if(intent.getAction().equals("com.hieptran.devicesmanager.CLOSED_POPUP_ACTION")) {
                 showPopup.setBackgroundResource(R.drawable.bg_on);
                 showPopup.setText("Show Popup");
@@ -127,14 +138,12 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            mNowValueText.setText("Current Now: " + readCurrentNow() + "uA\n"+"Voltage Now: "+ readVoltageNow() + "uV");
                             top_tile = "Time: " + "N/A" +
                                     " \n" + "Average Power: " + "N/A" +
                                     " mW\n" +
                                     "Bat Consumed: " + "N/A" + " mAh" +
-                                    "(~" + "%)";
-                            current_now_tv.setText("Average Voltage: " + "N/A" + " uV");
-                            voltage_now_tv.setText("Average Current: " + "N/A" + " uA");
+                                    "(~" + "%)\nAverage Voltage: " + "N/A" + " uV\nAverage Current: " + "N/A" + " uA";
 
 
                             // voltage_now_ad.add("\t\t\t\t\t" + readVoltageNow() + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + readCurrentNow());
@@ -155,10 +164,10 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                                             " \n" + "Average Power: " + Utils.getString("average_power", "", getContext()) +
                                             " mW\n" +
                                             "Bat Consumed: " + Utils.getString("battery_consumed", "", getContext()) + " mAh" +
-                                            "(~" + Utils.getString("percent", "", getContext()) + "%)";
-                                    current_now_tv.setText("Average Voltage: " + Utils.getString("average_voltage", "", getContext()) + " uV");
-                                    voltage_now_tv.setText("Average Current: " + Utils.getString("average_current", "", getContext()) + " uA");
-                                    mIntenShowPopup.putExtra("info", mInfoPopup);
+                                            "(~" + Utils.getString("percent", "", getContext()) + "%)\n"+
+                                   "Average Voltage: " + Utils.getString("average_voltage", "", getContext()) + " uV"+"\n"+
+                                    "Average Current: " + Utils.getString("average_current", "", getContext()) + " uA";
+                                    mIntenShowPopup.putExtra("info", top_tile);
                                     mIntenShowPopup.putExtra("level_popup",level);
                                     // totalPw.setText(top_tile);
                                     // btRecord.setText(getString(R.string.start_record));
@@ -169,9 +178,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                                             " \n" + "Average Power: " + "N/A" +
                                             " mW\n" +
                                             "Battery Consumed: " + "N/A" + " mAh" +
-                                            "(~" + "%)";
-                                    current_now_tv.setText("Average Voltage: " + "N/A" + " uV");
-                                    voltage_now_tv.setText("Average Current: " + "N/A" + " uA");
+                                            "(~" + "%)"+"\nAverage Voltage: " + "N/A" + " uV"+"\n"+"Average Current: " + "N/A" + " uA";
                                     mIntenShowPopup.putExtra("level_popup", level);
                                /* // count_time =0;
                                 result = Utils.formatSeconds(time++);
@@ -187,8 +194,8 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                                 current_now_ad.setNotifyOnChange(true);*/
                                 }
                             }
-                            mInfoPopup = top_tile + "\n"+current_now_tv.getText()+"\n" + voltage_now_tv.getText();
-                            Utils.saveString("info_popup", mInfoPopup,getContext());
+                           // mInfoPopup = top_tile + "\n"+current_now_tv.getText()+"\n" + voltage_now_tv.getText();
+                            Utils.saveString("info_popup", top_tile,getContext());
                             totalPw.setText(top_tile);
                         }
                     });
@@ -260,11 +267,9 @@ Button showPopup;
         waveLevelView = (WaveLoadingView) v.findViewById(R.id.waveLoadingView);
         totalPw = (TextView) v.findViewById(R.id.totalpower);
         realLv = (WaveLoadingView) v.findViewById(R.id.reallv);
-        current_now_tv = (TextView) v.findViewById(R.id.current_now_tv);
-        voltage_now_tv = (TextView) v.findViewById(R.id.voltage_now_tv);
         btRecord = (Button) v.findViewById(R.id.bt_start_record);
         showPopup = (Button) v.findViewById(R.id.bt_show_popup);
-
+        mNowValueText = (TextView) v.findViewById(R.id.now_value);
         blur_view = v.findViewById(R.id.blur_view);
         btRecord.setOnClickListener(this);
         totalPower = 3.7 * 2300;

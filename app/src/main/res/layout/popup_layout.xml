@@ -17,7 +17,6 @@
     android:layout_width="70dp"
     android:layout_height="70dp"
     android:id="@+id/level_popup"
-
     android:layout_gravity="center"
     />
     <!--   <me.itangqi.waveloadingview.WaveLoadingView

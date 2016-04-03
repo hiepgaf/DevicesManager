@@ -47,16 +47,16 @@
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:text="@string/cpu_load"
-            android:textSize="12sp" />
+            android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/bat_temp"
+            android:id="@+id/now_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:text="@string/cpu_load"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 </LinearLayout>
     </LinearLayout>
 
@@ -99,23 +99,7 @@
             android:layout_marginStart="20dp"
             android:text="@string/cpu_load"
             android:textSize="12sp" />
-        <TextView
-            android:id="@+id/voltage_now_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:text="@string/cpu_load"
-            android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/current_now_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:text="@string/cpu_load"
-            android:textSize="12sp"/>
 </LinearLayout>
     </LinearLayout>
     <LinearLayout
