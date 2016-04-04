@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_margin="2dp"
-            android:text="Start Record"
+            android:text="@string/start_record"
             android:textColor="@android:color/white"
             android:textSize="13sp" />
         <Button
@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_margin="2dp"
-            android:text="Popup"
+            android:text="@string/show_popup"
             android:textColor="@android:color/white"
             android:textSize="13sp" />
 

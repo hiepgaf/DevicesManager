@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -34,6 +35,7 @@ public class DumpLogService extends Service implements Const {
     LogRecord mLog;// = new LogRecord();
     Thread t;
     private String table_name;
+    boolean isSamsung = Build.MANUFACTURER == "samsung";
 
     @Override
     public void onCreate() {
@@ -55,6 +57,8 @@ public class DumpLogService extends Service implements Const {
         mNotificationManager = (NotificationManager) con.getSystemService(Context.NOTIFICATION_SERVICE);
         Log.d("HiepTHb", "onBoot - onStartCommnad");
         cur_sum = vol_sum = 0;
+
+
         mydb = new DbHelper(getApplicationContext());
         table_name = "log" + new SimpleDateFormat("ddMMyyHHmmss").format(new Date(System.currentTimeMillis()));
         mydb.doCreateTable(table_name);
@@ -71,17 +75,28 @@ public class DumpLogService extends Service implements Const {
                         String battery_consumed = String.format("%.2f", Math.abs(cur_sum / 60 / 60 / 1000));
                         String avg_voltage = String.format("%.2f", vol_sum / count_time);
                         String avg_current = String.format("%.2f", cur_sum / count_time);
-                        String percent = String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 / 1000) / BatteryInfoFragment.BATTERY_CAPACITY);
                         String top_tile = "Time: " + Utils.formatSeconds(count_time) + " \n" + "Average Power: " + String.format("%.2f", vol_sum * cur_sum / count_time / count_time / 1000 / 1000000) + " mW\n" +
                                 "Battery Consumed: " + String.format("%.2f", (cur_sum / 60 / 60 / 1000)) + " mAh" + "~" + String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 / 1000) / BatteryInfoFragment.BATTERY_CAPACITY) + "%\n" +
                                 "Average Voltage: " + String.format("%.2f", vol_sum / count_time) + " uV\n" +
                                 "Average Current: " + String.format("%.2f", cur_sum / count_time) + " uA\n";
-
+                        String  percent;
                         Utils.saveInt("time_record", count_time, getApplicationContext());
-                        Utils.saveString("average_power", String.format("%.2f", vol_sum * cur_sum / count_time / count_time / 1000 / 1000000), getApplicationContext());
-                        Utils.saveString("battery_consumed", String.format("%.2f", (cur_sum / 60 / 60 / 1000)), getApplicationContext());
-                        Utils.saveString("average_voltage", "" + String.format("%.2f", vol_sum / count_time), getApplicationContext());
                         Utils.saveString("average_current", String.format("%.2f", cur_sum / count_time), getApplicationContext());
+                        if(Build.MANUFACTURER.contains("samsung")) {
+                            Log.d("HiepTHb","samsung");
+                            Utils.saveString("average_power", String.format("%.2f", vol_sum * cur_sum / count_time / count_time / 1000000), getApplicationContext());
+                            Utils.saveString("battery_consumed", String.format("%.2f", (cur_sum / 60 / 60 )), getApplicationContext());
+                            percent = String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 ) / BatteryInfoFragment.BATTERY_CAPACITY);
+                        }
+                        else {
+                            Log.d("HiepTHb","k samsung");
+                              percent = String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 / 1000) / BatteryInfoFragment.BATTERY_CAPACITY);
+
+                            Utils.saveString("battery_consumed", String.format("%.2f", (cur_sum / 60 / 60 / 1000)), getApplicationContext());
+
+                            Utils.saveString("average_power", String.format("%.2f", vol_sum * cur_sum / count_time / count_time / 1000 / 1000000), getApplicationContext());
+                        }
+                        Utils.saveString("average_voltage", "" + String.format("%.2f", vol_sum / count_time), getApplicationContext());
                         Utils.saveString("percent", percent, getApplicationContext());
 //                        mydb.doPutRecord(table_name, count_time, avg_power, battery_consumed, avg_voltage, avg_current); Bugs
                     /*    notification = new NotificationCompat.Builder(con)

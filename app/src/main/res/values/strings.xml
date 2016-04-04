@@ -240,6 +240,21 @@
     <string name="general_setting">Basic Settings</string>
     <string name="rom_tweak">Rom Tweak</string>
     <string name="profile_title">Profile</string>
+    <string name="bat_capacity">Battery Capacity</string>
+    <string name="current_now">Current Now</string>
+    <string name="voltage_now">Voltage Now</string>
+    <string name="time">Time</string>
+    <string name="avg_power">Average Power</string>
+    <string name="bat_consumed">Battery Comsumed</string>
+    <string name="avg_voltaget">Average Voltage</string>
+    <string name="avg_current">Average Current</string>
+    <string name="stop_record">Stop Record</string>
+    <string name="show_popup">Show Popup</string>
+    <string name="cancle_popup">Cancel Popup</string>
+    <string name="charge_type">Charge Type</string>
+    <string name="ac_charge">Charging on AC</string>
+    <string name="usb_charge">Charging over USB</string>
+    <string name="no_charge">No charging</string>
 
 
 </resources>

@@ -71,6 +71,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     private AlertDialog alert;
     private double vol_sum = 0, cur_sum = 0;
     private int count_time = 0;
+    boolean usbCharge,acCharge;
     private final BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context arg0, Intent intent) {
@@ -80,6 +81,10 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
             int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
             boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
                     status == BatteryManager.BATTERY_STATUS_FULL;
+            int chargePlug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+            usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+            acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+
             int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0);
             currentPower = Integer.valueOf(readVoltageNow()) * level * 2.3 / 1000;
             count_time = Utils.getInt("time_record", 0, getContext());
@@ -88,9 +93,12 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
             realLv.setProgressValue(100 - (int) (realLevel));
             realLv.setCenterTitle(String.format("%.2f", currentPower / 100) + " mWh\n");
             //realLv.setTopTitle(String.format("%.2f", realLevel) + " %");
-            if (!isCharging)
+            if (!isCharging) {
                 waveLevelView.setAmplitudeRatio(1);
-            else waveLevelView.setAmplitudeRatio(50);
+            }
+            else {
+                waveLevelView.setAmplitudeRatio(50);
+            }
             waveLevelView.setProgressValue(100 - level);
 
             //  waveLevelView.setWaveColor(Color.GREEN);
@@ -110,7 +118,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
             //voltageText.setText("Battery Voltage: " + voltage + " mV");
             if(intent.getAction().equals("com.hieptran.devicesmanager.CLOSED_POPUP_ACTION")) {
                 showPopup.setBackgroundResource(R.drawable.bg_on);
-                showPopup.setText("Show Popup");
+                showPopup.setText(getString(R.string.show_popup));
                 getActivity().stopService(mIntenShowPopup);
                 isPopuped = false;
 
@@ -123,7 +131,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
         @Override
         public void onReceive(Context context, Intent intent) {
             showPopup.setBackgroundResource(R.drawable.bg_on);
-            showPopup.setText("Show Popup");
+            showPopup.setText(getString(R.string.show_popup));
             getActivity().stopService(mIntenShowPopup);
             isPopuped = false;
         }
@@ -139,12 +147,20 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mNowValueText.setText("Current Now: " + readCurrentNow() + "uA\n"+"Voltage Now: "+ readVoltageNow() + "uV");
-                            top_tile = "Time: " + "N/A" +
-                                    " \n" + "Average Power: " + "N/A" +
-                                    " mW\n" +
-                                    "Bat Consumed: " + "N/A" + " mAh" +
-                                    "(~" + "%)\nAverage Voltage: " + "N/A" + " uV\nAverage Current: " + "N/A" + " uA";
+                            if(usbCharge)
+                            mNowValueText.setText(getString(R.string.current_now) +": "+ readCurrentNow() + " uA\n"+getString(R.string.voltage_now)+": "+ readVoltageNow() + " uV" +
+                                    "\n"+getString(R.string.charge_type)+" "+getString(R.string.usb_charge));
+                            else if(acCharge)
+                                mNowValueText.setText(getString(R.string.current_now) +": "+ readCurrentNow() + " uA\n"+getString(R.string.voltage_now)+": "+ readVoltageNow() + " uV" +
+                                        "\n"+getString(R.string.charge_type)+" "+getString(R.string.ac_charge));
+                            else
+                                mNowValueText.setText(getString(R.string.current_now) +": "+ readCurrentNow() + " uA\n"+getString(R.string.voltage_now)+": "+ readVoltageNow() + " uV" +
+                                        "\n"+getString(R.string.charge_type)+" "+getString(R.string.no_charge));
+                            top_tile = getString(R.string.time)+": " + "N/A" +
+                                    " \n" + getString(R.string.avg_power)+": " + "N/A" +
+                                    " mW\n" + getString(R.string.bat_consumed)+
+                                    ": " + "N/A" + " mAh" +
+                                    "(~" + "%)\n"+getString(R.string.avg_voltaget)+": " + "N/A" + " uV\n"+getString(R.string.avg_current)+": " + "N/A" + " uA";
 
 
                             // voltage_now_ad.add("\t\t\t\t\t" + readVoltageNow() + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + readCurrentNow());
@@ -161,13 +177,13 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                                     "Battery Consumed: "+ String.format("%.2f",Math.abs(cur_sum/60/1000/1000)) +" mAh" +
                                     "(~"+String.format("%.1f",100*Math.abs(cur_sum/60/1000/1000)/2300)+"%)" ;*/
 //                                    updateRecordFileView();
-                                    top_tile = "Time: " + Utils.formatSeconds(Utils.getInt("time_record", 0, getContext())) +
-                                            " \n" + "Average Power: " + Utils.getString("average_power", "", getContext()) +
+                                    top_tile = getString(R.string.time)+": " + Utils.formatSeconds(Utils.getInt("time_record", 0, getContext())) +
+                                            " \n" +getString(R.string.avg_power)+": "+ Utils.getString("average_power", "", getContext()) +
                                             " mW\n" +
-                                            "Bat Consumed: " + Utils.getString("battery_consumed", "", getContext()) + " mAh" +
+                                            getString(R.string.bat_consumed)+": "+ Utils.getString("battery_consumed", "", getContext()) + " mAh" +
                                             "(~" + Utils.getString("percent", "", getContext()) + "%)\n"+
-                                   "Average Voltage: " + Utils.getString("average_voltage", "", getContext()) + " uV"+"\n"+
-                                    "Average Current: " + Utils.getString("average_current", "", getContext()) + " uA";
+                                            getString(R.string.avg_voltaget)+": " + Utils.getString("average_voltage", "", getContext()) + " uV"+"\n"+
+                                            getString(R.string.avg_current)+": " + Utils.getString("average_current", "", getContext()) + " uA";
                                     mIntenShowPopup.putExtra("info", top_tile);
                                     mIntenShowPopup.putExtra("level_popup",level);
                                     // totalPw.setText(top_tile);
@@ -175,11 +191,12 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                                 } else {
                                     //btRecord.setText(("Stop record"));
 
-                                    top_tile = "Time: " + "N/A" +
-                                            " \n" + "Average Power: " + "N/A" +
-                                            " mW\n" +
-                                            "Battery Consumed: " + "N/A" + " mAh" +
-                                            "(~" + "%)"+"\nAverage Voltage: " + "N/A" + " uV"+"\n"+"Average Current: " + "N/A" + " uA";
+                                    top_tile = getString(R.string.time)+": " + "N/A" +
+                                            " \n" + getString(R.string.avg_power)+": " + "N/A" +
+                                            " mW\n" + getString(R.string.bat_consumed)+
+                                            ": " + "N/A" + " mAh" +
+                                            "(~" + "%)\n"+getString(R.string.avg_voltaget)+": " + "N/A" + " uV\n"+getString(R.string.avg_current)+": " + "N/A" + " uA";
+
                                     mIntenShowPopup.putExtra("level_popup", level);
                                /* // count_time =0;
                                 result = Utils.formatSeconds(time++);
@@ -217,7 +234,7 @@ boolean show =false;
                 updateRecordFileView();
                 isRecorded = true;
                 btRecord.setBackgroundResource(R.drawable.bg_on);
-                btRecord.setText("Start Record");
+                btRecord.setText(getString(R.string.start_record));
                 getActivity().stopService(MainActivity.i);
                 showPopup.setVisibility(View.GONE);
 
@@ -234,8 +251,8 @@ boolean show =false;
                 show = true;
                 showPopup.setVisibility(View.VISIBLE);
                 showPopup.setBackgroundResource(R.drawable.bg_on);
-                showPopup.setText("Show Popup");
-                btRecord.setText("Stop Record");
+                showPopup.setText(getString(R.string.show_popup));
+                btRecord.setText(getString(R.string.stop_record));
                 getActivity().startService(MainActivity.i);
 
             }
@@ -244,7 +261,7 @@ boolean show =false;
                 if (isPopuped) {
                     Log.d("HiepTHb","Nhay1");
                     showPopup.setBackgroundResource(R.drawable.bg_on);
-                    showPopup.setText("Show Popup");
+                    showPopup.setText(getString(R.string.show_popup));
                     getActivity().stopService(mIntenShowPopup);
                     isPopuped = false;
 
@@ -252,7 +269,7 @@ boolean show =false;
                 } else {
                     Log.d("HiepTHb","Nhay2");
                     showPopup.setBackgroundResource(R.drawable.bg_off);
-                    showPopup.setText("Diable Popup");
+                    showPopup.setText(getString(R.string.cancle_popup));
                     getActivity().startService(mIntenShowPopup);
                     isPopuped = true;
                 }
@@ -290,9 +307,15 @@ Button showPopup;
        // updateRecordFileView();
         mLogRecord = new LogVolAmp(mStartTimeRecord, mEndTimeRecord, voltage_now_al, current_now_al, listRunning());
         voltageText = (TextView) v.findViewById(R.id.bat_vol);
-        voltageText.setText("Battery Capacity: "+ getCapacityFromPowerProfile() + "mAh");
+        voltageText.setText(getString(R.string.bat_capacity)+": "+ getCapacityFromPowerProfile() + "mAh");
+        IntentFilter fiIntent = new IntentFilter();
+        fiIntent.addAction(Intent.ACTION_BATTERY_CHANGED);
+        fiIntent.addAction(Intent.ACTION_POWER_CONNECTED);
+        fiIntent.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        fiIntent.addAction(Intent.ACTION_BATTERY_OKAY);
+        fiIntent.addAction(Intent.ACTION_BATTERY_LOW);
         try {
-            getActivity().registerReceiver(mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            getActivity().registerReceiver(mBatInfoReceiver,fiIntent);
             getActivity().registerReceiver(mClosedPopup, new IntentFilter("com.hieptran.devicesmanager.CLOSED_POPUP_ACTION"));
         } catch (NullPointerException ignored) {
         }
