@@ -11,8 +11,10 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.hieptran.devicesmanager.R;
+import com.hieptran.devicesmanager.fragment.tweak.battery.BatteryInfoFragment;
 import com.hieptran.devicesmanager.utils.Const;
 import com.hieptran.devicesmanager.utils.Utils;
+import com.hieptran.devicesmanager.utils.info.Battery;
 import com.hieptran.devicesmanager.utils.info.LogRecord;
 import com.hieptran.devicesmanager.utils.provider.DbHelper;
 
@@ -69,9 +71,9 @@ public class DumpLogService extends Service implements Const {
                         String battery_consumed = String.format("%.2f", Math.abs(cur_sum / 60 / 60 / 1000));
                         String avg_voltage = String.format("%.2f", vol_sum / count_time);
                         String avg_current = String.format("%.2f", cur_sum / count_time);
-                        String percent = String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 / 1000) / 2300);
+                        String percent = String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 / 1000) / BatteryInfoFragment.BATTERY_CAPACITY);
                         String top_tile = "Time: " + Utils.formatSeconds(count_time) + " \n" + "Average Power: " + String.format("%.2f", vol_sum * cur_sum / count_time / count_time / 1000 / 1000000) + " mW\n" +
-                                "Battery Consumed: " + String.format("%.2f", (cur_sum / 60 / 60 / 1000)) + " mAh" + "~" + String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 / 1000) / 2300) + "%\n" +
+                                "Battery Consumed: " + String.format("%.2f", (cur_sum / 60 / 60 / 1000)) + " mAh" + "~" + String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 / 1000) / BatteryInfoFragment.BATTERY_CAPACITY) + "%\n" +
                                 "Average Voltage: " + String.format("%.2f", vol_sum / count_time) + " uV\n" +
                                 "Average Current: " + String.format("%.2f", cur_sum / count_time) + " uA\n";
 
