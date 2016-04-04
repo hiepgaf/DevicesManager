@@ -42,6 +42,7 @@ import me.itangqi.waveloadingview.WaveLoadingView;
  */
 public class BatteryInfoFragment extends Fragment implements Const, View.OnClickListener, AdapterView.OnItemClickListener {
     public static final int RECORD_NOTIFICATION_ID = 1;
+    public static double BATTERY_CAPACITY;
     public static int level, voltage;
     public String result;
     public NotificationManager mNotificationManager;
@@ -106,7 +107,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                 waveLevelView.setCenterTitleColor(Color.BLACK);
             }
 
-            voltageText.setText("Battery Voltage: " + voltage + " mV");
+            //voltageText.setText("Battery Voltage: " + voltage + " mV");
             if(intent.getAction().equals("com.hieptran.devicesmanager.CLOSED_POPUP_ACTION")) {
                 showPopup.setBackgroundResource(R.drawable.bg_on);
                 showPopup.setText("Show Popup");
@@ -272,7 +273,7 @@ Button showPopup;
         mNowValueText = (TextView) v.findViewById(R.id.now_value);
         blur_view = v.findViewById(R.id.blur_view);
         btRecord.setOnClickListener(this);
-        totalPower = 3.7 * 2300;
+        totalPower = 3.7 * getCapacityFromPowerProfile();
         dbHelper = new DbHelper(getContext());
         btRecord.setBackgroundResource(R.drawable.bg_on);
         lvRecordFile = (ListView) v.findViewById(R.id.lv_record_file);
@@ -280,6 +281,7 @@ Button showPopup;
         record_files_al = new ArrayList<>();
         voltage_now_al = new ArrayList<>();
         current_now_al = new ArrayList<>();
+        BATTERY_CAPACITY = getCapacityFromPowerProfile();
         voltage_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, voltage_now_al);
         current_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, current_now_al);
         record_files_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dbHelper.getTablesName());
@@ -288,6 +290,7 @@ Button showPopup;
        // updateRecordFileView();
         mLogRecord = new LogVolAmp(mStartTimeRecord, mEndTimeRecord, voltage_now_al, current_now_al, listRunning());
         voltageText = (TextView) v.findViewById(R.id.bat_vol);
+        voltageText.setText("Battery Capacity: "+ getCapacityFromPowerProfile() + "mAh");
         try {
             getActivity().registerReceiver(mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             getActivity().registerReceiver(mClosedPopup, new IntentFilter("com.hieptran.devicesmanager.CLOSED_POPUP_ACTION"));
@@ -460,6 +463,25 @@ Button showPopup;
 
         }
     }
+    public double getCapacityFromPowerProfile() {
+        Object mPowerProfile_ = null;
 
+        final String POWER_PROFILE_CLASS = "com.android.internal.os.PowerProfile";
+
+        try {
+            mPowerProfile_ = Class.forName(POWER_PROFILE_CLASS)
+                    .getConstructor(Context.class).newInstance(getContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            return (Double) Class.forName(POWER_PROFILE_CLASS).getMethod("getAveragePower", java.lang.String.class).invoke(mPowerProfile_, "battery.capacity");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  0;
+    }
 
 }
