@@ -45,20 +45,11 @@ public class PopupService extends Service {
     Intent i;
     int level;
     private CircleChart mCircleChartLevel;
-    private boolean mInternalClosed = false;
-    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d("HiepTHB","mBroadcastReceiver");
-            level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-
-        }
-    };
     private int mW;
     @Override
     public void onStart(Intent intent, int startId)
     {
-       // registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
         super.onStart(intent, startId);
     }
 
@@ -69,7 +60,6 @@ public class PopupService extends Service {
         hand = new android.os.Handler();
         i = intent;
         gestureDetector = new GestureDetector(getApplicationContext(), new GestureListener());
-        mInternalClosed = false;
 
         //   LayoutInflater layoutInflater = (LayoutInflater)getApplication().getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -194,7 +184,7 @@ public class PopupService extends Service {
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInternalClosed = false;
+
 
 //                if (hand != null) hand.removeCallbacks(updateView);
 //                wm.removeView(mViewMain);
@@ -244,7 +234,7 @@ public class PopupService extends Service {
                     });
                 }
             }).start();
-            hand.postDelayed(updateView, 1000);
+            hand.postDelayed(updateView, 800); //Cho no cham hon thi se khong bi tre
         }
 
     };

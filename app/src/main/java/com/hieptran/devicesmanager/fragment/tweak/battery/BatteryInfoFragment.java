@@ -67,10 +67,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     private boolean isRecorded = true;
     private boolean isPopuped = false;
     private ArrayList<String> voltage_now_al, current_now_al, record_files_al;
-    private ArrayAdapter<String> voltage_now_ad, current_now_ad, record_files_ad;
-    private AlertDialog alert;
-    private double vol_sum = 0, cur_sum = 0;
-    private int count_time = 0;
+    private ArrayAdapter<String> record_files_ad;
     boolean usbCharge,acCharge;
     private final BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
         @Override
@@ -87,7 +84,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
 
             int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0);
             currentPower = Integer.valueOf(readVoltageNow()) * level * 2.3 / 1000;
-            count_time = Utils.getInt("time_record", 0, getContext());
+           // count_time = Utils.getInt("time_record", 0, getContext());
             Log.d("HiepTHb", "Test     " + Utils.readFileUnRoot(BATTERY_VOLTAGE_NOW) + "        ---    " + Utils.getBoolean("rooted", false, getContext()));
             realLevel = (currentPower / totalPower);
             realLv.setProgressValue(100 - (int) (realLevel));
@@ -148,14 +145,14 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                         @Override
                         public void run() {
                             if(usbCharge)
-                            mNowValueText.setText(getString(R.string.current_now) +": "+ readCurrentNow() + " uA\n"+getString(R.string.voltage_now)+": "+ readVoltageNow() + " uV" +
-                                    "\n"+getString(R.string.charge_type)+" "+getString(R.string.usb_charge));
+                            mNowValueText.setText(getString(R.string.voltage_now)+": "+ readVoltageNow() + " uV" +
+                                    "\n"+getString(R.string.current_now) +": "+ readCurrentNow() + " uA\n"+getString(R.string.charge_type)+" "+getString(R.string.usb_charge));
                             else if(acCharge)
-                                mNowValueText.setText(getString(R.string.current_now) +": "+ readCurrentNow() + " uA\n"+getString(R.string.voltage_now)+": "+ readVoltageNow() + " uV" +
-                                        "\n"+getString(R.string.charge_type)+" "+getString(R.string.ac_charge));
+                                mNowValueText.setText(getString(R.string.voltage_now)+": "+ readVoltageNow() + " uV" +
+                                        "\n"+getString(R.string.current_now) +": "+ readCurrentNow() + " uA\n"+getString(R.string.charge_type)+" "+getString(R.string.ac_charge));
                             else
-                                mNowValueText.setText(getString(R.string.current_now) +": "+ readCurrentNow() + " uA\n"+getString(R.string.voltage_now)+": "+ readVoltageNow() + " uV" +
-                                        "\n"+getString(R.string.charge_type)+" "+getString(R.string.no_charge));
+                                mNowValueText.setText(getString(R.string.voltage_now)+": "+ readVoltageNow() + " uV" +
+                                        "\n"+getString(R.string.current_now) +": "+ readCurrentNow() + " uA\n"+getString(R.string.charge_type)+" "+getString(R.string.no_charge));
                             top_tile = getString(R.string.time)+": " + "N/A" +
                                     " \n" + getString(R.string.avg_power)+": " + "N/A" +
                                     " mW\n" + getString(R.string.bat_consumed)+
@@ -168,9 +165,9 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                             //  lsRunningApp.add(listRunning());
                             if (first_time) {
                                 if (!isRecorded) {
-                                    count_time++;
+                                  /*  count_time++;
                                     vol_sum += Double.valueOf(readVoltageNow());
-                                    cur_sum += Double.valueOf(readCurrentNow());
+                                    cur_sum += Double.valueOf(readCurrentNow());*/
                           /*  top_tile = "Time: " + Utils.formatSeconds(count_time)+
                                     " \n"+ "Average Power: "+ String.format("%.2f",vol_sum*cur_sum/count_time/count_time/1000/1000000) +
                                     " mW\n" +
@@ -299,8 +296,8 @@ Button showPopup;
         voltage_now_al = new ArrayList<>();
         current_now_al = new ArrayList<>();
         BATTERY_CAPACITY = getCapacityFromPowerProfile();
-        voltage_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, voltage_now_al);
-        current_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, current_now_al);
+      /*  voltage_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, voltage_now_al);
+        current_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, current_now_al);*/
         record_files_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dbHelper.getTablesName());
         record_files_ad.setNotifyOnChange(true);
         lvRecordFile.setAdapter(record_files_ad);
