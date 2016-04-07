@@ -3,10 +3,13 @@ package com.hieptran.devicesmanager.services;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -48,17 +51,22 @@ public class DumpLogService extends Service implements Const {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
 
+
         //  if (hand != null)  hand.postDelayed(updateView, 1000);
     }
-
+    PowerManager.WakeLock wakeLock;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         con = getApplicationContext();
         mNotificationManager = (NotificationManager) con.getSystemService(Context.NOTIFICATION_SERVICE);
         Log.d("HiepTHb", "onBoot - onStartCommnad");
         cur_sum = vol_sum = 0;
-
-
+        PowerManager mgr = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+        wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DeviceManager Record Data");
+        wakeLock.acquire();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(ScreenReceiver, filter);
         mydb = new DbHelper(getApplicationContext());
         table_name = "log" + new SimpleDateFormat("ddMMyyHHmmss").format(new Date(System.currentTimeMillis()));
         mydb.doCreateTable(table_name);
@@ -83,13 +91,13 @@ public class DumpLogService extends Service implements Const {
                         Utils.saveInt("time_record", count_time, getApplicationContext());
                         Utils.saveString("average_current", String.format("%.2f", cur_sum / count_time), getApplicationContext());
                         if(Build.MANUFACTURER.contains("samsung")) {
-                            Log.d("HiepTHb","samsung");
+                         //   Log.d("HiepTHb","samsung");
                             Utils.saveString("average_power", String.format("%.2f", vol_sum * cur_sum / count_time / count_time / 1000000), getApplicationContext());
                             Utils.saveString("battery_consumed", String.format("%.2f", (cur_sum / 60 / 60 )), getApplicationContext());
                             percent = String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 ) / BatteryInfoFragment.BATTERY_CAPACITY);
                         }
                         else {
-                            Log.d("HiepTHb","k samsung");
+                           // Log.d("HiepTHb","k samsung");
                               percent = String.format("%.1f", 100 * Math.abs(cur_sum / 60 / 60 / 1000) / BatteryInfoFragment.BATTERY_CAPACITY);
 
                             Utils.saveString("battery_consumed", String.format("%.2f", (cur_sum / 60 / 60 / 1000)), getApplicationContext());
@@ -126,6 +134,8 @@ public class DumpLogService extends Service implements Const {
         super.onDestroy();
     //    mNotificationManager.cancel(309);
         t.interrupt();
+
+
         Utils.saveInt("time_record", 0, getApplicationContext());
         Utils.saveString("average_power", "", getApplicationContext());
         Utils.saveString("battery_consumed", "", getApplicationContext());
@@ -152,5 +162,22 @@ public class DumpLogService extends Service implements Const {
             return Utils.readFileRoot(BATTERY_VOLTAGE_NOW);
         else return Utils.readFileUnRoot(BATTERY_VOLTAGE_NOW);
     }
+    public static boolean wasScreenOn = true;
+BroadcastReceiver ScreenReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+            // DO WHATEVER YOU NEED TO DO HERE
+            Log.d("HiepTHb","Screen OFF");
+            wasScreenOn = false;
+            wakeLock.acquire();
+        } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+            // AND DO WHATEVER YOU NEED TO DO HERE
+            wakeLock.release();
+            Log.d("HiepTHb", "Screen On");
 
+            wasScreenOn = true;
+        }
+    }
+};
 }

@@ -1,14 +1,12 @@
 package com.hieptran.devicesmanager.fragment.tweak.battery;
 
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.BatteryManager;
 import android.os.Bundle;
@@ -44,7 +42,6 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     public static final int RECORD_NOTIFICATION_ID = 1;
     public static double BATTERY_CAPACITY;
     public static int level, voltage;
-    public String result;
     public NotificationManager mNotificationManager;
     public LogVolAmp mLogRecord;
     public String mEndTimeRecord = "", mStartTimeRecord = "";
@@ -52,7 +49,6 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     double realLevel;
     String top_tile = "";
     int time;
-    Bitmap b;
     View v;
     View blur_view;
     boolean first_time = false;
@@ -68,6 +64,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
     private boolean isPopuped = false;
     private ArrayList<String> voltage_now_al, current_now_al, record_files_al;
     private ArrayAdapter<String> record_files_ad;
+    private int mDeltaLevel;
     boolean usbCharge,acCharge;
     private final BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
         @Override
@@ -81,11 +78,11 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
             int chargePlug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
             usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
             acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
-
+            mDeltaLevel = Utils.stringToInt(Utils.getString("bat_lv_start","0",getContext()))-level;
             int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0);
             currentPower = Integer.valueOf(readVoltageNow()) * level * 2.3 / 1000;
            // count_time = Utils.getInt("time_record", 0, getContext());
-            Log.d("HiepTHb", "Test     " + Utils.readFileUnRoot(BATTERY_VOLTAGE_NOW) + "        ---    " + Utils.getBoolean("rooted", false, getContext()));
+         //   Log.d("HiepTHb", "Test     " + Utils.readFileUnRoot(BATTERY_VOLTAGE_NOW) + "        ---    " + Utils.getBoolean("rooted", false, getContext()));
             realLevel = (currentPower / totalPower);
             realLv.setProgressValue(100 - (int) (realLevel));
             realLv.setCenterTitle(String.format("%.2f", currentPower / 100) + " mWh\n");
@@ -116,7 +113,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
             if(intent.getAction().equals("com.hieptran.devicesmanager.CLOSED_POPUP_ACTION")) {
                 showPopup.setBackgroundResource(R.drawable.bg_on);
                 showPopup.setText(getString(R.string.show_popup));
-                getActivity().stopService(mIntenShowPopup);
+                getActivity().stopService(mIntentShowPopup);
                 isPopuped = false;
 
             }
@@ -129,7 +126,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
         public void onReceive(Context context, Intent intent) {
             showPopup.setBackgroundResource(R.drawable.bg_on);
             showPopup.setText(getString(R.string.show_popup));
-            getActivity().stopService(mIntenShowPopup);
+            getActivity().stopService(mIntentShowPopup);
             isPopuped = false;
         }
     };
@@ -178,11 +175,11 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                                             " \n" +getString(R.string.avg_power)+": "+ Utils.getString("average_power", "", getContext()) +
                                             " mW\n" +
                                             getString(R.string.bat_consumed)+": "+ Utils.getString("battery_consumed", "", getContext()) + " mAh" +
-                                            "(~" + Utils.getString("percent", "", getContext()) + "%)\n"+
+                                            "(" + Utils.getString("percent", "", getContext()) + " % ~ "+mDeltaLevel+" %)\n"+
                                             getString(R.string.avg_voltaget)+": " + Utils.getString("average_voltage", "", getContext()) + " uV"+"\n"+
                                             getString(R.string.avg_current)+": " + Utils.getString("average_current", "", getContext()) + " uA";
-                                    mIntenShowPopup.putExtra("info", top_tile);
-                                    mIntenShowPopup.putExtra("level_popup",level);
+                                    mIntentShowPopup.putExtra("info", top_tile);
+                                    mIntentShowPopup.putExtra("level_popup", level);
                                     // totalPw.setText(top_tile);
                                     // btRecord.setText(getString(R.string.start_record));
                                 } else {
@@ -194,7 +191,7 @@ public class BatteryInfoFragment extends Fragment implements Const, View.OnClick
                                             ": " + "N/A" + " mAh" +
                                             "(~" + "%)\n"+getString(R.string.avg_voltaget)+": " + "N/A" + " uV\n"+getString(R.string.avg_current)+": " + "N/A" + " uA";
 
-                                    mIntenShowPopup.putExtra("level_popup", level);
+                                    mIntentShowPopup.putExtra("level_popup", level);
                                /* // count_time =0;
                                 result = Utils.formatSeconds(time++);
                                 btRecord.setText(result);
@@ -259,7 +256,7 @@ boolean show =false;
                     Log.d("HiepTHb","Nhay1");
                     showPopup.setBackgroundResource(R.drawable.bg_on);
                     showPopup.setText(getString(R.string.show_popup));
-                    getActivity().stopService(mIntenShowPopup);
+                    getActivity().stopService(mIntentShowPopup);
                     isPopuped = false;
 
 
@@ -267,14 +264,14 @@ boolean show =false;
                     Log.d("HiepTHb","Nhay2");
                     showPopup.setBackgroundResource(R.drawable.bg_off);
                     showPopup.setText(getString(R.string.cancle_popup));
-                    getActivity().startService(mIntenShowPopup);
+                    getActivity().startService(mIntentShowPopup);
                     isPopuped = true;
                 }
             }
         }
     }
 Button showPopup;
-    Intent mIntenShowPopup;
+    Intent mIntentShowPopup;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -296,11 +293,13 @@ Button showPopup;
         voltage_now_al = new ArrayList<>();
         current_now_al = new ArrayList<>();
         BATTERY_CAPACITY = getCapacityFromPowerProfile();
+        Utils.saveString("bat_lv_start", readLevelNow(), getContext());
       /*  voltage_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, voltage_now_al);
         current_now_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, current_now_al);*/
         record_files_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dbHelper.getTablesName());
         record_files_ad.setNotifyOnChange(true);
         lvRecordFile.setAdapter(record_files_ad);
+
        // updateRecordFileView();
         mLogRecord = new LogVolAmp(mStartTimeRecord, mEndTimeRecord, voltage_now_al, current_now_al, listRunning());
         voltageText = (TextView) v.findViewById(R.id.bat_vol);
@@ -319,8 +318,8 @@ Button showPopup;
         showPopup.setVisibility(View.GONE);
         showPopup.setOnClickListener(this);
 
-        mIntenShowPopup = new Intent(getActivity(), PopupService.class);
-        mIntenShowPopup.putExtra("bat_level",level);
+        mIntentShowPopup = new Intent(getActivity(), PopupService.class);
+        mIntentShowPopup.putExtra("bat_level", level);
 
 
 
@@ -341,6 +340,11 @@ Button showPopup;
         if (Utils.getBoolean("rooted", true, getContext()))
             return Utils.readFileRoot(BATTERY_VOLTAGE_NOW);
         else return Utils.readFileUnRoot(BATTERY_VOLTAGE_NOW);
+    }
+    private String readLevelNow() {
+        if (Utils.getBoolean("rooted", true, getContext()))
+            return Utils.readFileRoot(BATTERY_CAPACITY_NOW);
+        else return Utils.readFileUnRoot(BATTERY_CAPACITY_NOW);
     }
 
     @Override
@@ -369,7 +373,7 @@ Button showPopup;
         Utils.saveString("average_current", "", getContext());
         Utils.saveString("percent", "", getContext());
         getActivity().unregisterReceiver(mBatInfoReceiver);
-        getActivity().stopService(mIntenShowPopup);
+        getActivity().stopService(mIntentShowPopup);
         getActivity().stopService(MainActivity.i);
     }
 
