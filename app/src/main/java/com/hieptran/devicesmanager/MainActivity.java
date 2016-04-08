@@ -42,10 +42,12 @@ import com.hieptran.devicesmanager.common.root.RootUtils;
 import com.hieptran.devicesmanager.fragment.AboutFragment;
 import com.hieptran.devicesmanager.fragment.others.SettingFragment;
 import com.hieptran.devicesmanager.fragment.phoneinfo.PhoneInfoFragment;
+import com.hieptran.devicesmanager.fragment.phoneinfo.SystemFragment;
 import com.hieptran.devicesmanager.fragment.tweak.CPUTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.GOVTweakFragment;
 import com.hieptran.devicesmanager.fragment.tweak.battery.BatteryInfoFragment;
 import com.hieptran.devicesmanager.fragment.tweak.profile.ProfileFragment;
+import com.hieptran.devicesmanager.fragment.tweak.rom.DisableSystemApp;
 import com.hieptran.devicesmanager.fragment.tweak.rom.StatusbarFragment;
 import com.hieptran.devicesmanager.fragment.tweak.wakelock.WakeLockFragment;
 import com.hieptran.devicesmanager.services.DumpLogService;
@@ -280,7 +282,7 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.wake_lock_title));
         } else if (id == R.id.nav_rom_t) {
-            Fragment setting = new StatusbarFragment();
+            Fragment setting = new DisableSystemApp();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.rom_tweak));
         } else if (id == R.id.nav_setting) {

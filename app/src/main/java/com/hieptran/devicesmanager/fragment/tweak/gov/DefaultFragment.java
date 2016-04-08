@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ListViewCompat;
 import android.text.InputType;
@@ -73,6 +74,7 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
     public DefaultFragment(int core) {
         mCores = core;
     }
+   static private SwipeRefreshLayout swipeContainer;
 
     @Nullable
     @Override
@@ -94,6 +96,14 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
         mSflashDialog = new MaterialDialog(getContext());
         adap_avai_gov.setNotifyOnChange(true);
         avai_gov.setOnItemSelectedListener(this);
+        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                UpdateView2();
+            }
+        });
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -102,6 +112,13 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
                 UpdateView2();
             }
         });
+
+
+
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         hand = new Handler();
         return v;
@@ -148,6 +165,7 @@ public class DefaultFragment extends Fragment implements Const, AdapterView.OnIt
                 mGovAdapter.notifyDataSetChanged();
       //      }
      //   });
+        swipeContainer.setRefreshing(false);
 
     }
 

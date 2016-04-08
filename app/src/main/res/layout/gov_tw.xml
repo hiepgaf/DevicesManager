@@ -49,12 +49,18 @@
         android:id="@+id/header_title"
         style="@style/header_style"
         android:text="@string/advance_title" />
-
+<android.support.v4.widget.SwipeRefreshLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipeContainer"
+    >
     <android.support.v7.widget.ListViewCompat
         android:id="@+id/lv_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         ></android.support.v7.widget.ListViewCompat>
+</android.support.v4.widget.SwipeRefreshLayout>
+
     <!--<LinearLayout
         android:id="@+id/main_vertical_view"
         android:layout_width="match_parent"
