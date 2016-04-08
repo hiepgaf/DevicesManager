@@ -18,7 +18,9 @@
         android:icon="@drawable/steam"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:replace="android:icon">
+        tools:replace="android:icon"
+        android:enabled="true"
+        android:sharedUserId="android.uid.system">
         <activity
             android:name=".MainActivity"
             android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|navigation"
@@ -76,6 +78,14 @@
         <meta-data
             android:name="xposedminversion"
             android:value="30" />-->
+        <receiver android:name=".receiver.ScreenStateReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_OFF"></action>
+                <action android:name="android.intent.action.SCREEN_ON"></action>
+                <action android:name="android.intent.SCREEN_OFF" />
+                <action android:name="android.intent.SCREEN_ON" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

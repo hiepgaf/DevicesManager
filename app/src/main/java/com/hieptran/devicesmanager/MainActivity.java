@@ -3,6 +3,9 @@ package com.hieptran.devicesmanager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -47,7 +50,9 @@ import com.hieptran.devicesmanager.fragment.tweak.rom.StatusbarFragment;
 import com.hieptran.devicesmanager.fragment.tweak.wakelock.WakeLockFragment;
 import com.hieptran.devicesmanager.services.DumpLogService;
 import com.hieptran.devicesmanager.utils.Utils;
+import com.hieptran.devicesmanager.utils.packageinfo.AppUtility;
 
+import java.util.List;
 import java.util.Locale;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -58,7 +63,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, IXposedHookLoadPackage{
+        implements NavigationView.OnNavigationItemSelectedListener, IXposedHookLoadPackage {
     public static Intent i;
     boolean pressAgain = true;
     ActionBarDrawerToggle toggle;
@@ -70,24 +75,41 @@ public class MainActivity extends AppCompatActivity
     SampleDialogFragment fragment;
     Activity mActivity;
     private boolean isBlurred;
-   // Typeface tf;
+
+    // Typeface tf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String languageToLoad="vi";
-       // Utils.saveBoolean("blur_navi",true,this);
-        isBlurred= Utils.getBoolean("blur_navi",false,this);
-        if(Utils.getBoolean("force_eng",false,this)) {
-            languageToLoad  = "en"; // your language
-
+        String languageToLoad = "vi";
+        // Utils.saveBoolean("blur_navi",true,this);
+        isBlurred = Utils.getBoolean("blur_navi", false, this);
+        if (Utils.getBoolean("force_eng", false, this)) {
+            languageToLoad = "en"; // your language
         }
-        if (Utils.getBoolean("dark_theme",false,this)) {
+//        PackageManager pm = this.getPackageManager();
+//        List<PackageInfo> list = pm.getInstalledPackages(0);
+//
+//        for(PackageInfo pi : list) {
+//            try {
+//                ApplicationInfo ai = pm.getApplicationInfo(pi.packageName, 0);
+//
+//                //System.out.println(">>>>>>packages is<<<<<<<<" + ai.publicSourceDir);
+//
+//                if ((ai.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+//                    System.out.println("HiepTHb" + pi.packageName);
+//                }
+//            }
+//            catch (Exception e) {}
+//        }
+        AppUtility mAppUtility = new AppUtility(this);
+        Log.d("HiepTHb","Check System"+ mAppUtility.isSystemApp("com.android.systemui")+ "----"+mAppUtility.isSystemApp("com.hieptran.devicesmanager"));
+        if (Utils.getBoolean("dark_theme", false, this)) {
             Log.d("HiepTHb", "Nhay vao day");
             super.setTheme(R.style.AppBaseThemeDark);
             // navigationView.setItemBackgroundResource(R.drawable.nav_text_item_bg);
             // getWindow().getDecorView().getRootView().setBackgroundColor(getResources().getColor(R.color.black));
         } else
-        super.setTheme(R.style.AppBaseThemeLight);
+            super.setTheme(R.style.AppBaseThemeLight);
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
@@ -96,15 +118,13 @@ public class MainActivity extends AppCompatActivity
                 getBaseContext().getResources().getDisplayMetrics());
 
 
-        if(Utils.getBoolean("blur_navi",false,this)) {
+        if (Utils.getBoolean("blur_navi", false, this)) {
             setContentView(R.layout.activity_main_blur);
             blur_drawer = (BlurDrawerLayout) findViewById(R.id.drawer_layout);
         } else {
             setContentView(R.layout.activity_main);
             drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         }
-
-
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -124,34 +144,34 @@ public class MainActivity extends AppCompatActivity
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-           // window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+            // window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         } else {
             //getSupportActionBar().hide();
             setSupportActionBar(toolbar);
         }
 
-         fragment
+        fragment
                 = SampleDialogFragment.newInstance(
                 5,
                 5,
                 false,
                 true,
-                "",getString(R.string.waiting_for_init)
-                );
+                "", getString(R.string.waiting_for_init)
+        );
 
-     //   mSplashView = (SplashView) findViewById(R.id.splash_view);
+        //   mSplashView = (SplashView) findViewById(R.id.splash_view);
         new Task().execute();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        int[][] state = new int[][] {
-                new int[] { }, // disabled
-                new int[] {android.R.attr.state_checked}, // enabled
-                new int[] {android.R.attr.state_checked}, // unchecked
-                new int[] {android.R.attr.state_pressed}  // pressed
+        int[][] state = new int[][]{
+                new int[]{}, // disabled
+                new int[]{android.R.attr.state_checked}, // enabled
+                new int[]{android.R.attr.state_checked}, // unchecked
+                new int[]{android.R.attr.state_pressed}  // pressed
 
         };
 
-        int[] color = new int[] {
+        int[] color = new int[]{
                 Color.WHITE,
                 Color.RED,
                 Color.RED,
@@ -159,18 +179,17 @@ public class MainActivity extends AppCompatActivity
         };
 
         ColorStateList csl = new ColorStateList(state, color);
-        if (Utils.getBoolean("dark_theme",false,this)) {
+        if (Utils.getBoolean("dark_theme", false, this)) {
             Log.d("HiepTHb", "Nhay vao day");
-            if(isBlurred)
-            navigationView.setBackgroundColor(Color.parseColor("#99404040"));
-            else             navigationView.setBackgroundColor(Color.parseColor("#404040"));
+            if (isBlurred)
+                navigationView.setBackgroundColor(Color.parseColor("#99404040"));
+            else navigationView.setBackgroundColor(Color.parseColor("#404040"));
 
-        }
-        else {
+        } else {
 
-            if(isBlurred)
+            if (isBlurred)
                 navigationView.setBackgroundColor(Color.parseColor("#99f5f5f5"));
-            else             navigationView.setBackgroundColor(Color.parseColor("#f5f5f5"));
+            else navigationView.setBackgroundColor(Color.parseColor("#f5f5f5"));
         }
         //http://stackoverflow.com/questions/31394265/navigation-drawer-item-icon-not-showing-original-colour
         navigationView.setItemIconTintList(null);
@@ -220,10 +239,9 @@ public class MainActivity extends AppCompatActivity
         super.onConfigurationChanged(newConfig);
         /*if (mScrimInsetsFrameLayout != null)
             mScrimInsetsFrameLayout.setLayoutParams(getDrawerParams());*/
-        if(Utils.getBoolean("blur_navi",false,this)) {
-            if(blur_toogle!=null) blur_toogle.onConfigurationChanged(newConfig);
-        } else
-        if (toggle != null) toggle.onConfigurationChanged(newConfig);
+        if (Utils.getBoolean("blur_navi", false, this)) {
+            if (blur_toogle != null) blur_toogle.onConfigurationChanged(newConfig);
+        } else if (toggle != null) toggle.onConfigurationChanged(newConfig);
     }
 
 
@@ -261,21 +279,20 @@ public class MainActivity extends AppCompatActivity
             Fragment setting = new WakeLockFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.wake_lock_title));
-        }else if (id == R.id.nav_rom_t) {
+        } else if (id == R.id.nav_rom_t) {
             Fragment setting = new StatusbarFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.rom_tweak));
-        }
-        else if (id == R.id.nav_setting) {
+        } else if (id == R.id.nav_setting) {
             Fragment setting = new SettingFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.nav_setting));
         }
 
         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-       if(isBlurred) blur_drawer.closeDrawer(GravityCompat.START);
+        if (isBlurred) blur_drawer.closeDrawer(GravityCompat.START);
         else
-           drawer.closeDrawer(GravityCompat.START);
+            drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -285,7 +302,7 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onDrawerClosed(View view) {
                     invalidateOptionsMenu();
-                   // mAdView.removeAllViews();
+                    // mAdView.removeAllViews();
                 }
 
                 @Override
@@ -343,8 +360,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPreExecute() {
-        //    fragment.show(getFragmentManager(), "blur_sample");
-        //    fragment.setmType(1);
+            //    fragment.show(getFragmentManager(), "blur_sample");
+            //    fragment.setmType(1);
             Utils.setFullscreen(mActivity);
             progressDialog.show();
             super.onPreExecute();
@@ -365,18 +382,18 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             Utils.exitFullscreen(mActivity);
-          //  fragment.setDismiss();
-          progressDialog.dismiss();
+            //  fragment.setDismiss();
+            progressDialog.dismiss();
 
             // if (hasRoot) {
-               // mSflashDialog.dismiss();
-              //  mSplashView.finish();
-            if(Utils.getBoolean("blur_navi",false,getApplicationContext())){
+            // mSflashDialog.dismiss();
+            //  mSplashView.finish();
+            if (Utils.getBoolean("blur_navi", false, getApplicationContext())) {
                 setInterfaceBlur();
             } else
-            setInterface();
+                setInterface();
             //fragment.onDestroyView();
-           // fragment.dismissAllowingStateLoss();
+            // fragment.dismissAllowingStateLoss();
 
             //  }
             if (hasRoot) {
@@ -390,22 +407,23 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         if (!loadPackageParam.packageName.equals("com.android.systemui"))
             return;
         findAndHookMethod("com.android.systemui.statusbar.policy.Clock", loadPackageParam.classLoader, "updateClock", new XC_MethodHook() {
 
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    Log.d("HiepTHB","set STTT");
-                    TextView tv = (TextView) param.thisObject;
-                    String text = tv.getText().toString();
-                    tv.setText(text + " :)");
-                    tv.setTextColor(Color.RED);
-                }
-            });
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Log.d("HiepTHB", "set STTT");
+                TextView tv = (TextView) param.thisObject;
+                String text = tv.getText().toString();
+                tv.setText(text + " :)");
+                tv.setTextColor(Color.RED);
+            }
+        });
 
-        }
     }
+}
 

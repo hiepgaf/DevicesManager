@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.hieptran.devicesmanager.R;
 import com.hieptran.devicesmanager.fragment.tweak.battery.BatteryInfoFragment;
+import com.hieptran.devicesmanager.receiver.ScreenStateReceiver;
 import com.hieptran.devicesmanager.utils.Const;
 import com.hieptran.devicesmanager.utils.Utils;
 import com.hieptran.devicesmanager.utils.info.Battery;
@@ -43,7 +44,9 @@ public class DumpLogService extends Service implements Const {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(new ScreenStateReceiver(), filter);
 
     }
 
@@ -61,12 +64,10 @@ public class DumpLogService extends Service implements Const {
         mNotificationManager = (NotificationManager) con.getSystemService(Context.NOTIFICATION_SERVICE);
         Log.d("HiepTHb", "onBoot - onStartCommnad");
         cur_sum = vol_sum = 0;
-        PowerManager mgr = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+       /* PowerManager mgr = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
         wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DeviceManager Record Data");
-        wakeLock.acquire();
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(ScreenReceiver, filter);
+        wakeLock.acquire();*/
+
         mydb = new DbHelper(getApplicationContext());
         table_name = "log" + new SimpleDateFormat("ddMMyyHHmmss").format(new Date(System.currentTimeMillis()));
         mydb.doCreateTable(table_name);
