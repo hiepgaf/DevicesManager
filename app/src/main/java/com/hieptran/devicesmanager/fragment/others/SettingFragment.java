@@ -39,8 +39,8 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.setting_fragment,container,false);
         mSettingList = (ListViewCompat) v.findViewById(R.id.settings_lv);
-        mLable = new ArrayList<String>() ;
-        mKey = new ArrayList<String>() ;
+        mLable = new ArrayList<>() ;
+        mKey = new ArrayList<>() ;
 
         mLable.add(getString(R.string.set_on_boot_lable));
         mLable.add(getString(R.string.force_english));

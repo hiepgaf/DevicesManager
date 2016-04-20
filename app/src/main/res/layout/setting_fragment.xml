@@ -1,106 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
 
     android:padding="@dimen/card_padding">
 
     <TextView
         style="@style/header_style"
-        android:text="@string/general_setting"/>
+        android:text="@string/general_setting" />
 
     <android.support.v7.widget.ListViewCompat
+        android:id="@+id/settings_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-android:dividerHeight="5dp"
-        android:id="@+id/settings_lv"
-        ></android.support.v7.widget.ListViewCompat>
+        android:dividerHeight="5dp"></android.support.v7.widget.ListViewCompat>
 </LinearLayout>
 
 
-<!--
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-
-    <LinearLayout
-        style="@style/header_style"
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/description_view"
+
+        <LinearLayout
+            style="@style/header_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/set_on_boot_lable" />
+            android:orientation="horizontal">
 
-        <Switch
-            android:id="@+id/switchcompat_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_weight="0"
-            android:paddingEnd="1dp"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:paddingStart="1dp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/description_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set_on_boot_lable" />
+
+            <Switch
+                android:id="@+id/switchcompat_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0"
+                android:paddingEnd="1dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:paddingStart="1dp" />
+        </LinearLayout>
 
 
-    <LinearLayout
-        style="@style/header_style"
+        <LinearLayout
+            style="@style/header_style"
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Force English" />
+            android:orientation="horizontal">
 
-        <Switch
-            android:id="@+id/switchcompat_view_lang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_weight="0"
-            android:paddingEnd="1dp"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:paddingStart="1dp" />
-    </LinearLayout>
-    <LinearLayout
-        style="@style/header_style"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Force English" />
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchcompat_view_lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0"
+                android:paddingEnd="1dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:paddingStart="1dp" />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/header_style"
 
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Dark Theme" />
+            android:orientation="horizontal">
 
-        <Switch
-            android:id="@+id/switch_dark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_weight="0"
-            android:paddingEnd="1dp"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:paddingStart="1dp" />
-    </LinearLayout>
-</LinearLayout>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dark Theme" />
+
+            <Switch
+                android:id="@+id/switch_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0"
+                android:paddingEnd="1dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:paddingStart="1dp" />
+        </LinearLayout>
+    </LinearLayout>-->
