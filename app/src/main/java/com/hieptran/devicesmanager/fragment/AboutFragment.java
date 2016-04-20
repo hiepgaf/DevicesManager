@@ -46,7 +46,7 @@ public class AboutFragment extends Fragment{
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
-            Toast.makeText(getActivity(), "Ad did not load", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getActivity(), "Ad did not load", Toast.LENGTH_SHORT).show();
             //startGame();
         }
 //         tv = (TextView) v.findViewById(R.id.warningmsg);

@@ -4,7 +4,10 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -24,12 +27,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.hieptran.commonlibs.andoid.common.contrib.Util;
 import com.hieptran.devicesmanager.R;
+import com.hieptran.devicesmanager.common.root.RootUtils;
 import com.hieptran.devicesmanager.services.ProfileService;
 import com.hieptran.devicesmanager.utils.Const;
 import com.hieptran.devicesmanager.utils.Utils;
+import com.hieptran.devicesmanager.utils.power.PowerMode;
 import com.hieptran.devicesmanager.utils.tools.ScreenOffAdminReceiver;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -130,6 +137,8 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         lsProfile.add("Battery Level");
         lsProfile.add("Power Plug");
         lsProfile.add("Screen State");
+        lsProfile.add("PowerSave Mode");
+
         aDapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, lsProfile);
         avaiProfile.setAdapter(aDapter);
         aDapter.setNotifyOnChange(true);
@@ -137,6 +146,46 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
 
 
         return v;
+    }
+    public SQLiteDatabase dateBase;
+
+    private void doPowerSave() {
+        RootUtils.runCommand("su");
+        RootUtils.runCommand("settings put global low_power 1");
+//         String dbPath = "/data/data/com.android.providers.settings/databases/settings.db-backup";
+//        String   path = Environment.getExternalStorageDirectory().getAbsolutePath();
+//        try {
+//            if(!Utils.existFile(dbPath)) {
+//                dbPath = "/data/data/com.android.providers.settings/databases/settings.db";
+//            }
+//            Log.d("HiepTHb",        "  xddsdf   "+Utils.existFile(dbPath));
+//            RootUtils.runCommand("su");
+//            Log.d("HiepTHb", "dbpath " + path);
+//            RootUtils.runCommand("chmod 777 " + dbPath);
+//            RootUtils.runCommand("cp "+path +File.separator+"settings.db");
+//            RootUtils.runCommand("chmod 777 " +  path +"/settings.db");
+//            dateBase = SQLiteDatabase.openDatabase(  path +"/settings.db", null, SQLiteDatabase.OPEN_READWRITE);
+//        } catch (Exception ex) {
+//            ex.toString();
+//        }
+//        Cursor cursor = dateBase.rawQuery("select * from secure", null);
+////       /* if(cursor.moveToFirst())
+////        {
+////        	//int id=cursor.getColumnIndex("locale");
+////        	String locale = cursor.getString(cursor.getColumnIndex("locale"));
+////        	System.out.println("id:"+cursor.getColumnIndex("locale"));
+////        	System.out.println("locale:"+locale);
+////        	System.out.println("-1行"+cursor.getType(0));
+////
+////        }*/
+//        cursor.moveToFirst();
+//        for( int i = 0;!cursor.isLast();i++)
+//        {
+//            System.out.println(cursor.getString(1));
+//            cursor.moveToNext();
+//        }
+//
+//        System.out.println(cursor.toString());
     }
 
     @Override
@@ -155,6 +204,11 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
             case 2:
                 Utils.sendIntent(getContext(), ACTION_PROFILE_SCREEN_STATE);
                 Toast.makeText(getContext(), getString(R.string.toast_set, getString(R.string.scr_state_prf)), Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+               // PowerMode.setPowerSave(getContext());
+                //Log.d("TestPowerSave","-- "+);
+                doPowerSave();
                 break;
             default:
                 break;
@@ -203,6 +257,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         enableService.setOnCheckedChangeListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 
 }
 
