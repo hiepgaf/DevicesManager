@@ -152,9 +152,12 @@ public class CPUTimeTable extends Fragment implements Const{
          * extraStates (missing) */
         CpuStateMonitor monitor = _app.getCpuStateMonitor();
         _uiStatesView.removeAllViews();
-        List<String> extraStates = new ArrayList<String>();
+
+        List<String> extraStates = new ArrayList<>();
         for (CpuStateMonitor.CpuState state : monitor.getStates()) {
-            if (state.duration > 0) {
+            float per = (float) state.duration * 100 /
+                    monitor.getTotalStateTime();
+            if (per >=1) {
                 generateStateRow(state, _uiStatesView);
             } else {
                 if (state.freq == 0) {

@@ -35,6 +35,7 @@ import com.hieptran.devicesmanager.utils.Const;
 import com.hieptran.devicesmanager.utils.Utils;
 import com.hieptran.devicesmanager.utils.power.PowerMode;
 import com.hieptran.devicesmanager.utils.tools.ScreenOffAdminReceiver;
+import com.hieptran.devicesmanager.utils.tweak.CPU;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -139,7 +140,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         lsProfile.add("Screen State");
         lsProfile.add("PowerSave Mode");
 
-        aDapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, lsProfile);
+        aDapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_single_choice, lsProfile);
         avaiProfile.setAdapter(aDapter);
         aDapter.setNotifyOnChange(true);
         setHasOptionsMenu(true);
@@ -152,6 +153,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
     private void doPowerSave() {
         RootUtils.runCommand("su");
         RootUtils.runCommand("settings put global low_power 1");
+        CPU.setGovernor("powersave",getContext());
 //         String dbPath = "/data/data/com.android.providers.settings/databases/settings.db-backup";
 //        String   path = Environment.getExternalStorageDirectory().getAbsolutePath();
 //        try {
@@ -211,8 +213,15 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
                 doPowerSave();
                 break;
             default:
+                resetall();
                 break;
         }
+    }
+
+    private void resetall() {
+        RootUtils.runCommand("su");
+        RootUtils.runCommand("settings put global low_power 0");
+        CPU.setGovernor("interactive",getContext());
     }
 
     @Override
@@ -222,6 +231,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         Utils.saveBoolean("profile_service", isChecked, getContext());
+        resetall();
         if (buttonView.isChecked()) {
             mainlayout.setVisibility(View.VISIBLE);
             getActivity().startService(new Intent(getActivity(), ProfileService.class));
