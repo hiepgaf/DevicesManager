@@ -34,11 +34,11 @@
         android:checkable="true"
         android:icon="@drawable/batteryguru"
         android:title="@string/profile_title" />
-        <item
+      <!--  <item
             android:id="@+id/nav_rom_t"
             android:checkable="true"
             android:icon="@drawable/batteryguru"
-            android:title="@string/rom_tweak" />
+            android:title="@string/rom_tweak" />-->
     </group>
     <group
 

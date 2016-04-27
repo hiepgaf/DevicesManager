@@ -30,6 +30,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.2.0'
     compile 'io.karim:materialtabs:2.0.3'
     compile project(':commonlibs')
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.diegocarloslima:fgelv:0.1.+@aar'
     compile 'net.steamcrafted:materialiconlib:1.0.7'
     compile 'com.github.d-max:spots-dialog:0.4@aar'

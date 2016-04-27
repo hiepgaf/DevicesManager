@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.hieptran.devicesmanager"
-    >
+    package="com.hieptran.devicesmanager">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -12,25 +11,25 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_DIALOG_WINDOW" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAG"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAG" />
+
     <application
         android:allowBackup="true"
+        android:enabled="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/steam"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:replace="android:icon"
-        android:enabled="true"
-         android:hardwareAccelerated="true"
-
-    >
+        tools:replace="android:icon">
         <activity
             android:name=".MainActivity"
             android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|navigation"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -58,6 +57,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".ViewLogActivity"
             android:label="@string/title_activity_view_log"
@@ -65,15 +65,16 @@
         <activity
             android:name=".AnalyzeActivity"
             android:label="@string/title_activity_log_view"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/nav_setting"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
 
-        <service android:name=".services.DumpLogService"></service>
-        <service android:name=".services.PopupService"></service>
-       <!-- <meta-data
+        <service android:name=".services.DumpLogService" />
+        <service android:name=".services.PopupService" />
+        <!--
+        <meta-data
             android:name="xposedmodule"
             android:value="true" />
         <meta-data
@@ -81,15 +82,19 @@
             android:value="Easy example which makes the status bar clock red and adds a smiley" />
         <meta-data
             android:name="xposedminversion"
-            android:value="30" />-->
+            android:value="30" />
+        -->
         <receiver android:name=".receiver.ScreenStateReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.SCREEN_OFF"></action>
-                <action android:name="android.intent.action.SCREEN_ON"></action>
+                <action android:name="android.intent.action.SCREEN_OFF" />
+                <action android:name="android.intent.action.SCREEN_ON" />
                 <action android:name="android.intent.SCREEN_OFF" />
                 <action android:name="android.intent.SCREEN_ON" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".SetTimeout"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" ></activity>
     </application>
 
 </manifest>

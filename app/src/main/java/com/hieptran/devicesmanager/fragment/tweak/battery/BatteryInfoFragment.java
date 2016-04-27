@@ -1,5 +1,6 @@
 package com.hieptran.devicesmanager.fragment.tweak.battery;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,24 +9,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.hieptran.devicesmanager.AnalyzeActivity;
 import com.hieptran.devicesmanager.MainActivity;
 import com.hieptran.devicesmanager.R;
+import com.hieptran.devicesmanager.SetTimeout;
 import com.hieptran.devicesmanager.services.PopupService;
 import com.hieptran.devicesmanager.utils.Const;
 import com.hieptran.devicesmanager.utils.Utils;
@@ -235,6 +244,8 @@ boolean show =false;
                /* mStartTimeRecord = new SimpleDateFormat("HHmmss").format(new Date(System.currentTimeMillis()));
                 mLogRecord.setStartTime(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));*/
             } else {
+               // showWheelPopup();
+             //   showPopup(getActivity(),new Point(100,100));
                 updateRecordFileView();
                 //   record_files_ad = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dbHelper.getTablesName());
                 //  record_files_ad.setNotifyOnChange(true);
@@ -329,7 +340,9 @@ Button showPopup;
 
         return v;
     }
-
+private void showWheelPopup(){
+getActivity().startActivity(new Intent(getActivity(), SetTimeout.class));
+}
     private String readCurrentNow() {
         if (Utils.getBoolean("rooted", true, getContext()))
             return Utils.readFileRoot(BATTERY_CURRENT_NOW);
@@ -506,6 +519,70 @@ Button showPopup;
             e.printStackTrace();
         }
         return  0;
+    }
+
+    WindowManager wm;
+
+    View mViewMain;
+    LinearLayout layoutMain;
+    private int mW;
+    private void showPopup(final Activity context, Point p) {
+      /*  int popupWidth = 800;
+        int popupHeight = 400;
+
+        // Inflate the popup_layout.xml
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.wheel_piker, null);
+
+        // Creating the PopupWindow
+        final PopupWindow popup = new PopupWindow(context);
+        popup.setContentView(layout);
+        popup.setWidth(popupWidth);
+        popup.setHeight(popupHeight);
+        popup.setFocusable(true);
+
+        // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
+        int OFFSET_X = 30;
+        int OFFSET_Y = 30;
+
+
+
+        // Displaying the popup at the specified location, + offsets.
+        popup.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + OFFSET_X, p.y + OFFSET_Y);
+*/
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        //http://stackoverflow.com/questions/8073803/android-multi-touch-and-type-system-overlay
+        mViewMain = layoutInflater.inflate(R.layout.wheel_piker, null);
+
+
+
+       /* mInfo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View mViewMain, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });*/
+
+        wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        mW = wm.getDefaultDisplay().getWidth() * 3 / 4;
+
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+              WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                PixelFormat.RGBA_8888);
+       /* mWheelHours = (WheelView) findViewById(R.id.hours);
+        mWheelMin = (WheelView) findViewById(R.id.minutes);
+        mWheelSec = (WheelView) findViewById(R.id.seconds);
+        mWheelHours.setData(getHourData());
+        mWheelMin.setData(getMinData());
+        mWheelSec.setData(getSecondData());*/
+        wm.addView(mViewMain, params);
+
+
     }
 
 }

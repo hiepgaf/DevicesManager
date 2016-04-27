@@ -281,11 +281,11 @@ public class MainActivity extends AppCompatActivity
             Fragment setting = new WakeLockFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.wake_lock_title));
-        } else if (id == R.id.nav_rom_t) {
+        } /*else if (id == R.id.nav_rom_t) {
             Fragment setting = new DisableSystemApp();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.rom_tweak));
-        } else if (id == R.id.nav_setting) {
+        }*/ else if (id == R.id.nav_setting) {
             Fragment setting = new SettingFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, setting).commit();
             setTitle(getString(R.string.nav_setting));

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/bg_shadow_"
+    android:layout_height="match_parent">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1,2">
+
+        <TableRow>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="Giờ"
+                android:inputType="number"
+                android:hint="Giờ"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="Phút"
+                android:inputType="number"
+
+                android:hint="Phút"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="Giây"
+                android:inputType="number"
+                android:hint="Giây"/>
+        </TableRow>
+    </TableLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1">
+
+        <TableRow>
+            <android.support.v7.widget.AppCompatButton
+                android:text="@string/dialog_cancel"
+                android:id="@+id/cancel_wheel"/>
+            <android.support.v7.widget.AppCompatButton
+                android:text="@string/dialog_ok"
+                android:id="@+id/ok_wheel"/>
+        </TableRow>
+    </TableLayout>
+   <!-- <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="140dp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:orientation="horizontal">
+
+
+        <com.hieptran.devicesmanager.common.view.WheelView
+            android:id="@+id/hours"
+            style="@style/wheelViewStyle" />
+
+        <View
+            android:background="@android:color/darker_gray"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+           />
+
+        <com.hieptran.devicesmanager.common.view.WheelView
+            android:id="@+id/minutes"
+            style="@style/wheelViewStyle" />
+
+        <View
+            android:background="@android:color/darker_gray"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+             />
+
+        <com.hieptran.devicesmanager.common.view.WheelView
+            android:id="@+id/seconds"
+            style="@style/wheelViewStyle" />
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray" />
+
+
+    </LinearLayout>-->
+</LinearLayout>
